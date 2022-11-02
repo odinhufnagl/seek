@@ -35,7 +35,7 @@ export interface ISocketClientTypingData {
 
 // The types to use
 
-export type SocketMessageType = 'message' | 'typing' | 'isActive' | 'notAuthorized';
+export type SocketMessageType = 'message' | 'typing' | 'isActive';
 
 export type SocketMessageServer = {
   type: SocketMessageType;

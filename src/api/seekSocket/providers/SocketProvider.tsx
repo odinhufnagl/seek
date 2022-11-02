@@ -14,7 +14,7 @@ export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children, token }: { children: JSX.Element; token: string }) => {
   // socketMessage can be used in the app to react to new messages
-  const [socketMessage, setSocketMessage] = useState();
+  const [socketMessage, setSocketMessage] = useState<SocketMessageServer>();
   const [isAuthorized, setIsAuthorized] = useState(true);
 
   const [socket, setSocket] = useState(getSocket(token));
@@ -44,17 +44,13 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   // listeners for events on the socket
 
   socket.onopen = () => {
-    console.log('connected with socket');
-    socket.send(JSON.stringify({ connected: true }));
+    setIsAuthorized(true);
+    console.log('connected');
   };
 
   socket.onmessage = (e) => {
     const msg = JSON.parse(e.data) as SocketMessageServer;
-    if (msg.type === 'notAuthorized') {
-      setIsAuthorized(false);
-      return;
-    }
-    setSocketMessage(e.data);
+    setSocketMessage(msg);
   };
 
   socket.onerror = (e) => {
@@ -62,6 +58,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   };
 
   socket.onclose = (e) => {
+    setIsAuthorized(false);
     cleanupSocket();
   };
 
