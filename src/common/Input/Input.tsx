@@ -1,9 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { StyleSheet, TextInput, View, ViewStyle } from 'react-native';
-import { Text, Spacer } from '..';
+import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
-import { ITheme } from '../../models/Theme';
+import { ITheme } from '../../types/theme';
 import { FONT_FAMILY } from '../Text/Text';
 
 type Props = {
@@ -33,11 +33,7 @@ const Input: React.FC<Props> = ({
   return (
     <>
       {title && (
-        <Text
-          style={{ textTransform: 'uppercase', color: theme.textHighColor }}
-          type='small'
-          weight='semiBold'
-        >
+        <Text style={{ color: theme.textHighColor }} type='small' weight='semiBold'>
           {title}
         </Text>
       )}

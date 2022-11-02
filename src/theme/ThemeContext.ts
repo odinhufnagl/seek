@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeContextProps } from '../models/Theme';
+import { ThemeContextProps } from '../types/theme';
 
 const ThemeContext = React.createContext({} as ThemeContextProps);
 
