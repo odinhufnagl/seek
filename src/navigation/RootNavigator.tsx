@@ -8,7 +8,7 @@ const RootNavigator = () => {
   const { theme } = useTheme();
   const currentUser = true;
 
-  return <View style={styles().root}>{currentUser ? <AuthNavigator /> : <HomeNavigator />}</View>;
+  return <View style={styles().root}>{currentUser ? <HomeNavigator /> : <AuthNavigator /> }</View>;
 };
 
 const styles = () =>
