@@ -141,7 +141,7 @@ const styles = (theme: ITheme) =>
       width: '100%',
     },
     standardWidth: {
-      paddingHorizontal: 40,
+      paddingHorizontal: 45,
     },
   });
 

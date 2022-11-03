@@ -46,6 +46,7 @@ const Input: React.FC<Props> = ({
           value={value}
           placeholder={placeholder}
           onChangeText={updateValue}
+          maxLength={maxLength}
           {...props}
         />
       </View>
