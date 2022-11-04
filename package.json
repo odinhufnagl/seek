@@ -10,6 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-firebase/app": "^16.4.0",
+    "@react-native-firebase/in-app-messaging": "^16.4.0",
+    "@react-native-firebase/messaging": "^16.4.0",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.7",
     "eslint-import-resolver-typescript": "^3.5.2",
