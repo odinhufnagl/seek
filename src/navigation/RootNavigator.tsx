@@ -6,9 +6,9 @@ import HomeNavigator from './navigators/HomeNavigator';
 
 const RootNavigator = () => {
   const { theme } = useTheme();
-  const currentUser = true;
+  const currentUser = false;
 
-  return <View style={styles().root}>{currentUser ? <HomeNavigator /> : <AuthNavigator /> }</View>;
+  return <View style={styles().root}>{currentUser ? <HomeNavigator /> : <AuthNavigator />}</View>;
 };
 
 const styles = () =>

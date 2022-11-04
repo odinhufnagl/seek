@@ -1,5 +1,17 @@
 {
   "common": {
     "brandName": "Seek"
+  },
+  "button": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "onboardName": {
+    "header": "Name",
+    "subTitle": "First name and last name"
+  },
+  "onboardAbout": {
+    "header": "About",
+    "subTitle": "Write about yourself"
   }
 }
