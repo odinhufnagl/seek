@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ITheme } from '../models/Theme';
+import { ITheme } from '../types';
 import ThemeContext from './ThemeContext';
 
 type Props = {
