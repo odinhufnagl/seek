@@ -1,23 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import { getSocket } from '..';
-import { SocketMessageClient, SocketMessageServer } from '../../../types';
+import { SocketMessageClient } from '../../../types';
+import { SOCKET_RECONNECT_TIMER } from '../constants';
 
 type ContextValues = {
-  socketMessage?: SocketMessageServer;
-  sendSocketMessage?: (msg: SocketMessageClient) => void;
+  sendSocketMessage: (msg: SocketMessageClient) => void;
+  socket: WebSocket;
 };
 
 const SocketContext = React.createContext({} as ContextValues);
-
 export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children, token }: { children: JSX.Element; token: string }) => {
   // socketMessage can be used in the app to react to new messages
-  const [socketMessage, setSocketMessage] = useState<SocketMessageServer>();
-  const [isAuthorized, setIsAuthorized] = useState(true);
+  const [socketIsConnected, setSocketIsConnected] = useState(false);
+  const [socket, setSocket] = useState(() => getSocket(token));
 
-  const [socket, setSocket] = useState(getSocket(token));
+  const connectToSocket = () => {
+    setSocket(() => getSocket(token));
+  };
 
   // Handle change in state on app
 
@@ -25,8 +27,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     socket.close();
   };
   const handleAppIsActive = () => {
-    // reinitialize socket
-    setSocket(getSocket(token));
+    connectToSocket();
   };
   const handleAppStateChange = (state: AppStateStatus) => {
     if (state === 'background') {
@@ -43,24 +44,28 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
 
   // listeners for events on the socket
 
-  socket.onopen = () => {
-    setIsAuthorized(true);
-    console.log('connected');
-  };
+  useEffect(() => {
+    socket.onopen = () => {
+      setSocketIsConnected(true);
+    };
 
-  socket.onmessage = (e) => {
-    const msg = JSON.parse(e.data) as SocketMessageServer;
-    setSocketMessage(msg);
-  };
+    /* socket.onmessage = (e) => {
+      const msg = JSON.parse(e.data) as SocketMessageServer;
+      
+    };*/
 
-  socket.onerror = (e) => {
-    console.log(e.message);
-  };
+    socket.onerror = (e) => {
+      console.log(e.message);
+    };
 
-  socket.onclose = (e) => {
-    setIsAuthorized(false);
-    cleanupSocket();
-  };
+    socket.onclose = (e) => {
+      setSocketIsConnected(false);
+      cleanupSocket();
+      setTimeout(() => {
+        connectToSocket();
+      }, SOCKET_RECONNECT_TIMER);
+    };
+  }, [socket]);
 
   const cleanupSocket = () => {
     socket.onopen = null;
@@ -76,11 +81,14 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     }
   };
 
-  if (!isAuthorized) {
+  if (!socketIsConnected) {
     return <></>;
   }
 
-  const value = { sendSocketMessage, socketMessage } as ContextValues;
+  const value = {
+    sendSocketMessage,
+    socket,
+  } as ContextValues;
 
   return <SocketContext.Provider value={value}>{children}</SocketContext.Provider>;
 };
