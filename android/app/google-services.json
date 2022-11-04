@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295766383530",
+    "project_id": "seek-3abe9",
+    "storage_bucket": "seek-3abe9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295766383530:android:c03641023a8aefef6269d3",
+        "android_client_info": {
+          "package_name": "com.seek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295766383530-77uc2nmdho6nie28vac363a564fqr140.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAll4OmWE7hj5R8AjcMkuTZuOpfuvjuHe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295766383530-77uc2nmdho6nie28vac363a564fqr140.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
