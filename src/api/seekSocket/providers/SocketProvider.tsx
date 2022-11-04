@@ -55,7 +55,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     };*/
 
     socket.onerror = (e) => {
-      console.log(e.message);
+      console.log(e);
     };
 
     socket.onclose = (e) => {
