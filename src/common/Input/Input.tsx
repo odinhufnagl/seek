@@ -15,6 +15,7 @@ type Props = {
   placeholder?: string;
   title?: string;
   style?: ViewStyle | ViewStyle[];
+  secureTextEntry?: boolean;
 };
 
 const Input: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const Input: React.FC<Props> = ({
   placeholder,
   showLength,
   maxLength,
+  secureTextEntry,
   ...props
 }) => {
   const { theme } = useTheme();
@@ -51,6 +53,7 @@ const Input: React.FC<Props> = ({
           placeholder={placeholder}
           maxLength={maxLength}
           onChangeText={updateValue}
+          secureTextEntry={secureTextEntry}
           {...props}
         />
       </View>

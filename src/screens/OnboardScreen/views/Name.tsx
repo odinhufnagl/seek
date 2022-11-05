@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Input, Text } from '../../../common';
 import { translate } from '../../../i18n';
@@ -24,6 +24,7 @@ const Name = ({
           {translate(translateKey + 'subTitle')}
         </Text>
         <Input
+          placeholder={translate(translateKey + 'header')}
           value={name}
           updateValue={updateName}
           {...(maxLength !== undefined ? { maxLength } : {})}
