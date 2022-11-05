@@ -4,8 +4,8 @@ import { Button, Container } from '../../common';
 import About from './views/About';
 import Name from './views/Name';
 import { translate } from './../../i18n';
-import { max, min } from '../../utils';
 import { SPACING } from '../../constants';
+import { USER } from '../../constants';
 
 const OnboardScreen = () => {
   const btnTranslateKey = 'button.';
@@ -15,15 +15,16 @@ const OnboardScreen = () => {
   const [about, setAbout] = useState('');
 
   const pages = [
-    <Name name={name} setName={setName} />,
-    <About about={about} setAbout={setAbout} />,
-    <Name name={name} setName={setName} />,
-    <About about={about} setAbout={setAbout} />,
+    <Name maxLength={USER.NAME_LENGTH} name={name} updateName={setName} />,
+    <About maxLength={USER.ABOUT_LENGTH} about={about} updateAbout={setAbout} />,
   ];
 
-  const previousPage = () => setCurrentPage(max(currentPage - 1, 0));
+  const previousPage = () => {
+    console.log('back');
+    setCurrentPage(Math.max(currentPage - 1, 0));
+  };
 
-  const nextPage = () => setCurrentPage(min(currentPage + 1, pages.length - 1));
+  const nextPage = () => setCurrentPage(Math.min(currentPage + 1, pages.length - 1));
 
   useEffect(() => {
     flatListRef.current?.scrollToIndex({ index: currentPage, animated: true });
@@ -35,23 +36,18 @@ const OnboardScreen = () => {
     index,
   });
   return (
-    <View>
-      <View style={styles.buttonTop}>
-        {currentPage == 0 ? (
-          ''
-        ) : (
-          <Button
-            onPress={previousPage}
-            title={translate(btnTranslateKey + 'previous')}
-            size='medium'
-            variant='primary'
-            disabled={currentPage == 0}
-          />
-        )}
+    <View style={styles.container}>
+      <View style={[styles.buttonTop, currentPage == 0 && styles.hidden]}>
+        <Button
+          onPress={previousPage}
+          title={translate(btnTranslateKey + 'previous')}
+          size='medium'
+          variant='primary'
+          disabled={currentPage == 0}
+        />
       </View>
-      <View>
+      <View style={styles.flatList}>
         <FlatList
-          style={styles.flatList}
           getItemLayout={getItemLayout}
           ref={flatListRef}
           data={pages}
@@ -68,23 +64,28 @@ const OnboardScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    height: '100%',
+  },
   flatList: {
-    height: '80%',
+    flex: 1,
   },
   page: {
     width: Dimensions.get('window').width,
   },
   buttonTop: {
-    height: '10%',
     paddingHorizontal: SPACING.large,
     paddingTop: SPACING.large,
     alignItems: 'flex-start',
   },
   buttonBottom: {
-    height: '10%',
     paddingHorizontal: SPACING.large,
     paddingBottom: SPACING.large,
     alignItems: 'flex-end',
+  },
+  hidden: {
+    opacity: 0,
   },
 });
 

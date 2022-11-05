@@ -9,7 +9,7 @@ import { FONT_FAMILY } from '../Text/Text';
 type Props = {
   multiline?: boolean;
   value: string;
-  updateValue: Dispatch<SetStateAction<string>>;
+  updateValue: Dispatch<string>;
   showLength?: boolean;
   maxLength?: number;
   placeholder?: string;
@@ -49,6 +49,7 @@ const Input: React.FC<Props> = ({
           textAlignVertical={multiline ? 'top' : 'center'}
           value={value}
           placeholder={placeholder}
+          maxLength={maxLength}
           onChangeText={updateValue}
           {...props}
         />

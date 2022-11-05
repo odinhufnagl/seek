@@ -1,24 +1,21 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Input, Text } from '../../../common';
 import { translate } from '../../../i18n';
 
 const About = ({
   about,
-  setAbout,
+  updateAbout,
+  maxLength = 0,
   ...props
 }: {
   about: string;
-  setAbout: React.Dispatch<React.SetStateAction<string>>;
+  updateAbout: Dispatch<string>;
+  maxLength?: number;
 }) => {
   const translateKey = 'onboardAbout.';
   return (
-    <Container
-      style={{
-        justifyContent: 'center',
-      }}
-      {...props}
-    >
+    <Container style={styles.center} {...props}>
       <View>
         <Text type='header' weight='bold'>
           {translate(translateKey + 'header')}
@@ -26,10 +23,22 @@ const About = ({
         <Text type='body' weight='medium'>
           {translate(translateKey + 'subTitle')}
         </Text>
-        <Input value={about} updateValue={setAbout} multiline={true} />
+        <Input
+          value={about}
+          updateValue={updateAbout}
+          multiline={true}
+          {...(maxLength ? { maxLength } : {})}
+          showLength={Boolean(maxLength)}
+        />
       </View>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  center: {
+    justifyContent: 'center',
+  },
+});
 
 export default About;

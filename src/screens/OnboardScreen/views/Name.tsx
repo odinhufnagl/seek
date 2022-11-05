@@ -1,24 +1,21 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Input, Text } from '../../../common';
 import { translate } from '../../../i18n';
 
 const Name = ({
   name,
-  setName,
+  updateName,
+  maxLength,
   ...props
 }: {
   name: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
+  updateName: Dispatch<string>;
+  maxLength?: number;
 }) => {
   const translateKey = 'onboardName.';
   return (
-    <Container
-      style={{
-        justifyContent: 'center',
-      }}
-      {...props}
-    >
+    <Container style={styles.center} {...props}>
       <View>
         <Text type='header' weight='bold'>
           {translate(translateKey + 'header')}
@@ -26,10 +23,20 @@ const Name = ({
         <Text type='body' weight='medium'>
           {translate(translateKey + 'subTitle')}
         </Text>
-        <Input value={name} updateValue={setName} maxLength={20} showLength={true} />
+        <Input
+          value={name}
+          updateValue={updateName}
+          {...(maxLength !== undefined ? { maxLength } : {})}
+          showLength={Boolean(maxLength)}
+        />
       </View>
     </Container>
   );
 };
 
+const styles = StyleSheet.create({
+  center: {
+    justifyContent: 'center',
+  },
+});
 export default Name;
