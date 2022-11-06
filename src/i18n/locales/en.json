@@ -3,7 +3,7 @@
     "brandName": "Seek"
   },
   "button": {
-    "previous": "Previous",
+    "back": "Back",
     "next": "Next"
   },
   "onboardName": {

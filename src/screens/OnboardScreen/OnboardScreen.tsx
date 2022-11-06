@@ -7,6 +7,7 @@ import Name from './views/Name';
 import { translate } from './../../i18n';
 import { SPACING } from '../../constants';
 import { USER } from '../../constants';
+import Logo from '../../common/Logo/Logo';
 
 //FIX: when clicking on an input the entire register
 // component gets pushed so far up that the text gets
@@ -25,6 +26,8 @@ const OnboardScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const pages = [
+    <Name name={name} updateName={setName} />,
+    <About maxLength={USER.ABOUT_LENGTH} about={about} updateAbout={setAbout} />,
     <Register
       mail={mail}
       updateMail={setMail}
@@ -33,8 +36,6 @@ const OnboardScreen = () => {
       confirmedPassword={confirmedPassword}
       updateConfirmedPassword={setConfirmedPassword}
     />,
-    <Name name={name} updateName={setName} />,
-    <About maxLength={USER.ABOUT_LENGTH} about={about} updateAbout={setAbout} />,
   ];
 
   const handleRegister = async () => {
@@ -48,7 +49,7 @@ const OnboardScreen = () => {
       console.log("SNACKBAR of 'please type a valid email'");
       return;
     }
-    const emailExists = true;
+    const emailExists = false;
     if (emailExists) {
       console.log("SNACKBAR of 'account already exists, sign in here'");
       return;
@@ -59,14 +60,16 @@ const OnboardScreen = () => {
     //const {data} = await signUpUser({mail, password})
     //handle storage of authkey optained from data
     setLoading(false);
-    nextPage();
+    //nextPage();
+    //Finnish onboarding
   };
 
   const previousPage = () => setCurrentPage(Math.max(currentPage - 1, 0));
   const nextPage = () => setCurrentPage(Math.min(currentPage + 1, pages.length - 1));
+  const lastPage = () => pages.length - 1;
 
   const handleNext = () => {
-    if (currentPage == 0) {
+    if (currentPage == lastPage()) {
       handleRegister();
       return;
     }
@@ -84,14 +87,8 @@ const OnboardScreen = () => {
   });
   return (
     <View style={styles.container}>
-      <View style={[styles.buttonTop, currentPage <= 1 && styles.hidden]}>
-        <Button
-          onPress={previousPage}
-          title={translate(btnTranslateKey + 'previous')}
-          size='medium'
-          variant='primary'
-          disabled={currentPage <= 1}
-        />
+      <View style={styles.topBar}>
+        <Logo />
       </View>
       <View style={styles.flatList}>
         <FlatList
@@ -104,13 +101,24 @@ const OnboardScreen = () => {
           scrollEnabled={false}
         />
       </View>
-      <View style={styles.buttonBottom}>
-        <Button
-          loading={loading}
-          onPress={handleNext}
-          title={translate(btnTranslateKey + 'next')}
-          size='large'
-        />
+      <View style={styles.bottomBar}>
+        <View style={[styles.buttonBack, currentPage == 0 && styles.hidden]}>
+          <Button
+            onPress={previousPage}
+            title={translate(btnTranslateKey + 'back')}
+            size='large'
+            variant='primary'
+            disabled={currentPage == 0}
+          />
+        </View>
+        <View style={styles.buttonNext}>
+          <Button
+            loading={loading}
+            onPress={handleNext}
+            title={translate(btnTranslateKey + 'next')}
+            size='large'
+          />
+        </View>
       </View>
     </View>
   );
@@ -127,18 +135,27 @@ const styles = StyleSheet.create({
   page: {
     width: Dimensions.get('window').width,
   },
-  buttonTop: {
-    paddingHorizontal: SPACING.large,
-    paddingTop: SPACING.large,
-    alignItems: 'flex-start',
-  },
-  buttonBottom: {
-    paddingHorizontal: SPACING.large,
-    paddingBottom: SPACING.large,
-    alignItems: 'flex-end',
-  },
   hidden: {
     opacity: 0,
+  },
+  bottomBar: {
+    flexDirection: 'row',
+    padding: 0,
+    paddingHorizontal: SPACING.large,
+    paddingBottom: SPACING.large,
+  },
+  buttonBack: {
+    alignItems: 'flex-start',
+    flexBasis: '50%',
+  },
+  buttonNext: {
+    alignItems: 'flex-end',
+    flexBasis: '50%',
+  },
+  topBar: {
+    alignItems: 'center',
+    paddingHorizontal: SPACING.large,
+    paddingTop: SPACING.large,
   },
 });
 
