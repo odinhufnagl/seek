@@ -24,7 +24,6 @@ const OnboardScreen = () => {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
   const [loading, setLoading] = useState(false);
-  const [canContinue, setCanContinue] = useState(true);
 
   const pages = [
     {
@@ -74,12 +73,7 @@ const OnboardScreen = () => {
     }
     nextPage();
   };
-
-  useEffect(() => {
-    let filledRequired: boolean = pages[currentPage].required.reduceRight((a, b) => a && b(), true);
-
-    setCanContinue(filledRequired);
-  }, [name, about, email, password, confirmedPassword, currentPage]);
+  const canContinue = () => pages[currentPage].required.reduceRight((a, b) => a && b(), true);
 
   useEffect(() => {
     flatListRef.current?.scrollToIndex({ index: currentPage, animated: true });
@@ -123,7 +117,7 @@ const OnboardScreen = () => {
             onPress={handleNext}
             title={translate(btnTranslateKey + 'next')}
             size='large'
-            disabled={!canContinue}
+            disabled={!canContinue()}
           />
         </View>
       </View>
