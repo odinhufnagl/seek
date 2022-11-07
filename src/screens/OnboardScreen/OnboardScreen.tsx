@@ -54,22 +54,6 @@ const OnboardScreen = () => {
   ];
 
   const handleRegister = async () => {
-    if (password !== confirmedPassword) {
-      console.log("SNACKBAR of 'passwords don't match'");
-      return;
-    }
-    //validate email adress, first syntactically, then check that account doesn't already exist
-    const emailValid = true;
-    if (!emailValid) {
-      console.log("SNACKBAR of 'please type a valid email'");
-      return;
-    }
-    const emailExists = false;
-    if (emailExists) {
-      console.log("SNACKBAR of 'account already exists, sign in here'");
-      return;
-    }
-
     setLoading(true);
     const bruh = await new Promise((r) => setTimeout(r, 2000));
     //const {data} = await signUpUser({email, password})
@@ -93,7 +77,7 @@ const OnboardScreen = () => {
 
   useEffect(() => {
     let filledRequired: boolean = pages[currentPage].required.reduceRight((a, b) => a && b(), true);
-    console.log(filledRequired);
+
     setCanContinue(filledRequired);
   }, [name, about, email, password, confirmedPassword, currentPage]);
 
