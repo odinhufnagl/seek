@@ -2,6 +2,25 @@
   "common": {
     "brandName": "Seek"
   },
+  "button": {
+    "back": "Back",
+    "next": "Next"
+  },
+  "onboardName": {
+    "header": "Name",
+    "subTitle": "First name and last name"
+  },
+  "onboardAbout": {
+    "header": "About",
+    "subTitle": "Write about yourself"
+  },
+  "onboardRegister": {
+    "header": "Create account",
+    "subTitle": "Enter your email and password",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password"
+  },
   "snackbar": {
     "error": "Something went wrong"
   }
