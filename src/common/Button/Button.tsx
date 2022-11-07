@@ -39,6 +39,8 @@ const Button: React.FC<Props> = ({
         return styles(theme).primaryButton;
       case 'secondary':
         return styles(theme).secondaryButton;
+      case 'third':
+        return styles(theme).thirdButton;
       default:
         return styles(theme).primaryButton;
     }
@@ -60,6 +62,8 @@ const Button: React.FC<Props> = ({
       case 'primary':
         return theme.primaryColor;
       case 'secondary':
+        return theme.brandColor;
+      case 'third':
         return theme.brandColor;
       default:
         return theme.primaryColor;
@@ -126,6 +130,9 @@ const styles = (theme: ITheme) =>
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: theme.transparent,
+    },
+    thirdButton: {
+      backgroundColor: theme.transparent,
     },
     contentContainer: {
       flexDirection: 'row',

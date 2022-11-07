@@ -4,8 +4,8 @@ import { Container, Input, Spacer, Text } from '../../../common';
 import { translate } from '../../../i18n';
 
 const Register = ({
-  mail,
-  updateMail,
+  email,
+  updateEmail,
   password,
   updatePassword,
   confirmedPassword,
@@ -13,8 +13,8 @@ const Register = ({
   maxLength,
   ...props
 }: {
-  mail: string;
-  updateMail: Dispatch<string>;
+  email: string;
+  updateEmail: Dispatch<string>;
   password: string;
   updatePassword: Dispatch<string>;
   confirmedPassword: string;
@@ -28,13 +28,14 @@ const Register = ({
         <Text type='header' weight='bold'>
           {translate(translateKey + 'header')}
         </Text>
-        <Text type='body' weight='medium'>
+        <Text emphasis='medium' type='body' weight='medium'>
           {translate(translateKey + 'subTitle')}
         </Text>
+        <Spacer />
         <Input
           placeholder={translate(translateKey + 'email')}
-          value={mail}
-          updateValue={updateMail}
+          value={email}
+          updateValue={updateEmail}
           {...(maxLength !== undefined ? { maxLength } : {})}
           showLength={Boolean(maxLength)}
         />

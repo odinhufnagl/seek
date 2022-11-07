@@ -2,6 +2,7 @@ import React, { Dispatch } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Input, Text } from '../../../common';
 import { translate } from '../../../i18n';
+import Spacer from './../../../common/Spacer/Spacer';
 
 const About = ({
   about,
@@ -20,9 +21,10 @@ const About = ({
         <Text type='header' weight='bold'>
           {translate(translateKey + 'header')}
         </Text>
-        <Text type='body' weight='medium'>
+        <Text emphasis='medium' type='body' weight='medium'>
           {translate(translateKey + 'subTitle')}
         </Text>
+        <Spacer />
         <Input
           placeholder={translate(translateKey + 'header')}
           value={about}

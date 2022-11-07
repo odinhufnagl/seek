@@ -18,24 +18,39 @@ const OnboardScreen = () => {
   const btnTranslateKey = 'button.';
   const flatListRef = useRef<FlatList>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [mail, setMail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
   const [loading, setLoading] = useState(false);
+  const [canContinue, setCanContinue] = useState(true);
 
   const pages = [
-    <Name name={name} updateName={setName} />,
-    <About maxLength={USER.ABOUT_LENGTH} about={about} updateAbout={setAbout} />,
-    <Register
-      mail={mail}
-      updateMail={setMail}
-      password={password}
-      updatePassword={setPassword}
-      confirmedPassword={confirmedPassword}
-      updateConfirmedPassword={setConfirmedPassword}
-    />,
+    {
+      key: 'name',
+      required: [() => name.length > 0],
+      component: <Name name={name} updateName={setName} />,
+    },
+    {
+      key: 'about',
+      required: [],
+      component: <About maxLength={USER.ABOUT_LENGTH} about={about} updateAbout={setAbout} />,
+    },
+    {
+      key: 'register',
+      required: [() => email.length > 0, () => password == confirmedPassword],
+      component: (
+        <Register
+          email={email}
+          updateEmail={setEmail}
+          password={password}
+          updatePassword={setPassword}
+          confirmedPassword={confirmedPassword}
+          updateConfirmedPassword={setConfirmedPassword}
+        />
+      ),
+    },
   ];
 
   const handleRegister = async () => {
@@ -57,7 +72,7 @@ const OnboardScreen = () => {
 
     setLoading(true);
     const bruh = await new Promise((r) => setTimeout(r, 2000));
-    //const {data} = await signUpUser({mail, password})
+    //const {data} = await signUpUser({email, password})
     //handle storage of authkey optained from data
     setLoading(false);
     //nextPage();
@@ -77,6 +92,12 @@ const OnboardScreen = () => {
   };
 
   useEffect(() => {
+    let filledRequired: boolean = pages[currentPage].required.reduceRight((a, b) => a && b(), true);
+    console.log(filledRequired);
+    setCanContinue(filledRequired);
+  }, [name, about, email, password, confirmedPassword, currentPage]);
+
+  useEffect(() => {
     flatListRef.current?.scrollToIndex({ index: currentPage, animated: true });
   }, [currentPage]);
 
@@ -92,12 +113,13 @@ const OnboardScreen = () => {
       </View>
       <View style={styles.flatList}>
         <FlatList
+          showsHorizontalScrollIndicator={false}
           style={styles.flatList}
           getItemLayout={getItemLayout}
           ref={flatListRef}
           data={pages}
           horizontal={true}
-          renderItem={({ item }) => <View style={styles.page}>{item}</View>}
+          renderItem={({ item: { component } }) => <View style={styles.page}>{component}</View>}
           scrollEnabled={false}
         />
       </View>
@@ -107,7 +129,7 @@ const OnboardScreen = () => {
             onPress={previousPage}
             title={translate(btnTranslateKey + 'back')}
             size='large'
-            variant='primary'
+            variant='third'
             disabled={currentPage == 0}
           />
         </View>
@@ -117,6 +139,7 @@ const OnboardScreen = () => {
             onPress={handleNext}
             title={translate(btnTranslateKey + 'next')}
             size='large'
+            disabled={!canContinue}
           />
         </View>
       </View>
@@ -154,8 +177,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     alignItems: 'center',
-    paddingHorizontal: SPACING.large,
-    paddingTop: SPACING.large,
+    paddingTop: SPACING.medium,
   },
 });
 
