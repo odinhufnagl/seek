@@ -27,7 +27,8 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-localize": "^2.2.4",
     "react-native-safe-area-context": "^3.3.1",
-    "react-native-screens": "^3.18.2"
+    "react-native-screens": "^3.18.2",
+    "react-native-snackbar": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -1,5 +1,8 @@
 {
   "common": {
     "brandName": "Seek"
+  },
+  "snackbar": {
+    "error": "Something went wrong"
   }
 }
