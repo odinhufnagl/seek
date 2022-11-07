@@ -17,4 +17,11 @@ export default {
     large: { width: 35, height: 35 },
     extraLarge: { width: 50, height: 50 },
   },
+  logo: {
+    extraSmall: {width: 43, height: 18},
+    small: { width: 56, height: 24 },
+    medium: { width: 102, height: 48 },
+    large: { width: 158, height: 72 },
+    extraLarge: { width: 204, height: 96 }
+  }
 };
