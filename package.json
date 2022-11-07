@@ -10,8 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-navigation/native": "^6.0.13",
-    "@react-navigation/stack": "^6.3.3",
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-firebase/app": "^16.4.0",
+    "@react-native-firebase/in-app-messaging": "^16.4.0",
+    "@react-native-firebase/messaging": "^16.4.0",
+    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/stack": "^6.0.7",
+    "@tanstack/react-query": "^4.14.1",
+    "axios": "^0.27.2",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-prettier": "^4.2.1",
     "i18n-js": "^3.8.0",
@@ -20,8 +26,10 @@
     "react-native": "0.70.3",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-localize": "^2.2.4",
+    "react-native-modalize": "^2.0.8",
     "react-native-safe-area-context": "^3.3.1",
-    "react-native-screens": "^3.18.2"
+    "react-native-screens": "^3.18.2",
+    "react-native-snackbar": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

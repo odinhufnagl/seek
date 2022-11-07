@@ -1,6 +1,8 @@
+import BottomModal from './BottomModal/BottomModal';
 import Button from './Button/Button';
-import Text from './Text/Text';
-import Spacer from './Spacer/Spacer';
 import Container from './Container/Container';
 import Input from './Input/Input';
-export { Button, Text, Spacer, Container, Input };
+import Modal from './Modal/Modal';
+import Spacer from './Spacer/Spacer';
+import Text from './Text/Text';
+export { Button, Text, Spacer, Container, Input, Modal, BottomModal };
