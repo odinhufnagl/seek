@@ -1,4 +1,4 @@
-import { ITheme } from '../models/Theme';
+import { ITheme } from '../types/theme';
 
 const darkTheme: ITheme = {
   black: '#000000',

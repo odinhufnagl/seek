@@ -20,5 +20,8 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password"
+  },
+  "snackbar": {
+    "error": "Something went wrong"
   }
 }

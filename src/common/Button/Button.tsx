@@ -1,8 +1,8 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { DIMENS, SPACING } from '../../constants';
+import { DIMENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
-import { ITheme } from '../../models/Theme';
+import { ITheme } from '../../types/theme';
 import Text from '../Text/Text';
 
 type Props = {
@@ -148,7 +148,7 @@ const styles = (theme: ITheme) =>
       width: '100%',
     },
     standardWidth: {
-      paddingHorizontal: 40,
+      paddingHorizontal: 45,
     },
   });
 
