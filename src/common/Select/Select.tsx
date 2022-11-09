@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, Key, SetStateAction } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
@@ -11,7 +11,6 @@ type Props = {
   onSelect: (selectedItem: any, index: number) => void;
   buttonTextAfterSelection: (selectedItem: any, index: number) => string;
   rowTextForSelection: (item: any, index: number) => string;
-  variant?: 'primary' | 'secondary';
 };
 
 const Select: React.FC<Props> = ({
@@ -19,7 +18,6 @@ const Select: React.FC<Props> = ({
   onSelect,
   buttonTextAfterSelection,
   rowTextForSelection,
-  variant,
   ...props
 }) => {
   const { theme } = useTheme();
@@ -34,6 +32,8 @@ const Select: React.FC<Props> = ({
         onSelect={onSelect}
         buttonTextAfterSelection={buttonTextAfterSelection}
         rowTextForSelection={rowTextForSelection}
+        rowStyle={styles(theme).defaultRow}
+        rowTextStyle={styles(theme).defaultRowText}
         {...props}
       />
     </View>
@@ -49,6 +49,15 @@ const styles = (theme: ITheme) =>
       backgroundColor: theme.primaryColor,
     },
     defaultText: {
+      fontSize: DIMENS.font.body,
+      fontFamily: FONT_FAMILY.regular,
+      color: theme.textHighColor,
+    },
+    defaultRow: {
+      backgroundColor: theme.backgroundColor,
+      borderWidth: 0,
+    },
+    defaultRowText: {
       fontSize: DIMENS.font.body,
       fontFamily: FONT_FAMILY.regular,
       color: theme.textHighColor,
