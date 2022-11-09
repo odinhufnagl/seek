@@ -23,5 +23,12 @@ export default {
     medium: { width: 102, height: 48 },
     large: { width: 158, height: 72 },
     extraLarge: { width: 204, height: 96 }
+  },
+  font: {
+    small: 10,
+    body: 14,
+    subHeader: 18,
+    header: 22,
+    largeHeader: 25
   }
 };

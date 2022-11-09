@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text as RNText, TextStyle } from 'react-native';
-
+import { DIMENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 
 type Props = {
@@ -55,23 +55,23 @@ export const FONT_FAMILY = {
 const styles = () =>
   StyleSheet.create({
     largeHeader: {
-      fontSize: 25,
+      fontSize: DIMENS.font.largeHeader,
       fontFamily: FONT_FAMILY.bold,
     },
     header: {
-      fontSize: 22,
+      fontSize: DIMENS.font.header,
       fontFamily: FONT_FAMILY.bold,
     },
     subHeader: {
-      fontSize: 18,
+      fontSize: DIMENS.font.subHeader,
       fontFamily: FONT_FAMILY.medium,
     },
     body: {
-      fontSize: 14,
+      fontSize: DIMENS.font.body,
       fontFamily: FONT_FAMILY.regular,
     },
     small: {
-      fontSize: 10,
+      fontSize: DIMENS.font.small,
       fontFamily: FONT_FAMILY.semiBold,
     },
   });
