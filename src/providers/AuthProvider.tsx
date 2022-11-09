@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: Props) => {
 
     const res = await authenticateUser(token);
 
-    if (!res) {
+    if (res.isError) {
       logOut();
       setLoading(false);
       return;
