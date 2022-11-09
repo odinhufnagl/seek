@@ -1,14 +1,14 @@
 import React, { Dispatch, useContext, useEffect, useState } from 'react';
 import { authenticateUser, signInUser, signUpUser, updateUser } from '../api/seekApi/mutations';
 import { LOCAL_STORAGE_KEY } from '../constants';
-import { IUser } from '../types';
+import { APIFunctionResponse, IUser } from '../types';
 import { storageGet, storageRemove, storageSet } from '../utils';
 
 type ContextValues = {
   currentUser?: IUser;
   setCurrentUser?: Dispatch<IUser>;
-  logIn: (email: string, password: string) => Promise<boolean>;
-  signUp: (userData: IUser) => Promise<boolean>;
+  logIn: (email: string, password: string) => Promise<APIFunctionResponse>;
+  signUp: (userData: IUser) => Promise<APIFunctionResponse>;
   updateCurrentUser: (userData: IUser) => Promise<boolean>;
   logOut: () => Promise<boolean>;
 };
@@ -36,17 +36,21 @@ export const AuthProvider = ({ children }: Props) => {
 
   const authenticate = async () => {
     setLoading(true);
+    setLoading(false);
     const token = await storageGet(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
     if (!token) {
       setLoading(false);
       return;
     }
+
     const res = await authenticateUser(token);
+
     if (!res) {
+      logOut();
       setLoading(false);
       return;
     }
-    storeUser(res);
+    storeUser(res.data);
     setLoading(false);
   };
 
@@ -56,31 +60,33 @@ export const AuthProvider = ({ children }: Props) => {
     return true;
   };
 
-  const logIn = async (email, password): Promise<boolean> => {
+  const logIn = async (email: string, password: string): Promise<APIFunctionResponse> => {
     try {
-      const res = await signInUser(email, password);
-      if (!res) {
-        return false;
+      const res = await signInUser(email.trim(), password);
+
+      if (res.isError) {
+        console.log(res.data);
+        return res;
       }
-      storeUser(res);
-      return true;
+      storeUser(res.data);
+      return { isError: false };
     } catch (e) {
       console.log(e);
-      return false;
+      return { isError: true };
     }
   };
 
-  const signUp = async (userData: IUser): Promise<boolean> => {
+  const signUp = async (userData: IUser): Promise<APIFunctionResponse> => {
     try {
       const res = await signUpUser(userData);
-      if (!res) {
-        return false;
+      if (res.isError) {
+        return res;
       }
-      storeUser(res);
-      return true;
+      storeUser(res.data);
+      return { isError: false };
     } catch (e) {
       console.log(e);
-      return false;
+      return { isError: true };
     }
   };
 
@@ -93,7 +99,7 @@ export const AuthProvider = ({ children }: Props) => {
     if (!res) {
       return false;
     }
-    setCurrentUser(res);
+    setCurrentUser(res.data);
     return true;
   };
 
