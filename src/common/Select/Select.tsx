@@ -11,10 +11,6 @@ type Props = {
   onSelect: (selectedItem: any, index: number) => void;
   buttonTextAfterSelection: (selectedItem: any, index: number) => string;
   rowTextForSelection: (item: any, index: number) => string;
-<<<<<<< HEAD
-=======
-  key: Key;
->>>>>>> bd094cff52a07f20d4df7855a3d7e62fa4264b23
 };
 
 const Select: React.FC<Props> = ({
@@ -27,20 +23,18 @@ const Select: React.FC<Props> = ({
   const { theme } = useTheme();
 
   return (
-    <View>
-      <SelectDropdown
-        buttonStyle={styles(theme).defaultSelect}
-        buttonTextStyle={styles(theme).defaultText}
-        searchPlaceHolderColor={theme.textLowColor}
-        data={data}
-        onSelect={onSelect}
-        buttonTextAfterSelection={buttonTextAfterSelection}
-        rowTextForSelection={rowTextForSelection}
-        rowStyle={styles(theme).defaultRow}
-        rowTextStyle={styles(theme).defaultRowText}
-        {...props}
-      />
-    </View>
+    <SelectDropdown
+      buttonStyle={styles(theme).defaultSelect}
+      buttonTextStyle={styles(theme).defaultText}
+      searchPlaceHolderColor={theme.textLowColor}
+      data={data}
+      onSelect={onSelect}
+      buttonTextAfterSelection={buttonTextAfterSelection}
+      rowTextForSelection={rowTextForSelection}
+      rowStyle={styles(theme).defaultRow}
+      rowTextStyle={styles(theme).defaultRowText}
+      {...props}
+    />
   );
 };
 
