@@ -1,15 +1,20 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, ImageStyle, StyleSheet } from 'react-native';
 import { DIMENS } from '../../constants';
 
 const Logo = ({
   size = 'medium',
+  style,
+  ...props
 }: {
   size?: 'extraSmall' | 'small' | 'medium' | 'large' | 'extraLarge';
+  style?: ImageStyle;
 }) => {
   const baseUrl = '../../../assets/images/logo/';
 
-  return <Image style={styles[size]} source={require(baseUrl + './logo3x.png')} />;
+  return (
+    <Image style={[styles[size], style]} source={require(baseUrl + './logo3x.png')} {...props} />
+  );
 };
 
 const { extraSmall, small, medium, large, extraLarge } = DIMENS.logo;
