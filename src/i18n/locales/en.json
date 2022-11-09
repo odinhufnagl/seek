@@ -23,5 +23,17 @@
   },
   "snackbar": {
     "error": "Something went wrong"
+  },
+  "welcomeScreen": {
+    "signupButton": "Sign up",
+    "loginButton": "Already have an account? Log in",
+    "loginModal": {
+      "header": "Log in",
+      "subHeader": "Please sign in to continue",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "button": "Log in",
+      "forgotPassword": "Forgot password?"
+    }
   }
 }
