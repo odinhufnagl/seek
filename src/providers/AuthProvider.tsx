@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }: Props) => {
 
   const authenticate = async () => {
     setLoading(true);
-    setLoading(false);
     const token = await storageGet(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
     if (!token) {
       setLoading(false);
