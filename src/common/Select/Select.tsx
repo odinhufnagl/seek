@@ -11,6 +11,10 @@ type Props = {
   onSelect: (selectedItem: any, index: number) => void;
   buttonTextAfterSelection: (selectedItem: any, index: number) => string;
   rowTextForSelection: (item: any, index: number) => string;
+<<<<<<< HEAD
+=======
+  key: Key;
+>>>>>>> bd094cff52a07f20d4df7855a3d7e62fa4264b23
 };
 
 const Select: React.FC<Props> = ({
