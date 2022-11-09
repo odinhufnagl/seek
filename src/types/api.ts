@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import { IUser } from './models';
 
 // In many endpoints we want to be able to send Databaseoptions
@@ -14,4 +15,10 @@ export type DBOptions = {
 
 export interface GetUsersOptions extends DBOptions {
   where?: IUser;
+}
+
+export interface APIFunctionResponse extends Partial<AxiosResponse> {
+  isError?: boolean;
+  error?: AxiosError;
+  errorMessage?: string;
 }

@@ -14,6 +14,7 @@ export interface ITheme {
   textHighColor: string;
   textMediumColor: string;
   textLowColor: string;
+  textGreyColor: string;
 }
 
 export type ThemeContextProps = {

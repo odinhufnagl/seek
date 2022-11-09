@@ -17,4 +17,5 @@ export default {
   textHighColor: 'rgba(0, 0, 0, 0.87)',
   textMediumColor: 'rgba(0, 0, 0, 0.6)',
   textLowColor: 'rgba(0, 0, 0, 0.38)',
-}
+  textGreyColor: '#B0B0B0',
+};

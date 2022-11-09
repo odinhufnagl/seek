@@ -34,6 +34,9 @@ const Button: React.FC<Props> = ({
   const { theme } = useTheme();
 
   const getViewStyle = () => {
+    if (disabled) {
+      return styles(theme).disabledButton;
+    }
     switch (variant) {
       case 'primary':
         return styles(theme).primaryButton;
@@ -58,13 +61,16 @@ const Button: React.FC<Props> = ({
   };
 
   const getTextColor = () => {
+    if (disabled) {
+      return theme.textLowColor;
+    }
     switch (variant) {
       case 'primary':
         return theme.primaryColor;
       case 'secondary':
         return theme.brandColor;
       case 'third':
-        return theme.brandColor;
+        return theme.textHighColor;
       default:
         return theme.primaryColor;
     }
@@ -83,35 +89,32 @@ const Button: React.FC<Props> = ({
     switch (width) {
       case 'max':
         return styles(theme).maxWidth;
-      case 'standard':
-        return styles(theme).standardWidth;
       default:
-        return styles(theme).standardWidth;
+        return {};
     }
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        activeOpacity={disabled ? 1 : 0.7}
-        onPress={disabled ? () => undefined : onPress}
-        disabled={loading ?? disabled}
-        key={id}
-        {...props}
-      >
-        <View style={[styles(theme).defaultStyle, getViewStyle(), getWidth(), getSize(), style]}>
-          {loading ? (
-            <ActivityIndicator color='white' />
-          ) : (
-            <View style={styles(theme).contentContainer}>
-              <Text type='body' style={textStyle} color={getTextColor()} weight={getTextWeight()}>
-                {title || ''}
-              </Text>
-            </View>
-          )}
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      activeOpacity={disabled ? 1 : 0.7}
+      onPress={disabled ? () => undefined : onPress}
+      disabled={loading ?? disabled}
+      key={id}
+      style={[styles(theme).defaultStyle, getViewStyle(), getSize(), getWidth(), style]}
+      {...props}
+    >
+      <View>
+        {loading ? (
+          <ActivityIndicator color='white' />
+        ) : (
+          <View style={styles(theme).contentContainer}>
+            <Text type='body' style={textStyle} color={getTextColor()} weight={getTextWeight()}>
+              {title || ''}
+            </Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
 const styles = (theme: ITheme) =>
@@ -132,23 +135,25 @@ const styles = (theme: ITheme) =>
       borderColor: theme.transparent,
     },
     thirdButton: {
-      backgroundColor: theme.transparent,
+      backgroundColor: 'transparent',
+    },
+    disabledButton: {
+      backgroundColor: theme.disabledColor,
     },
     contentContainer: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     sizeMedium: {
-      height: 34,
+      height: 38,
+      paddingHorizontal: 37,
     },
     sizeLarge: {
       height: 42,
+      paddingHorizontal: 45,
     },
     maxWidth: {
       width: '100%',
-    },
-    standardWidth: {
-      paddingHorizontal: 45,
     },
   });
 

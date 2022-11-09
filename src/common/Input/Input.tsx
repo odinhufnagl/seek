@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch } from 'react';
 import { StyleSheet, TextInput, View, ViewStyle } from 'react-native';
 import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
@@ -16,6 +16,7 @@ type Props = {
   title?: string;
   style?: ViewStyle | ViewStyle[];
   secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 };
 
 const Input: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const Input: React.FC<Props> = ({
   showLength,
   maxLength,
   secureTextEntry,
+  autoCapitalize,
   ...props
 }) => {
   const { theme } = useTheme();
@@ -50,6 +52,7 @@ const Input: React.FC<Props> = ({
           maxLength={maxLength}
           onChangeText={updateValue}
           secureTextEntry={secureTextEntry}
+          autoCapitalize={autoCapitalize}
           {...props}
         />
       </View>

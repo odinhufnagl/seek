@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text as RNText, TextStyle } from 'react-native';
+import { StyleSheet, Text as RNText, TextStyle, TouchableOpacity } from 'react-native';
 
 import useTheme from '../../hooks/useTheme';
 
 type Props = {
-  type?: 'largeHeader' | 'header' | 'subHeader' | 'body' | 'small';
+  type?: 'largeHeader' | 'header' | 'subHeader' | 'body' | 'caption' | 'small';
   weight?: 'regular' | 'medium' | 'semiBold' | 'bold';
   emphasis?: 'high' | 'medium' | 'low';
   color?: string;
   style?: TextStyle | TextStyle[];
+  onPress?: () => void;
   children: string;
 };
 
@@ -19,6 +20,7 @@ const Text: React.FC<Props> = ({
   color,
   style,
   children,
+  onPress,
   ...props
 }) => {
   const { theme } = useTheme();
@@ -38,6 +40,15 @@ const Text: React.FC<Props> = ({
     }
     return { color: getColor(), fontFamily: FONT_FAMILY[weight] };
   };
+  if (onPress) {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <RNText style={[styles()[type], getDefaultStyle(), style]} {...props}>
+          {children}
+        </RNText>
+      </TouchableOpacity>
+    );
+  }
   return (
     <RNText style={[styles()[type], getDefaultStyle(), style]} {...props}>
       {children}
@@ -69,6 +80,10 @@ const styles = () =>
     body: {
       fontSize: 14,
       fontFamily: FONT_FAMILY.regular,
+    },
+    caption: {
+      fontSize: 12,
+      fontFamily: FONT_FAMILY.semiBold,
     },
     small: {
       fontSize: 10,
