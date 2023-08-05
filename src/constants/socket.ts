@@ -1,44 +1,35 @@
 import {
-  ISocketClientIsActiveData,
-  ISocketClientMessageData,
-  ISocketClientTypingData,
-  SocketMessageClient,
+  DefaultSocketIsActiveProps,
+  DefaultSocketIsTypingProps,
+  DefaultSocketNewMessageProps,
+  SocketClientMessageIsActive,
+  SocketClientMessageIsTyping,
+  SocketClientMessageUserMessage,
 } from '../types';
 
-type ChatMessageProps = {
-  message: string;
-  chatId: number;
-  userId: number;
-  recieverId: number;
-};
-type IsTypingProps = {
-  isTyping: boolean;
-  chatId: number;
-  userId: number;
-  recieverId: number;
-};
-type IsActiveProps = {
-  isActive: boolean;
-  userId: number;
-  recieverId: number;
-};
-
-const SOCKET_MESSAGE = {
-  CHAT_MESSAGE: ({ recieverId, ...props }: ChatMessageProps): SocketMessageClient => ({
-    recieverId,
+export default {
+  chatMessage: ({
+    chatId,
+    message,
+    userId,
+  }: DefaultSocketNewMessageProps): SocketClientMessageUserMessage => ({
     type: 'message',
-    data: props as ISocketClientMessageData,
+    data: {
+      chatId,
+      message,
+      userId,
+    },
   }),
-  IS_TYPING: ({ recieverId, ...props }: IsTypingProps): SocketMessageClient => ({
+  isTyping: ({
+    chatId,
+    isTyping,
+    userId,
+  }: DefaultSocketIsTypingProps): SocketClientMessageIsTyping => ({
     type: 'typing',
-    recieverId,
-    data: props as ISocketClientTypingData,
+    data: { chatId, isTyping, type: 'typing', userId },
   }),
-  IS_ACTIVE: ({ recieverId, ...props }: IsActiveProps): SocketMessageClient => ({
-    recieverId,
+  isActive: ({ isActive, userId }: DefaultSocketIsActiveProps): SocketClientMessageIsActive => ({
     type: 'isActive',
-    data: props as ISocketClientIsActiveData,
+    data: { isActive, type: 'isActive', userId },
   }),
 };
-
-export { SOCKET_MESSAGE };
