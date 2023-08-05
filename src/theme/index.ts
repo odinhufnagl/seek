@@ -3,4 +3,4 @@ import defaultTheme from './defaultTheme';
 import lightTheme from './lightTheme';
 import ThemeContext from './ThemeContext';
 import ThemeProvider from './ThemeProvider';
-export { ThemeProvider, ThemeContext, lightTheme, darkTheme, defaultTheme };
+export {ThemeProvider, ThemeContext, lightTheme, darkTheme, defaultTheme};

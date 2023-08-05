@@ -6,7 +6,7 @@ export default {
   white: '#ffffff',
   transparent: 'transparent',
   backgroundColor: '#F8F8F8',
-  brandColor: '#004DFF',
+  brandColor: '#00C914',
   primaryColor: '#ffffff',
   disabledColor: '#E3E6E8',
   successColor: '#52c41a',
@@ -17,4 +17,4 @@ export default {
   textHighColor: 'rgba(0, 0, 0, 0.87)',
   textMediumColor: 'rgba(0, 0, 0, 0.6)',
   textLowColor: 'rgba(0, 0, 0, 0.38)',
-}
+};
