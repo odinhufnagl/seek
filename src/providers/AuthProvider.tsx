@@ -1,118 +1,127 @@
-import React, { Dispatch, useContext, useEffect, useState } from 'react';
-import { authenticateUser, signInUser, signUpUser, updateUser } from '../api/seekApi/mutations';
-import { LOCAL_STORAGE_KEY } from '../constants';
-import { APIFunctionResponse, IUser } from '../types';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import { NetworkError } from '../classes';
+import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
+import { authenticateUser, signInUser, signUpUser } from '../services';
+
+import { Text } from '../common';
+import { SigninUserModel, SignupUserModel, UserModel } from '../types';
 import { storageGet, storageRemove, storageSet } from '../utils';
 
-type ContextValues = {
-  currentUser?: IUser;
-  setCurrentUser?: Dispatch<IUser>;
-  logIn: (email: string, password: string) => Promise<APIFunctionResponse>;
-  signUp: (userData: IUser) => Promise<APIFunctionResponse>;
-  updateCurrentUser: (userData: IUser) => Promise<boolean>;
-  logOut: () => Promise<boolean>;
+interface ContextValues {
+  currentUser?: UserModel;
+  logIn: (body: SignInBody) => Promise<boolean>;
+  signUp: (body: SignUpBody) => Promise<boolean>;
+  token: string | null;
+  logOut: () => void;
+}
+
+const AuthContext = React.createContext<ContextValues>({
+  currentUser: undefined,
+  logIn: async () => false,
+  signUp: async () => false,
+  logOut: () => false,
+  token: null,
+});
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
-type Props = {
-  children: JSX.Element;
-};
+type SignUpBody = SignupUserModel;
+type SignInBody = SigninUserModel;
 
-const AuthContext = React.createContext({} as ContextValues);
-
-export const useAuthContext = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }: Props) => {
-  const [currentUser, setCurrentUser] = useState<IUser>();
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [currentUser, setCurrentUser] = useState<UserModel>();
   const [loading, setLoading] = useState(true);
+  const [networkError, setNetworkError] = useState<Error>();
+  const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    authenticate();
-  }, []);
+  const logIn = async (body: SignInBody): Promise<boolean> => {
+    console.log(body, ENDPOINTS.seekApi.auth);
+    const { token, user } = await signInUser(body);
+    if (!token) {
+      console.log('login failed');
+      return false;
+    }
+    await storageSet(LOCAL_STORAGE.keys.userToken, token);
+    setCurrentUser(user);
+    return true;
+  };
 
-  const storeUser = (res) => {
-    setCurrentUser(res.user);
-    storageSet(LOCAL_STORAGE_KEY.ACCESS_TOKEN, res.accessToken);
+  const signUp = async (body: SignUpBody): Promise<boolean> => {
+    console.log('hello?');
+    const { token, user } = await signUpUser(body);
+    console.log('token', token);
+    if (!token) {
+      console.log('signup failed');
+      return false;
+    }
+    await storageSet(LOCAL_STORAGE.keys.userToken, token);
+    setCurrentUser(user);
+    return true;
+  };
+
+  const logOut = async () => {
+    storageRemove(LOCAL_STORAGE.keys.userToken);
+    setCurrentUser(undefined);
   };
 
   const authenticate = async () => {
-    setLoading(true);
-    const token = await storageGet(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-
-    const res = await authenticateUser(token);
-
-    if (res.isError) {
-      logOut();
-      setLoading(false);
-      return;
-    }
-    storeUser(res.data);
-    setLoading(false);
-  };
-
-  const logOut = async (): Promise<boolean> => {
-    storageRemove(LOCAL_STORAGE_KEY.ACCESS_TOKEN);
-    setCurrentUser(undefined);
-    return true;
-  };
-
-  const logIn = async (email: string, password: string): Promise<APIFunctionResponse> => {
     try {
-      const res = await signInUser(email.trim(), password);
-
-      if (res.isError) {
-        console.log(res.data);
-        return res;
+      const { token: newToken, user } = await authenticateUser();
+      if (!newToken) {
+        console.log('authentication failed');
+        return false;
       }
-      storeUser(res.data);
-      return { isError: false };
+      storageSet(LOCAL_STORAGE.keys.userToken, newToken);
+      setCurrentUser(user);
+      return true;
     } catch (e) {
-      console.log(e);
-      return { isError: true };
-    }
-  };
-
-  const signUp = async (userData: IUser): Promise<APIFunctionResponse> => {
-    try {
-      const res = await signUpUser(userData);
-      if (res.isError) {
-        return res;
+      if (e instanceof NetworkError) {
+        setNetworkError(e as Error);
       }
-      storeUser(res.data);
-      return { isError: false };
-    } catch (e) {
       console.log(e);
-      return { isError: true };
     }
   };
-
-  const updateCurrentUser = async (toUpdate: IUser): Promise<boolean> => {
-    if (!currentUser?.id) {
-      return false;
-    }
-    const res = await updateUser(currentUser.id, toUpdate);
-
-    if (!res) {
-      return false;
-    }
-    setCurrentUser(res.data);
-    return true;
+  const getUserToken = async () => {
+    return await storageGet(LOCAL_STORAGE.keys.userToken);
   };
+
+  useEffect(() => {
+    (async () => {
+      await authenticate();
+      setLoading(false);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const t = await getUserToken();
+      setToken(t);
+    })();
+  }, [currentUser]);
 
   const value = {
     currentUser,
-    setCurrentUser,
     logIn,
     signUp,
-    updateCurrentUser,
     logOut,
+    token,
   };
 
+  if (networkError) {
+    return (
+      <>
+        <Text>Oooops... Our servers seems to be down</Text>
+      </>
+    );
+  }
   if (loading) {
-    return <></>;
+    return (
+      <>
+        <Text>Loading..</Text>
+      </>
+    );
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

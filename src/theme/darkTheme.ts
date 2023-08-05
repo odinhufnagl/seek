@@ -1,22 +1,25 @@
-import { ITheme } from '../types/theme';
+import { Theme } from '../types/theme';
 
-const darkTheme: ITheme = {
+const darkTheme: Theme = {
   black: '#000000',
   white: '#ffffff',
   transparent: 'transparent',
-  backgroundColor: '#F8F8F8',
-  brandColor: '#004DFF',
-  primaryColor: '#ffffff',
-  disabledColor: '#E3E6E8',
-  successColor: '#52c41a',
-  errorColor: '#DD4951',
-
-  // text
-  textPrimaryColor: 'rgba(0, 0, 0, 1.0)',
-  textHighColor: 'rgba(0, 0, 0, 0.87)',
-  textMediumColor: 'rgba(0, 0, 0, 0.6)',
-  textLowColor: 'rgba(0, 0, 0, 0.38)',
-  textGreyColor: '#B0B0B0',
+  brand: '#3B74FF',
+  disabled: '#969696',
+  success: '#52c41a',
+  error: '#DD4951',
+  background: {
+    primary: '#1F1F1F',
+    secondary: '#343434',
+    third: '#262626',
+  },
+  glass: 'rgba(237, 237, 237, 0.5)',
+  base: {
+    primary: '#ffffffe6',
+    high: '#FFFFFF',
+    medium: '#ffffffcc',
+    low: '#B4B4B4',
+  },
 };
 
 export default darkTheme;

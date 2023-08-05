@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import useTheme from '../../hooks/useTheme';
+import { slideVerticallyDefaultOptions } from '../constants/options';
 import { AuthStack } from '../constants/stacks/AuthStack';
-
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
@@ -12,7 +12,8 @@ const AuthNavigator = () => {
       screenOptions={{
         header: () => undefined,
         headerMode: 'float',
-        cardStyle: { backgroundColor: theme.backgroundColor },
+        cardStyle: { backgroundColor: theme.background.primary },
+        ...slideVerticallyDefaultOptions,
       }}
     >
       {AuthStack.map((screen) => (

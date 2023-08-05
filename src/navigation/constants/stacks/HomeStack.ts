@@ -1,4 +1,5 @@
-import { HomeScreen } from '../../../screens';
-import { HOME_SCREEN } from '../routes';
+import { NAVIGATOR_STACKS } from '../../../constants';
+import { Stack } from '../../../types';
+import MainNavigator from '../../navigators/MainNavigator';
 
-export const HomeStack = [{ name: HOME_SCREEN, component: HomeScreen }];
+export const HomeStack: Stack = [{ name: NAVIGATOR_STACKS.MAIN_STACK, component: MainNavigator }];
