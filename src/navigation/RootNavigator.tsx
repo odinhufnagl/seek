@@ -1,14 +1,26 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useTheme } from '../hooks';
-import { useAuthContext } from '../providers/AuthProvider';
+import { useAuth } from '../providers/AuthProvider';
+import { SocketProvider } from '../providers/SocketProvider';
 import AuthNavigator from './navigators/AuthNavigator';
 import HomeNavigator from './navigators/HomeNavigator';
 
 const RootNavigator = () => {
   const { theme } = useTheme();
-  const { currentUser } = useAuthContext();
-  return <View style={styles().root}>{currentUser ? <HomeNavigator /> : <AuthNavigator />}</View>;
+  const { currentUser, token } = useAuth();
+
+  return (
+    <View style={styles().root}>
+      {currentUser ? (
+        <SocketProvider token={token}>
+          <HomeNavigator />
+        </SocketProvider>
+      ) : (
+        <AuthNavigator />
+      )}
+    </View>
+  );
 };
 
 const styles = () =>

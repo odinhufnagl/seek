@@ -1,24 +1,35 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { DIMENS } from '../../constants';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import {DIMENS, SPACING} from '../../constants';
 import useTheme from '../../hooks/useTheme';
-import { ITheme } from '../../types/theme';
+import {Theme} from '../../types/theme';
+import Icon, {IconProps} from '../Icon/Icon';
+import Spacer from '../Spacer/Spacer';
 import Text from '../Text/Text';
-
-type Props = {
+export type ButtonProps = {
   title?: string;
   onPress?: () => void;
+  onLongPress?: () => void;
+  onPressOut?: () => void;
   style?: ViewStyle | ViewStyle[];
   disabled?: boolean;
-  variant?: 'primary' | 'secondary' | 'third';
+  variant?: 'primary' | 'secondary' | 'third' | 'fourth';
   loading?: boolean;
   size?: 'large' | 'medium';
   width?: 'max' | 'standard';
   id?: string;
   textStyle?: ViewStyle | ViewStyle[];
+  leftIcon?: IconProps;
+  rightIcon?: IconProps;
 };
 
-const Button: React.FC<Props> = ({
+const Button: React.FC<ButtonProps> = ({
   title,
   onPress,
   style,
@@ -26,12 +37,16 @@ const Button: React.FC<Props> = ({
   variant,
   loading,
   size = 'medium',
+  leftIcon,
+  rightIcon,
   id,
   textStyle,
   width = 'standard',
+  onLongPress,
+  onPressOut,
   ...props
 }) => {
-  const { theme } = useTheme();
+  const {theme} = useTheme();
 
   const getViewStyle = () => {
     switch (variant) {
@@ -41,41 +56,43 @@ const Button: React.FC<Props> = ({
         return styles(theme).secondaryButton;
       case 'third':
         return styles(theme).thirdButton;
+      case 'fourth':
+        return styles(theme).fourthButton;
       default:
         return styles(theme).primaryButton;
     }
   };
 
-  const getSize = () => {
-    switch (size) {
-      case 'large':
-        return styles(theme).sizeLarge;
-      case 'medium':
-        return styles(theme).sizeMedium;
-      default:
-        return styles(theme).sizeMedium;
-    }
-  };
-
   const getTextColor = () => {
+    if (disabled) {
+      return theme.base.low;
+    }
     switch (variant) {
       case 'primary':
-        return theme.primaryColor;
+        return theme.base.primary;
       case 'secondary':
-        return theme.brandColor;
+        return theme.base.primary;
       case 'third':
-        return theme.brandColor;
+        return theme.base.primary;
+      case 'fourth':
+        return theme.black;
       default:
-        return theme.primaryColor;
+        return theme.base.primary;
     }
   };
 
-  const getTextWeight = () => {
-    switch (size) {
-      case 'medium':
-        return 'medium';
-      case 'large':
-        return 'semiBold';
+  const getTextType = () => {
+    switch (variant) {
+      case 'primary':
+        return 'body';
+      case 'secondary':
+        return 'body';
+      case 'third':
+        return 'body';
+      case 'fourth':
+        return 'caption';
+      default:
+        return 'body';
     }
   };
 
@@ -83,72 +100,103 @@ const Button: React.FC<Props> = ({
     switch (width) {
       case 'max':
         return styles(theme).maxWidth;
-      case 'standard':
-        return styles(theme).standardWidth;
       default:
-        return styles(theme).standardWidth;
+        return {};
     }
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        activeOpacity={disabled ? 1 : 0.7}
-        onPress={disabled ? () => undefined : onPress}
-        disabled={loading ?? disabled}
-        key={id}
-        {...props}
-      >
-        <View style={[styles(theme).defaultStyle, getViewStyle(), getWidth(), getSize(), style]}>
-          {loading ? (
-            <ActivityIndicator color='white' />
-          ) : (
-            <View style={styles(theme).contentContainer}>
-              <Text type='body' style={textStyle} color={getTextColor()} weight={getTextWeight()}>
-                {title || ''}
-              </Text>
-            </View>
-          )}
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      activeOpacity={disabled ? 1 : 0.7}
+      onPress={disabled ? () => undefined : onPress}
+      disabled={loading ?? disabled}
+      onLongPress={onLongPress}
+      onPressOut={onPressOut}
+      key={id}
+      style={[
+        styles(theme).defaultStyle,
+        getViewStyle(),
+        getWidth(),
+        style,
+        disabled && styles(theme).disabledButton,
+      ]}
+      {...props}>
+      <View>
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <View style={styles(theme).contentContainer}>
+            {rightIcon && (
+              <>
+                <Icon variant="third" {...rightIcon} />
+                <Spacer orientation="horizontal" spacing="small" />
+              </>
+            )}
+            <Text type={getTextType()} style={textStyle} color={getTextColor()}>
+              {title || ''}
+            </Text>
+            {leftIcon && (
+              <>
+                <Spacer orientation="horizontal" spacing="medium" />
+                <Icon variant="third" {...leftIcon} />
+              </>
+            )}
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
-const styles = (theme: ITheme) =>
+const styles = (theme: Theme) =>
   StyleSheet.create({
     defaultStyle: {
-      borderRadius: DIMENS.common.borderRadiusRound,
+      borderRadius: DIMENS.common.borderRadiusMedium,
       justifyContent: 'center',
       alignItems: 'center',
       alignSelf: 'center',
     },
     primaryButton: {
-      backgroundColor: theme.brandColor,
+      backgroundColor: theme.brand,
+      height: 48,
+      width: '100%',
     },
     secondaryButton: {
-      backgroundColor: theme.primaryColor,
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: theme.transparent,
+      backgroundColor: theme.brand,
+      borderRadius: DIMENS.common.borderRadiusRound,
+      height: 40,
+      minWidth: 130,
+      paddingHorizontal: SPACING.medium,
     },
     thirdButton: {
-      backgroundColor: theme.transparent,
+      backgroundColor: theme.background.secondary,
+      borderRadius: DIMENS.common.borderRadiusRound,
+      height: 40,
+      minWidth: 130,
+      paddingHorizontal: SPACING.medium,
+    },
+    fourthButton: {
+      backgroundColor: theme.base.low,
+      paddingHorizontal: SPACING.medium,
+      borderRadius: DIMENS.common.borderRadiusRound,
+      height: 35,
+    },
+    disabledButton: {
+      backgroundColor: theme.disabled,
     },
     contentContainer: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     sizeMedium: {
-      height: 34,
+      height: 38,
+      paddingHorizontal: 37,
     },
     sizeLarge: {
-      height: 42,
+      height: 48,
+      paddingHorizontal: 45,
     },
     maxWidth: {
       width: '100%',
-    },
-    standardWidth: {
-      paddingHorizontal: 45,
     },
   });
 

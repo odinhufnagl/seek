@@ -1,24 +1,30 @@
-import { Dispatch } from 'react';
+import {Dispatch} from 'react';
 
-export interface ITheme {
+export interface Theme {
   black: string;
   white: string;
   transparent: string;
-  backgroundColor: string;
-  brandColor: string;
-  primaryColor: string;
-  disabledColor: string;
-  successColor: string;
-  errorColor: string;
-  textPrimaryColor: string;
-  textHighColor: string;
-  textMediumColor: string;
-  textLowColor: string;
+  brand: string;
+  disabled: string;
+  success: string;
+  error: string;
+  background: {
+    primary: string;
+    secondary: string;
+    third: string;
+  };
+  glass: string;
+  base: {
+    primary: string;
+    high: string;
+    medium: string;
+    low: string;
+  };
 }
 
 export type ThemeContextProps = {
-  theme: ITheme;
+  theme: Theme;
   setTheme: Dispatch<any>;
 };
 
-export type ThemeProps = ITheme;
+export type ThemeProps = Theme;

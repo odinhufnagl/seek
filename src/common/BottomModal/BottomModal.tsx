@@ -1,6 +1,9 @@
 import React from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
-import { Modalize } from 'react-native-modalize';
+import {StyleSheet, ViewStyle} from 'react-native';
+import {Modalize} from 'react-native-modalize';
+import {SPACING} from '../../constants';
+import {useTheme} from '../../hooks';
+import {Theme} from '../../types/theme';
 
 type Props = {
   children?: JSX.Element;
@@ -11,15 +14,18 @@ type Props = {
 };
 
 const BottomModal = React.forwardRef(
-  ({ children, adjustToContentHeight = true, childrenStyle, ...props }: Props, ref) => {
+  (
+    {children, adjustToContentHeight = true, childrenStyle, ...props}: Props,
+    ref,
+  ) => {
+    const {theme} = useTheme();
     return (
       <Modalize
         ref={ref}
         adjustToContentHeight={adjustToContentHeight}
-        childrenStyle={[styles.children, childrenStyle]}
+        childrenStyle={[styles(theme).children, childrenStyle]}
         {...props}
-        overlayStyle={styles.overlay}
-      >
+        overlayStyle={styles(theme).overlay}>
         {children}
       </Modalize>
     );
@@ -27,13 +33,16 @@ const BottomModal = React.forwardRef(
 );
 BottomModal.displayName = 'BottomDisplay';
 
-const styles = StyleSheet.create({
-  children: {
-    paddingBottom: 60,
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    children: {
+      backgroundColor: theme.background.primary,
+      borderTopLeftRadius: SPACING.medium,
+      borderTopRightRadius: SPACING.medium,
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    },
+  });
 
 export default BottomModal;
