@@ -3,24 +3,44 @@ import React, { useEffect } from 'react';
 
 import useTheme from '../../hooks/useTheme';
 
+import { firebase } from '@react-native-firebase/messaging';
+import { NavigationContainer } from '@react-navigation/native';
 import { AppState, AppStateStatus } from 'react-native';
+import { NAVIGATOR_STACKS, SCREENS } from '../../constants';
 import { useAuth } from '../../providers/AuthProvider';
 import { useSocket } from '../../providers/SocketProvider';
-import { sendIsActiveEvent } from '../../services';
+import { createNotificationToken, sendIsActiveEvent } from '../../services';
 import { HomeStack } from '../constants/stacks/HomeStack';
 
 const Stack = createStackNavigator();
 
+const linking = {
+  prefixes: ['seek://'],
+  config: {
+    initialRouteName: NAVIGATOR_STACKS.MAIN_STACK,
+    screens: {
+      MainStack: {
+        screens: {
+          [NAVIGATOR_STACKS.CHATS_STACK]: {
+            screens: {
+              [SCREENS.CHAT_SCREEN]: {
+                path: 'chat/:id',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 const HomeNavigator = () => {
   const { theme } = useTheme();
-  const { currentUser, token } = useAuth();
+  const { currentUser } = useAuth();
   const { socket } = useSocket();
-  useEffect(() => {
-    console.log('token', token);
-  }, [token]);
+
   // TODO: all this active stuff could be moved into a provider
   const handleAppStateChange = (state: AppStateStatus) => {
-    console.log('kotnro');
     if (!currentUser) {
       return;
     }
@@ -43,21 +63,33 @@ const HomeNavigator = () => {
       sendIsActiveEvent(socket, { isActive: false, senderId: currentUser?.id });
     };
   }, [currentUser]);
-  if (!token) {
-    return <></>;
-  }
+
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+    (async () => {
+      // TODO: should not happen each time right
+      const fcmToken = await firebase.messaging().getToken();
+      console.log('fcmToken', fcmToken);
+      createNotificationToken({ name: fcmToken, userId: currentUser?.id });
+    })();
+  }, [currentUser]);
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        header: () => undefined,
-        headerMode: 'float',
-        cardStyle: { backgroundColor: theme.background.primary },
-      }}
-    >
-      {HomeStack.map((screen) => (
-        <Stack.Screen key={screen.name} name={screen.name} component={screen.component} />
-      ))}
-    </Stack.Navigator>
+    <NavigationContainer independent linking={linking}>
+      <Stack.Navigator
+        screenOptions={{
+          header: () => undefined,
+          headerMode: 'float',
+          cardStyle: { backgroundColor: theme.background.primary },
+        }}
+      >
+        {HomeStack.map((screen) => (
+          <Stack.Screen key={screen.name} name={screen.name} component={screen.component} />
+        ))}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
