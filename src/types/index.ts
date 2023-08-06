@@ -8,6 +8,7 @@ export * from './icons';
 export * from './maps';
 export * from './models';
 export * from './navigation';
+export * from './notification';
 export * from './props';
 export * from './socket';
 export * from './theme';

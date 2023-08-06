@@ -9,6 +9,7 @@ import { AuthProvider } from './providers/AuthProvider';
 import { ThemeProvider, darkTheme } from './theme';
 import { Theme } from './types';
 const queryClient = new QueryClient();
+
 const App = (): JSX.Element => {
   return (
     <NavigationContainer>
