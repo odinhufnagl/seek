@@ -1,8 +1,8 @@
 // import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { SCREENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
+import { NavigationProps } from '../../types';
 import { MainStack } from '../constants/stacks/MainStack';
 
 // import { BottomTabBar } from '../../components';
@@ -10,7 +10,7 @@ import { MainStack } from '../constants/stacks/MainStack';
 const Stack = createStackNavigator();
 // const Tab = createTabNavigator();
 
-const MainNavigator = () => {
+const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
   // const tabBar = (props: BottomTabBarProps) => <BottomTabBar {...props} />;
   const { theme } = useTheme();
   return (
@@ -29,7 +29,6 @@ const MainNavigator = () => {
         tabBarLabel: () => null,*/
       }}
       // tabBar={tabBar}
-      initialRouteName={SCREENS.CHATS_SCREEN}
       // sceneContainerStyle={{ backgroundColor: theme.background.primary }}
     >
       {MainStack.map((screen) => (

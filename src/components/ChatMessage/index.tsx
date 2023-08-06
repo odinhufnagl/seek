@@ -58,8 +58,6 @@ const ChatMessage = ({
           </View>
         </View>
       )}
-
-      <Spacer spacing='medium' />
     </View>
   );
 };

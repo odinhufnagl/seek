@@ -3,7 +3,7 @@
 // Note that you could extend it to fit the exact apiFunction
 
 type DBWhere<T> = {
-  [K in keyof T]?: { unaryOperator?: string; value: T[K] };
+  [K in keyof T]?: { unaryOperator?: string; value: T[K] | T[K][] };
 };
 
 export interface DBOptions<T = any> {

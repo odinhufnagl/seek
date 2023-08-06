@@ -1,7 +1,12 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { NetworkError } from '../classes';
 import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
-import { authenticateUser, signInUser, signUpUser } from '../services';
+import {
+  authenticateUser,
+  removeUsersNotificationTokens,
+  signInUser,
+  signUpUser,
+} from '../services';
 
 import { Text } from '../common';
 import { SigninUserModel, SignupUserModel, UserModel } from '../types';
@@ -44,6 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
     await storageSet(LOCAL_STORAGE.keys.userToken, token);
+    setToken(token);
     setCurrentUser(user);
     return true;
   };
@@ -57,23 +63,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return false;
     }
     await storageSet(LOCAL_STORAGE.keys.userToken, token);
+    setToken(token);
     setCurrentUser(user);
     return true;
   };
 
   const logOut = async () => {
-    storageRemove(LOCAL_STORAGE.keys.userToken);
-    setCurrentUser(undefined);
+    if (!currentUser) {
+      return;
+    }
+    console.log('loggin out');
+
+    try {
+      const r = await removeUsersNotificationTokens(currentUser.id);
+      storageRemove(LOCAL_STORAGE.keys.userToken);
+      setToken(null);
+      setCurrentUser(undefined);
+    } catch (e) {
+      console.log('error logging out', e);
+      throw e;
+    }
   };
 
   const authenticate = async () => {
+    console.log('authing');
     try {
       const { token: newToken, user } = await authenticateUser();
+      console.log('newToken', newToken, user);
       if (!newToken) {
         console.log('authentication failed');
         return false;
       }
       storageSet(LOCAL_STORAGE.keys.userToken, newToken);
+      setToken(newToken);
       setCurrentUser(user);
       return true;
     } catch (e) {
@@ -93,13 +115,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      const t = await getUserToken();
-      setToken(t);
-    })();
-  }, [currentUser]);
 
   const value = {
     currentUser,

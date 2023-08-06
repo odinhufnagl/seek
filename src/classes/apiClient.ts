@@ -11,7 +11,7 @@ import {
 import { storageGet } from '../utils';
 import { ApiError, NetworkError } from './errors';
 
-type DBModelName = 'users' | 'chats' | 'messages' | 'userChats';
+type DBModelName = 'users' | 'chats' | 'messages' | 'userChats' | 'notificationTokens';
 type AuthModelName = 'users';
 type HttpMethod = 'post' | 'put' | 'get' | 'delete';
 type HttpConfig = AxiosRequestConfig<any>;
@@ -75,8 +75,8 @@ export class ApiClient {
       if (v) {
         const { value, unaryOperator } = v;
         parsedWhere[Object.keys(where)[index]] = unaryOperator
-          ? `${unaryOperator}:${value}`
-          : value;
+          ? `${unaryOperator}:${JSON.stringify(value)}`
+          : JSON.stringify(value);
       }
     });
     const parsedSortBy = `${sortBy}.${orderBy === 'DESC' ? 'desc' : 'asc'}`;
@@ -98,6 +98,7 @@ export class ApiClient {
         chats: 'chats',
         messages: 'messages',
         userChats: 'userChats',
+        notificationTokens: 'notificationTokens',
       } as Record<DBModelName, string>
     )[model]);
 
@@ -129,6 +130,14 @@ export class ApiClient {
 
   dbPost = async <T>(model: DBModelName, obj: any): Promise<Response> =>
     await this.fetch('post', ENDPOINTS.seekApi.database.post(this.endpointDBModelName(model)), obj);
+
+  dbDelete = async <T>(model: DBModelName, dbOptions?: DBOptions<T>): Promise<Response> =>
+    await this.fetch(
+      'delete',
+      ENDPOINTS.seekApi.database.delete(this.endpointDBModelName(model)),
+      {},
+      this.parseDBOptions(dbOptions),
+    );
 
   dbPut = async <T>(model: DBModelName, id: number, obj: any): Promise<Response> =>
     await this.fetch(
