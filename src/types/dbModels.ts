@@ -28,6 +28,7 @@ export interface UserModel {
   isActive: boolean;
   lastActive: string;
   userChat?: UserChatModel;
+  notificationTokens: NotificationTokenModel[];
 }
 export interface QuestionModel {
   id: number;
@@ -44,6 +45,11 @@ export interface MessageModel {
   createdAt: string;
   userId: number;
   chatId: number;
+}
+export interface NotificationTokenModel {
+  createdAt: string;
+  userId: number;
+  name: string;
 }
 
 export interface FileModel {

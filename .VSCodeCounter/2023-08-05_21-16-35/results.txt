@@ -1,0 +1,203 @@
+Date : 2023-08-05 21:16:35
+Directory : /Users/weapp/ownProjects/seek/src
+Total : 117 files,  4362 codes, 80 comments, 486 blanks, all 4928 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| TypeScript JSX |         39 |      3,122 |         56 |        285 |      3,463 |
+| TypeScript     |         75 |      1,186 |         19 |        192 |      1,397 |
+| JSON           |          2 |         42 |          0 |          2 |         44 |
+| JavaScript     |          1 |         12 |          5 |          7 |         24 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                           | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                              |        117 |      4,362 |         80 |        486 |      4,928 |
+| . (Files)                                                                      |          2 |         54 |          0 |          6 |         60 |
+| classes                                                                        |          3 |        147 |          3 |         18 |        168 |
+| common                                                                         |         14 |        990 |          2 |         82 |      1,074 |
+| common (Files)                                                                 |          1 |         29 |          0 |          1 |         30 |
+| common/BottomModal                                                             |          1 |         44 |          0 |          5 |         49 |
+| common/Button                                                                  |          1 |        196 |          0 |          8 |        204 |
+| common/Container                                                               |          1 |         19 |          0 |          5 |         24 |
+| common/Gesture                                                                 |          1 |         35 |          0 |          4 |         39 |
+| common/Icon                                                                    |          1 |        117 |          0 |          9 |        126 |
+| common/Input                                                                   |          1 |        159 |          0 |          7 |        166 |
+| common/Loading                                                                 |          1 |         12 |          0 |          4 |         16 |
+| common/Logo                                                                    |          1 |         29 |          0 |          6 |         35 |
+| common/Modal                                                                   |          1 |         80 |          0 |          5 |         85 |
+| common/Spacer                                                                  |          1 |         21 |          0 |          4 |         25 |
+| common/SwapDetector                                                            |          1 |         23 |          2 |          3 |         28 |
+| common/Text                                                                    |          1 |        138 |          0 |         11 |        149 |
+| common/ToggleSwitch                                                            |          1 |         88 |          0 |         10 |         98 |
+| components                                                                     |          9 |        848 |         11 |         68 |        927 |
+| components (Files)                                                             |          1 |         18 |          0 |          1 |         19 |
+| components/AlbumJoinModal                                                      |          1 |         58 |          0 |          5 |         63 |
+| components/AlbumModalList                                                      |          1 |         39 |          0 |          5 |         44 |
+| components/Chat                                                                |          1 |        269 |          2 |         16 |        287 |
+| components/ChatCard                                                            |          1 |        122 |          7 |          8 |        137 |
+| components/ChatMessage                                                         |          1 |         94 |          0 |         10 |        104 |
+| components/Header                                                              |          1 |        102 |          0 |          8 |        110 |
+| components/ModalList                                                           |          1 |        109 |          0 |          7 |        116 |
+| components/WriteMessage                                                        |          1 |         37 |          2 |          8 |         47 |
+| constants                                                                      |         12 |        141 |          0 |         16 |        157 |
+| hooks                                                                          |          2 |          6 |          0 |          5 |         11 |
+| i18n                                                                           |          5 |         60 |          5 |         13 |         78 |
+| i18n (Files)                                                                   |          3 |         18 |          5 |         11 |         34 |
+| i18n/locales                                                                   |          2 |         42 |          0 |          2 |         44 |
+| navigation                                                                     |         11 |        225 |         16 |         41 |        282 |
+| navigation (Files)                                                             |          2 |         32 |          0 |          6 |         38 |
+| navigation/constants                                                           |          5 |         49 |          0 |         12 |         61 |
+| navigation/constants (Files)                                                   |          1 |          8 |          0 |          3 |         11 |
+| navigation/constants/stacks                                                    |          4 |         41 |          0 |          9 |         50 |
+| navigation/navigators                                                          |          4 |        144 |         16 |         23 |        183 |
+| providers                                                                      |          2 |        229 |          6 |         38 |        273 |
+| screens                                                                        |          9 |        856 |         21 |         60 |        937 |
+| screens (Files)                                                                |          1 |          6 |          0 |          1 |          7 |
+| screens/ChatScreen                                                             |          1 |        281 |          5 |         14 |        300 |
+| screens/ChatsScreen                                                            |          1 |        191 |          7 |         12 |        210 |
+| screens/LoginScreen                                                            |          1 |         24 |          0 |          3 |         27 |
+| screens/OnboardScreen                                                          |          4 |        292 |          9 |         22 |        323 |
+| screens/OnboardScreen (Files)                                                  |          1 |        137 |          9 |         12 |        158 |
+| screens/OnboardScreen/views                                                    |          3 |        155 |          0 |         10 |        165 |
+| screens/WelcomeScreen                                                          |          1 |         62 |          0 |          8 |         70 |
+| services                                                                       |         19 |        222 |          5 |         51 |        278 |
+| services (Files)                                                               |          4 |         72 |          2 |         12 |         86 |
+| services/auth                                                                  |          2 |         28 |          1 |          8 |         37 |
+| services/db                                                                    |         13 |        122 |          2 |         31 |        155 |
+| services/db (Files)                                                            |          1 |          2 |          0 |          1 |          3 |
+| services/db/hooks                                                              |          3 |         29 |          0 |          5 |         34 |
+| services/db/mutations                                                          |          6 |         50 |          0 |         16 |         66 |
+| services/db/queries                                                            |          3 |         41 |          2 |          9 |         52 |
+| theme                                                                          |          6 |         69 |          4 |         15 |         88 |
+| types                                                                          |         14 |        325 |          4 |         49 |        378 |
+| utils                                                                          |          9 |        190 |          3 |         24 |        217 |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                       | language       | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/weapp/ownProjects/seek/src/App.tsx                                      | TypeScript JSX |         50 |          0 |          5 |         55 |
+| /Users/weapp/ownProjects/seek/src/classes/apiClient.ts                         | TypeScript     |        131 |          3 |         16 |        150 |
+| /Users/weapp/ownProjects/seek/src/classes/errors.ts                            | TypeScript     |         14 |          0 |          1 |         15 |
+| /Users/weapp/ownProjects/seek/src/classes/index.ts                             | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/weapp/ownProjects/seek/src/common/BottomModal/BottomModal.tsx           | TypeScript JSX |         44 |          0 |          5 |         49 |
+| /Users/weapp/ownProjects/seek/src/common/Button/Button.tsx                     | TypeScript JSX |        196 |          0 |          8 |        204 |
+| /Users/weapp/ownProjects/seek/src/common/Container/Container.tsx               | TypeScript JSX |         19 |          0 |          5 |         24 |
+| /Users/weapp/ownProjects/seek/src/common/Gesture/index.tsx                     | TypeScript JSX |         35 |          0 |          4 |         39 |
+| /Users/weapp/ownProjects/seek/src/common/Icon/Icon.tsx                         | TypeScript JSX |        117 |          0 |          9 |        126 |
+| /Users/weapp/ownProjects/seek/src/common/Input/Input.tsx                       | TypeScript JSX |        159 |          0 |          7 |        166 |
+| /Users/weapp/ownProjects/seek/src/common/Loading/index.tsx                     | TypeScript JSX |         12 |          0 |          4 |         16 |
+| /Users/weapp/ownProjects/seek/src/common/Logo/Logo.tsx                         | TypeScript JSX |         29 |          0 |          6 |         35 |
+| /Users/weapp/ownProjects/seek/src/common/Modal/Modal.tsx                       | TypeScript JSX |         80 |          0 |          5 |         85 |
+| /Users/weapp/ownProjects/seek/src/common/Spacer/Spacer.tsx                     | TypeScript JSX |         21 |          0 |          4 |         25 |
+| /Users/weapp/ownProjects/seek/src/common/SwapDetector/index.tsx                | TypeScript JSX |         23 |          2 |          3 |         28 |
+| /Users/weapp/ownProjects/seek/src/common/Text/Text.tsx                         | TypeScript JSX |        138 |          0 |         11 |        149 |
+| /Users/weapp/ownProjects/seek/src/common/ToggleSwitch/index.tsx                | TypeScript JSX |         88 |          0 |         10 |         98 |
+| /Users/weapp/ownProjects/seek/src/common/index.ts                              | TypeScript     |         29 |          0 |          1 |         30 |
+| /Users/weapp/ownProjects/seek/src/components/AlbumJoinModal/AlbumJoinModal.tsx | TypeScript JSX |         58 |          0 |          5 |         63 |
+| /Users/weapp/ownProjects/seek/src/components/AlbumModalList/index.tsx          | TypeScript JSX |         39 |          0 |          5 |         44 |
+| /Users/weapp/ownProjects/seek/src/components/Chat/index.tsx                    | TypeScript JSX |        269 |          2 |         16 |        287 |
+| /Users/weapp/ownProjects/seek/src/components/ChatCard/index.tsx                | TypeScript JSX |        122 |          7 |          8 |        137 |
+| /Users/weapp/ownProjects/seek/src/components/ChatMessage/index.tsx             | TypeScript JSX |         94 |          0 |         10 |        104 |
+| /Users/weapp/ownProjects/seek/src/components/Header/index.tsx                  | TypeScript JSX |        102 |          0 |          8 |        110 |
+| /Users/weapp/ownProjects/seek/src/components/ModalList/index.tsx               | TypeScript JSX |        109 |          0 |          7 |        116 |
+| /Users/weapp/ownProjects/seek/src/components/WriteMessage/index.tsx            | TypeScript JSX |         37 |          2 |          8 |         47 |
+| /Users/weapp/ownProjects/seek/src/components/index.ts                          | TypeScript     |         18 |          0 |          1 |         19 |
+| /Users/weapp/ownProjects/seek/src/constants/dimensions.ts                      | TypeScript     |         27 |          0 |          1 |         28 |
+| /Users/weapp/ownProjects/seek/src/constants/endpoints.ts                       | TypeScript     |         18 |          0 |          3 |         21 |
+| /Users/weapp/ownProjects/seek/src/constants/headerKeys.ts                      | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/weapp/ownProjects/seek/src/constants/index.ts                           | TypeScript     |         25 |          0 |          1 |         26 |
+| /Users/weapp/ownProjects/seek/src/constants/localStorage.ts                    | TypeScript     |          4 |          0 |          2 |          6 |
+| /Users/weapp/ownProjects/seek/src/constants/navigatorStacks.ts                 | TypeScript     |          6 |          0 |          1 |          7 |
+| /Users/weapp/ownProjects/seek/src/constants/queryHooks.ts                      | TypeScript     |          3 |          0 |          1 |          4 |
+| /Users/weapp/ownProjects/seek/src/constants/screens.ts                         | TypeScript     |          7 |          0 |          1 |          8 |
+| /Users/weapp/ownProjects/seek/src/constants/socket.ts                          | TypeScript     |         34 |          0 |          2 |         36 |
+| /Users/weapp/ownProjects/seek/src/constants/spacing.ts                         | TypeScript     |          8 |          0 |          2 |         10 |
+| /Users/weapp/ownProjects/seek/src/constants/url.ts                             | TypeScript     |          1 |          0 |          1 |          2 |
+| /Users/weapp/ownProjects/seek/src/constants/user.ts                            | TypeScript     |          4 |          0 |          0 |          4 |
+| /Users/weapp/ownProjects/seek/src/declaration.d.ts                             | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/weapp/ownProjects/seek/src/hooks/index.ts                               | TypeScript     |          2 |          0 |          2 |          4 |
+| /Users/weapp/ownProjects/seek/src/hooks/useTheme.ts                            | TypeScript     |          4 |          0 |          3 |          7 |
+| /Users/weapp/ownProjects/seek/src/i18n/i18n.js                                 | JavaScript     |         12 |          5 |          7 |         24 |
+| /Users/weapp/ownProjects/seek/src/i18n/index.ts                                | TypeScript     |          2 |          0 |          2 |          4 |
+| /Users/weapp/ownProjects/seek/src/i18n/locales/en.json                         | JSON           |         37 |          0 |          1 |         38 |
+| /Users/weapp/ownProjects/seek/src/i18n/locales/sv.json                         | JSON           |          5 |          0 |          1 |          6 |
+| /Users/weapp/ownProjects/seek/src/i18n/translate.ts                            | TypeScript     |          4 |          0 |          2 |          6 |
+| /Users/weapp/ownProjects/seek/src/navigation/RootNavigator.tsx                 | TypeScript JSX |         30 |          0 |          5 |         35 |
+| /Users/weapp/ownProjects/seek/src/navigation/constants/options.ts              | TypeScript     |          8 |          0 |          3 |         11 |
+| /Users/weapp/ownProjects/seek/src/navigation/constants/stacks/AuthStack.ts     | TypeScript     |         18 |          0 |          3 |         21 |
+| /Users/weapp/ownProjects/seek/src/navigation/constants/stacks/ChatsStack.ts    | TypeScript     |         10 |          0 |          2 |         12 |
+| /Users/weapp/ownProjects/seek/src/navigation/constants/stacks/HomeStack.ts     | TypeScript     |          4 |          0 |          2 |          6 |
+| /Users/weapp/ownProjects/seek/src/navigation/constants/stacks/MainStack.ts     | TypeScript     |          9 |          0 |          2 |         11 |
+| /Users/weapp/ownProjects/seek/src/navigation/index.ts                          | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/weapp/ownProjects/seek/src/navigation/navigators/AuthNavigator.tsx      | TypeScript JSX |         24 |          0 |          3 |         27 |
+| /Users/weapp/ownProjects/seek/src/navigation/navigators/ChatsNavigator.tsx     | TypeScript JSX |         24 |          0 |          7 |         31 |
+| /Users/weapp/ownProjects/seek/src/navigation/navigators/HomeNavigator.tsx      | TypeScript JSX |         68 |          1 |          8 |         77 |
+| /Users/weapp/ownProjects/seek/src/navigation/navigators/MainNavigator.tsx      | TypeScript JSX |         28 |         15 |          5 |         48 |
+| /Users/weapp/ownProjects/seek/src/providers/AuthProvider.tsx                   | TypeScript JSX |        113 |          0 |         16 |        129 |
+| /Users/weapp/ownProjects/seek/src/providers/SocketProvider.tsx                 | TypeScript JSX |        116 |          6 |         22 |        144 |
+| /Users/weapp/ownProjects/seek/src/screens/ChatScreen/index.tsx                 | TypeScript JSX |        281 |          5 |         14 |        300 |
+| /Users/weapp/ownProjects/seek/src/screens/ChatsScreen/index.tsx                | TypeScript JSX |        191 |          7 |         12 |        210 |
+| /Users/weapp/ownProjects/seek/src/screens/LoginScreen/index.tsx                | TypeScript JSX |         24 |          0 |          3 |         27 |
+| /Users/weapp/ownProjects/seek/src/screens/OnboardScreen/index.tsx              | TypeScript JSX |        137 |          9 |         12 |        158 |
+| /Users/weapp/ownProjects/seek/src/screens/OnboardScreen/views/About.tsx        | TypeScript JSX |         44 |          0 |          4 |         48 |
+| /Users/weapp/ownProjects/seek/src/screens/OnboardScreen/views/Name.tsx         | TypeScript JSX |         42 |          0 |          3 |         45 |
+| /Users/weapp/ownProjects/seek/src/screens/OnboardScreen/views/Register.tsx     | TypeScript JSX |         69 |          0 |          3 |         72 |
+| /Users/weapp/ownProjects/seek/src/screens/WelcomeScreen/index.tsx              | TypeScript JSX |         62 |          0 |          8 |         70 |
+| /Users/weapp/ownProjects/seek/src/screens/index.ts                             | TypeScript     |          6 |          0 |          1 |          7 |
+| /Users/weapp/ownProjects/seek/src/services/auth/index.ts                       | TypeScript     |          1 |          0 |          1 |          2 |
+| /Users/weapp/ownProjects/seek/src/services/auth/users.ts                       | TypeScript     |         27 |          1 |          7 |         35 |
+| /Users/weapp/ownProjects/seek/src/services/db/hooks/chats.ts                   | TypeScript     |          8 |          0 |          2 |         10 |
+| /Users/weapp/ownProjects/seek/src/services/db/hooks/index.ts                   | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/weapp/ownProjects/seek/src/services/db/hooks/messages.ts                | TypeScript     |         19 |          0 |          2 |         21 |
+| /Users/weapp/ownProjects/seek/src/services/db/index.ts                         | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/weapp/ownProjects/seek/src/services/db/mutations/albums.ts              | TypeScript     |          7 |          0 |          3 |         10 |
+| /Users/weapp/ownProjects/seek/src/services/db/mutations/index.ts               | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/weapp/ownProjects/seek/src/services/db/mutations/messages.ts            | TypeScript     |          7 |          0 |          3 |         10 |
+| /Users/weapp/ownProjects/seek/src/services/db/mutations/notificationTokens.ts  | TypeScript     |          9 |          0 |          3 |         12 |
+| /Users/weapp/ownProjects/seek/src/services/db/mutations/userChats.ts           | TypeScript     |         10 |          0 |          3 |         13 |
+| /Users/weapp/ownProjects/seek/src/services/db/mutations/users.ts               | TypeScript     |         13 |          0 |          3 |         16 |
+| /Users/weapp/ownProjects/seek/src/services/db/queries/chats.ts                 | TypeScript     |         23 |          2 |          4 |         29 |
+| /Users/weapp/ownProjects/seek/src/services/db/queries/index.ts                 | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/weapp/ownProjects/seek/src/services/db/queries/messages.ts              | TypeScript     |         16 |          0 |          4 |         20 |
+| /Users/weapp/ownProjects/seek/src/services/events.ts                           | TypeScript     |         32 |          0 |          5 |         37 |
+| /Users/weapp/ownProjects/seek/src/services/index.ts                            | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/weapp/ownProjects/seek/src/services/messaging.ts                        | TypeScript     |         31 |          2 |          4 |         37 |
+| /Users/weapp/ownProjects/seek/src/services/socket.ts                           | TypeScript     |          5 |          0 |          2 |          7 |
+| /Users/weapp/ownProjects/seek/src/theme/ThemeContext.ts                        | TypeScript     |          4 |          0 |          3 |          7 |
+| /Users/weapp/ownProjects/seek/src/theme/ThemeProvider.tsx                      | TypeScript JSX |         16 |          0 |          5 |         21 |
+| /Users/weapp/ownProjects/seek/src/theme/darkTheme.ts                           | TypeScript     |         23 |          0 |          3 |         26 |
+| /Users/weapp/ownProjects/seek/src/theme/defaultTheme.ts                        | TypeScript     |          5 |          0 |          1 |          6 |
+| /Users/weapp/ownProjects/seek/src/theme/index.ts                               | TypeScript     |          6 |          0 |          1 |          7 |
+| /Users/weapp/ownProjects/seek/src/theme/lightTheme.ts                          | TypeScript     |         15 |          4 |          2 |         21 |
+| /Users/weapp/ownProjects/seek/src/types/api.ts                                 | TypeScript     |         11 |          3 |          3 |         17 |
+| /Users/weapp/ownProjects/seek/src/types/apiResponse.ts                         | TypeScript     |         38 |          0 |          7 |         45 |
+| /Users/weapp/ownProjects/seek/src/types/auth.ts                                | TypeScript     |         14 |          0 |          2 |         16 |
+| /Users/weapp/ownProjects/seek/src/types/db.ts                                  | TypeScript     |         18 |          0 |          3 |         21 |
+| /Users/weapp/ownProjects/seek/src/types/dbModels.ts                            | TypeScript     |         61 |          0 |          2 |         63 |
+| /Users/weapp/ownProjects/seek/src/types/hooks.ts                               | TypeScript     |          2 |          0 |          2 |          4 |
+| /Users/weapp/ownProjects/seek/src/types/icons.ts                               | TypeScript     |         32 |          0 |          2 |         34 |
+| /Users/weapp/ownProjects/seek/src/types/index.ts                               | TypeScript     |         13 |          0 |          1 |         14 |
+| /Users/weapp/ownProjects/seek/src/types/maps.ts                                | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/weapp/ownProjects/seek/src/types/models.ts                              | TypeScript     |          6 |          0 |          1 |          7 |
+| /Users/weapp/ownProjects/seek/src/types/navigation.ts                          | TypeScript     |         16 |          0 |          2 |         18 |
+| /Users/weapp/ownProjects/seek/src/types/props.ts                               | TypeScript     |          5 |          0 |          2 |          7 |
+| /Users/weapp/ownProjects/seek/src/types/socket.ts                              | TypeScript     |         78 |          1 |         17 |         96 |
+| /Users/weapp/ownProjects/seek/src/types/theme.ts                               | TypeScript     |         27 |          0 |          4 |         31 |
+| /Users/weapp/ownProjects/seek/src/utils/animate.tsx                            | TypeScript JSX |         12 |          0 |          2 |         14 |
+| /Users/weapp/ownProjects/seek/src/utils/date.ts                                | TypeScript     |         38 |          3 |          5 |         46 |
+| /Users/weapp/ownProjects/seek/src/utils/index.ts                               | TypeScript     |          8 |          0 |          1 |          9 |
+| /Users/weapp/ownProjects/seek/src/utils/list.ts                                | TypeScript     |         10 |          0 |          1 |         11 |
+| /Users/weapp/ownProjects/seek/src/utils/localStorage.ts                        | TypeScript     |         10 |          0 |          2 |         12 |
+| /Users/weapp/ownProjects/seek/src/utils/permission.ts                          | TypeScript     |         51 |          0 |          5 |         56 |
+| /Users/weapp/ownProjects/seek/src/utils/showSnackbar.ts                        | TypeScript     |         32 |          0 |          5 |         37 |
+| /Users/weapp/ownProjects/seek/src/utils/sleep.ts                               | TypeScript     |          3 |          0 |          1 |          4 |
+| /Users/weapp/ownProjects/seek/src/utils/url.ts                                 | TypeScript     |         26 |          0 |          2 |         28 |
+| Total                                                                          |                |      4,362 |         80 |        486 |      4,928 |
++--------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

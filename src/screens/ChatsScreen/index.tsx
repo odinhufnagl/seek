@@ -1,3 +1,4 @@
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Container, Spacer, Text } from '../../common';
@@ -7,12 +8,15 @@ import { DIMENS, SCREENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
+import { useNotification } from '../../providers/NotificationProvider';
 import { useSocket } from '../../providers/SocketProvider';
 import { fetchMessage } from '../../services';
 import { useFetchUsersChats } from '../../services/db/hooks';
 import {
   MessageModel,
   NavigationProps,
+  NotificationMessageServerDailyQuestionData,
+  NotificationMessageServerUserMessageData,
   SocketMessageServerIsActiveData,
   SocketMessageServerTypingData,
   SocketMessageServerUserMessageData,
@@ -38,9 +42,28 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const { theme } = useTheme();
   const translateKey = 'chatsScreen.';
   const { currentUser } = useAuth();
+  const route = useRoute();
   const { addSocketMessageHandler, removeSocketMessageHandler, socket } = useSocket();
-  const { data } = useFetchUsersChats(currentUser?.id);
+  const { data, refetch } = useFetchUsersChats(currentUser?.id);
   const [chats, setChats] = useState<Chat[]>([]);
+
+  const { addNotificationHandler, removeNotificationHandler } = useNotification();
+
+  const handleUserMessageOpenedApp = async (data: NotificationMessageServerUserMessageData) => {
+    navigateToChat(data.chatId);
+  };
+  const handleQuestionOpenedApp = async (data: NotificationMessageServerDailyQuestionData) => {
+    navigateToQuestion();
+  };
+
+  useEffect(() => {
+    addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
+    addNotificationHandler('openedApp', 'dailyQuestion', handleQuestionOpenedApp);
+    return () => {
+      removeNotificationHandler(handleUserMessageOpenedApp);
+      removeNotificationHandler(handleQuestionOpenedApp);
+    };
+  }, []);
 
   const handleTypingEvent = (data: SocketMessageServerTypingData) => {
     setChats((p) =>
@@ -48,23 +71,26 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         otherUser: { ...item.otherUser, isTyping: data.isTyping },
       })),
     );
-    /* data.isTyping
-      ? setUsersTyping((p) => [...p, data.userId])
-      : setUsersTyping((p) => p.filter((id) => id !== data.userId));*/
   };
   const handleNewMessage = async (data: SocketMessageServerUserMessageData) => {
     // the socketmessage could just include all the data instead
     const message = await fetchMessage(data.messageId);
 
-    console.log('message', message);
     setChats((p) =>
       updateItemInList(p, 'chatId', data.chatId, (item) => ({
         lastMessage: message,
-        unreadMessagesCount: navigation.isFocused()
-          ? Number(item.unreadMessagesCount) + 1
-          : Number(item.unreadMessagesCount),
+        // TODO: part of the "focusTest"
+        /* unreadMessagesCount: currentScreenIsChat(data.chatId)
+          ? item.unreadMessagesCount
+          : item.unreadMessagesCount + 1,*/
+        unreadMessagesCount: item.unreadMessagesCount + 1,
       })),
     );
+  };
+
+  const currentScreenIsChat = (chatId: number) => {
+    const currentRoute = navigation.getState().routes[navigation.getState().index];
+    return currentRoute.name === SCREENS.CHAT_SCREEN && currentRoute.params?.id === chatId;
   };
 
   const handleIsActiveEvent = (data: SocketMessageServerIsActiveData) => {
@@ -74,9 +100,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         otherUser: { ...item.otherUser, isActive: data.isActive },
       })),
     );
-    /* data.isActive
-      ? setUsersActive((p) => [...p, data.userId])
-      : setUsersActive((p) => p.filter((id) => id !== data.userId));*/
   };
 
   useEffect(() => {
@@ -97,43 +120,60 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
           isActive: otherUser.isActive,
           isTyping: false,
         },
-        unreadMessagesCount: c.unreadMessagesCount || 0,
-        chatId: c.id,
+        unreadMessagesCount: Number(c.unreadMessagesCount) || 0,
+        chatId: Number(c.id),
         otherUserId: otherUser.id,
       });
     });
     console.log('newChats', newChats, newChats.length);
     setChats(newChats);
   }, [data]);
-  useEffect(() => {
-    console.log('adding function');
-    addSocketMessageHandler('message', handleNewMessage);
-    addSocketMessageHandler('typing', handleTypingEvent);
-    addSocketMessageHandler('isActive', handleIsActiveEvent);
-    return () => {
-      removeSocketMessageHandler(handleNewMessage);
-      removeSocketMessageHandler(handleTypingEvent);
-      removeSocketMessageHandler(handleIsActiveEvent);
-    };
-  }, []);
+  // TODO: this might be bad, because if a user goes to a chat far down, they will end up in the top
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, []),
+  );
+  // TODO: right now trying focus, might not be optimal
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('adding function');
+      addSocketMessageHandler('message', handleNewMessage);
+      addSocketMessageHandler('typing', handleTypingEvent);
+      addSocketMessageHandler('isActive', handleIsActiveEvent);
+      return () => {
+        removeSocketMessageHandler(handleNewMessage);
+        removeSocketMessageHandler(handleTypingEvent);
+        removeSocketMessageHandler(handleIsActiveEvent);
+      };
+    }, []),
+  );
 
-  const handleChatCardPress = (chatId: number) => {
-    navigation.navigate(SCREENS.CHAT_SCREEN, { id: chatId });
+  const navigateToChat = (chatId: number) => {
+    console.log('wassup', chats, chatId);
+    // TODO: part of the "focusTest"
+    /* 
     setChats((p) =>
       updateItemInList(p, 'chatId', chatId, () => ({
         unreadMessagesCount: 0,
       })),
-    );
+    );*/
+    navigation.navigate(SCREENS.CHAT_SCREEN, { id: chatId });
   };
 
-  const renderChatCard = ({
-    chatId,
-    lastMessage,
-    otherUser,
-    unreadMessagesCount,
-    otherUserId,
-  }: Chat) => {
-    console.log('hello', chatId);
+  useEffect(() => {
+    console.log('chatsupdated');
+    console.log(chats.map((c) => console.log(c.chatId, c.unreadMessagesCount)));
+  }, [chats]);
+  const navigateToQuestion = () => {
+    navigation.navigate(SCREENS.QUESTION_SCREEN);
+  };
+
+  const handleChatCardPress = (chatId: number) => {
+    navigateToChat(chatId);
+  };
+
+  const renderChatCard = ({ chatId, lastMessage, otherUser, unreadMessagesCount }: Chat) => {
     return (
       <>
         <ChatCard
@@ -152,6 +192,10 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         <Spacer spacing='small' />
       </>
     );
+  };
+
+  const handleWriteButtonPress = () => {
+    navigateToQuestion();
   };
 
   return (
@@ -185,7 +229,12 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
           {chats?.map(renderChatCard)}
         </>
       </Container>
-      <Icon variant='primary' icon='write' style={styles(theme).iconQuestion} />
+      <Icon
+        variant='primary'
+        icon='write'
+        style={styles(theme).iconQuestion}
+        onPress={handleWriteButtonPress}
+      />
     </View>
   );
 };

@@ -135,19 +135,15 @@ const Chat = ({
     if (!otherUserLastRead) {
       return;
     }
-    console.log(
-      'otherUserlatRes',
-      otherUserLastRead > item.createdAt,
-      otherUserLastRead,
-      item.createdAt,
-    );
+
     // console.log('itemId', item.id);
 
     const beforeItem = messagesOrdered[index - 1];
     if (typeof item === 'string') {
       return (
-        <View style={styles(theme).item}>
+        <View style={[styles(theme).item]}>
           <DateSeparator text={item} />
+          <Spacer spacing='medium' />
         </View>
       );
     }
@@ -169,6 +165,7 @@ const Chat = ({
             currentUsersLastMessageId === item.id && otherUserLastRead > new Date(item.createdAt)
           }
         />
+        <Spacer spacing='medium' />
       </View>
     );
   };

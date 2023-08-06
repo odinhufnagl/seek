@@ -18,10 +18,10 @@ export default {
     extraLarge: { width: 50, height: 50 },
   },
   logo: {
-    extraSmall: {width: 43, height: 18},
+    extraSmall: { width: 43, height: 18 },
     small: { width: 56, height: 24 },
     medium: { width: 102, height: 48 },
     large: { width: 158, height: 72 },
-    extraLarge: { width: 204, height: 96 }
-  }
+    extraLarge: { width: 130, height: 45 },
+  },
 };
