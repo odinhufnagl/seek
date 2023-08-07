@@ -28,6 +28,10 @@ export type IconVariant =
   | 'plus'
   | 'nfc'
   | 'qrCorners'
-  | 'write';
+  | 'write'
+  | 'userRemove'
+  | 'chat'
+  | 'share'
+  | 'copy';
 
 export type IconSize = 'small' | 'extraSmall' | 'medium' | 'large' | 'extraLarge' | number;

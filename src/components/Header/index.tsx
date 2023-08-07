@@ -71,10 +71,10 @@ const Header = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: SPACING.medium,
+    paddingHorizontal: SPACING.large,
     backgroundColor: 'transparent',
     width: '100%',
-    paddingVertical: SPACING.medium,
+    paddingVertical: SPACING.large,
   },
   upperContainer: {
     flexDirection: 'row',

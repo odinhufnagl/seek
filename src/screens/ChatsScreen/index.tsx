@@ -1,17 +1,17 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Container, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
-import { DIMENS, SCREENS, SPACING } from '../../constants';
+import { DIMENS, NAVIGATOR_STACKS, SCREENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
+import { useFetchUsersChats } from '../../hooks/db';
 import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNotification } from '../../providers/NotificationProvider';
 import { useSocket } from '../../providers/SocketProvider';
 import { fetchMessage } from '../../services';
-import { useFetchUsersChats } from '../../services/db/hooks';
 import {
   MessageModel,
   NavigationProps,
@@ -193,6 +193,12 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
       </>
     );
   };
+  const navigateToCurrentUser = () => {
+    navigation.navigate(NAVIGATOR_STACKS.PROFILE_STACK, {
+      screen: SCREENS.PROFILE_SCREEN,
+      params: { id: currentUser?.id },
+    });
+  };
 
   const handleWriteButtonPress = () => {
     navigateToQuestion();
@@ -203,13 +209,14 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
       <Header
         style={styles(theme).header}
         leftItems={[
-          <Image
-            key='image'
-            source={{
-              uri: currentUser?.profileImage?.url,
-            }}
-            style={styles(theme).profileImage}
-          />,
+          <TouchableWithoutFeedback key='image' onPress={navigateToCurrentUser}>
+            <Image
+              source={{
+                uri: currentUser?.profileImage?.url,
+              }}
+              style={styles(theme).profileImage}
+            />
+          </TouchableWithoutFeedback>,
         ]}
         rightItems={[
           <Icon icon='search' variant='third' size={25} key='search' />,
