@@ -1,3 +1,9 @@
+// TODO: big todo. These should be changed for how we want them, not how the data from the server looks. Meaning if we want createdAt to be a Dateobject in the app, it should be a date here.
+// Then, when fetching from the server we should parse the data into the right. For example right now, what is stated as number here is not actually numbers because they arrive from the server
+// the services I think if where this parsing should occur. Because what if the seekApi doesnt give us a full ChatModel, rather we have to do more fetches? then it should be the service that does the data
+// processing. This means that we should also do some updated on the apiClient, the api client should not have anything to do with these models, because these are only known to the service.
+// We can put these parsing functions in a class like SeekApiParser, altough this will still not help us if seekApi doesnt return entire ChatModel, because then that parser wont work
+
 export interface ChatModel {
   id: number;
   questionId: number;
@@ -29,6 +35,8 @@ export interface UserModel {
   lastActive: string;
   userChat?: UserChatModel;
   notificationTokens: NotificationTokenModel[];
+  location?: LocationModel;
+  locationId?: number;
 }
 export interface QuestionModel {
   id: number;
@@ -60,4 +68,37 @@ export interface FileModel {
 }
 export interface FileTypeModel {
   name: string;
+}
+export interface LocationModel {
+  id: number;
+  address?: string;
+  cityName?: string;
+  postalCode?: string;
+  countryId: number;
+  country: CountryModel;
+  coordinateId?: number;
+  coordinate?: CoordinateModel;
+}
+
+export interface CoordinateModel {
+  id: number;
+  latitude: number;
+  longitude: number;
+}
+export interface CountryModel {
+  id: number;
+  name: string;
+  code: string;
+}
+export interface AnswerModel {
+  id: number;
+  questionId: number;
+  question?: QuestionModel;
+  userId: number;
+  user?: UserModel;
+  text: string;
+  locationId?: number;
+  areaId: number;
+  isPrivate: boolean;
+  createdAt: string;
 }

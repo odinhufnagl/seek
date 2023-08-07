@@ -1,5 +1,5 @@
-const SEEK_API_PATH = 'http://10.60.30.242:3000/api';
-const SEEK_API_SOCKET_PATH = 'ws://10.60.30.242:7071';
+const SEEK_API_PATH = 'http://192.168.0.11:3000/api';
+const SEEK_API_SOCKET_PATH = 'ws://192.168.0.11:7071';
 
 const seekApi = {
   database: {

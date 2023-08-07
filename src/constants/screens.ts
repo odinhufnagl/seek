@@ -5,4 +5,7 @@ export default {
   CHATS_SCREEN: 'ChatsScreen',
   CHAT_SCREEN: 'ChatScreen',
   QUESTION_SCREEN: 'QuestionScreen',
+  PROFILE_SCREEN: 'ProfileScreen',
+  DIARY_ENTRY_SCREEN: 'DiaryEntryScreen',
+  DIARY_ENTRY_CHAT_SCREEN: 'DiaryEntryChatScreen',
 } as const;

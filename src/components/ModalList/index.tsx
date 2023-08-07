@@ -1,11 +1,13 @@
-import React from 'react';
-import {Dispatch} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {IconSize, IconVariant, Theme} from '../../types';
-import {Button, Container, Icon, Modal, Spacer, Text} from '../../common';
-import {useTheme} from '../../hooks';
-import {SPACING} from '../../constants';
-import {ButtonProps} from '../../common/Button/Button';
+import React, { Dispatch } from 'react';
+import { Image, StyleSheet, View } from 'react-native';
+import { Button, Container, Icon, Modal, Spacer, Text } from '../../common';
+import { ButtonProps } from '../../common/Button/Button';
+import { DIMENS, SPACING } from '../../constants';
+import { useTheme } from '../../hooks';
+import { IconSize, IconVariant, Theme } from '../../types';
+import List from '../List';
+
+// TODO: Dont know if this should be generic. Should exist a List that ModalList can use, and then ProfileModalList also can use the List. Dont know what the list should be called but...This could just be ProfileModal, which doesnt take as many params
 
 type ModalListProps = {
   visible: boolean;
@@ -13,6 +15,8 @@ type ModalListProps = {
   items: ModalListItemProps[];
   header?: string;
   subHeader?: string;
+  subHeaderIcon?: IconVariant;
+  body?: string;
   image?: string;
   button?: ButtonProps;
 };
@@ -23,29 +27,9 @@ type ModalListItemProps = {
   onPress?: () => void;
 };
 
-const ModalListItem = ({title, icon, iconSize}: ModalListItemProps) => {
-  const {theme} = useTheme();
-  return (
-    <View style={itemStyles(theme).container}>
-      <View style={itemStyles(theme).iconContainer}>
-        <Icon
-          icon={icon}
-          variant="third"
-          size={iconSize}
-          fill={theme.base.low}
-        />
-      </View>
-      <Spacer spacing="large" orientation="horizontal" />
-      <Text type="body" weight="semiBold" emphasis="primary">
-        {title}
-      </Text>
-    </View>
-  );
-};
-
 const itemStyles = (theme: Theme) =>
   StyleSheet.create({
-    container: {flexDirection: 'row', alignItems: 'center'},
+    container: { flexDirection: 'row', alignItems: 'center' },
     iconContainer: {
       width: 40,
       alignItems: 'center',
@@ -61,38 +45,50 @@ const ModalList = ({
   subHeader,
   image,
   button,
+  body,
+  subHeaderIcon,
 }: ModalListProps) => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <Container style={styles(theme).container}>
         <>
           <View style={styles(theme).upperContainer}>
-            {image && (
-              <Image style={styles(theme).image} source={{uri: image}} />
-            )}
+            {image && <Image style={styles(theme).image} source={{ uri: image }} />}
             <Spacer />
-            {header && <Text weight="bold">{header}</Text>}
-            <Spacer spacing="tiny" />
+            {header && <Text weight='bold'>{header}</Text>}
+
             {subHeader && (
-              <Text type="small" emphasis="medium">
-                {subHeader}
+              <>
+                <View style={styles(theme).subHeaderContainer}>
+                  {subHeaderIcon && (
+                    <>
+                      <Icon icon={subHeaderIcon} fill={theme.base.low} variant='third' size={13} />
+                      <Spacer spacing='tiny' orientation='horizontal' />
+                    </>
+                  )}
+                  <Text type='small' emphasis='medium'>
+                    {subHeader}
+                  </Text>
+                </View>
+                <Spacer spacing='medium' />
+              </>
+            )}
+            {body && (
+              <Text type='caption' emphasis='primary'>
+                {body}
               </Text>
             )}
           </View>
           {button && (
             <>
-              <Spacer spacing="large" />
+              <Spacer spacing='large' />
               <Button {...button} />
             </>
           )}
-          <Spacer spacing="large" />
-          {items.map(data => (
-            <>
-              <Spacer spacing="large" />
-              <ModalListItem {...data} />
-            </>
-          ))}
+          <Spacer spacing='large' />
+          <List items={items} />
+          <Spacer spacing='small' />
         </>
       </Container>
     </Modal>
@@ -101,14 +97,20 @@ const ModalList = ({
 
 const styles = (theme: Theme) =>
   StyleSheet.create({
-    container: {justifyContent: 'flex-end', paddingBottom: SPACING.extraLarge},
+    container: { justifyContent: 'flex-end', paddingBottom: SPACING.extraLarge },
     upperContainer: {
       alignSelf: 'center',
       alignItems: 'center',
     },
+    subHeaderContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     image: {
-      width: 150,
-      height: 150,
+      width: 110,
+      height: 110,
+      borderRadius: DIMENS.common.borderRadiusRound,
     },
   });
 

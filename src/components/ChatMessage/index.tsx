@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Spacer, Text } from '../../common';
 import { Theme } from '../../types';
 
@@ -12,6 +12,7 @@ type ChatMessageProps = {
   isUser: boolean;
   image?: string;
   showImage?: boolean;
+  onImagePress?: () => void;
   isRead?: boolean;
 };
 
@@ -22,6 +23,7 @@ const ChatMessage = ({
   image,
   showImage = true,
   isRead = false,
+  onImagePress,
 }: ChatMessageProps) => {
   const { theme } = useTheme();
 
@@ -46,7 +48,9 @@ const ChatMessage = ({
       {!isUser && image && (
         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
           {showImage ? (
-            <Image source={{ uri: image }} style={styles(theme).profileImage} />
+            <TouchableWithoutFeedback onPress={onImagePress}>
+              <Image source={{ uri: image }} style={styles(theme).profileImage} />
+            </TouchableWithoutFeedback>
           ) : (
             <View style={styles(theme).profileImage} />
           )}

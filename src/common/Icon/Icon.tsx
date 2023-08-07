@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import {icons} from '../../../assets/icons/index';
+import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { icons } from '../../../assets/icons/index';
 
-import {DIMENS} from '../../constants';
+import { DIMENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
-import {IconSize, IconVariant, Theme} from '../../types';
+import { IconSize, IconVariant, Theme } from '../../types';
 export type IconProps = {
   icon: IconVariant;
   variant?: 'primary' | 'secondary' | 'third';
@@ -20,10 +14,10 @@ export type IconProps = {
   onPress?: () => void;
 };
 
-type IconViewProps = {fill: string; size: {width: any; height: any}};
-const Icon: React.FC<IconProps> = props => {
-  const {theme} = useTheme();
-  const {icon, fill, size, style, variant, onPress} = props;
+type IconViewProps = { fill: string; size: { width: any; height: any } };
+const Icon: React.FC<IconProps> = (props) => {
+  const { theme } = useTheme();
+  const { icon, fill, size, style, variant, onPress } = props;
 
   const getViewStyle = (): ViewStyle => {
     switch (variant) {
@@ -51,7 +45,7 @@ const Icon: React.FC<IconProps> = props => {
         case 'extraLarge':
           return DIMENS.icon.extraLarge;
         default:
-          return {width: size, height: size};
+          return { width: size, height: size };
       }
     }
     switch (variant) {
@@ -88,7 +82,8 @@ const Icon: React.FC<IconProps> = props => {
     onPress ? (
       <TouchableOpacity
         onPress={onPress}
-        style={[styles(theme).defaultStyle, getViewStyle(), style]}>
+        style={[styles(theme).defaultStyle, getViewStyle(), style]}
+      >
         <IconView fill={getIconColor()} size={getIconSize()} />
       </TouchableOpacity>
     ) : (
@@ -119,7 +114,7 @@ const styles = (theme: Theme) =>
       height: 45,
       width: 45,
     },
-    thirdButton: {},
+    thirdButton: { borderRadius: 0, width: 'auto', height: 'auto' },
   });
 
 export default Icon;
