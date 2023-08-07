@@ -100,6 +100,7 @@ type Props = {
   totalMessageCount?: number;
   usersTyping?: UserModel[];
   otherUserLastRead?: Date | undefined;
+  onOtherUserPress: () => void;
 };
 
 const Chat = ({
@@ -120,6 +121,7 @@ const Chat = ({
   totalMessageCount,
   otherUserLastRead,
   usersTyping,
+  onOtherUserPress,
 }: Props) => {
   const { theme } = useTheme();
   const [input, setInput] = useState<string>();
@@ -158,6 +160,7 @@ const Chat = ({
               (typeof beforeItem === 'string' || beforeItem.userId === currentUser?.id))
           }
           image={otherUser?.profileImage?.url}
+          onImagePress={onOtherUserPress}
           isUser={item.userId === currentUser?.id}
           message={item.text}
           createdAt={item.createdAt}
