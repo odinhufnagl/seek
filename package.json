@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.2",
+    "@react-native-clipboard/clipboard": "^1.11.2",
     "@react-native-firebase/app": "^16.4.0",
     "@react-native-firebase/in-app-messaging": "^16.4.0",
     "@react-native-firebase/messaging": "^16.4.0",
@@ -24,6 +25,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-native": "0.71.10",
+    "react-native-calendars": "^1.1300.0",
     "react-native-config": "^1.4.11",
     "react-native-dot-typing": "^1.0.2",
     "react-native-gesture-handler": "^1.10.3",

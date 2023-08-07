@@ -1,8 +1,10 @@
 import BackIconSVG from './arrow/BackIconSVG';
 import CameraIconSVG from './camera/CameraIconSVG';
+import ChatIconSVG from './chat/ChatIconSVG';
 import ChevronDownIconSVG from './chevron/ChevronDownIconSVG';
 import ChevronRightIconSVG from './chevron/ChevronRightIconSVG';
 import CloseIconSvg from './close/CloseIconSVG';
+import CopyIconSVG from './copy/CopyIconSVG';
 import DotsIconSVG from './dots/DotsIconSVG';
 import DownloadIconSvg from './download/DownloadIconSVG';
 import ExploreIconSvg from './explore/ExploreIconSVG';
@@ -24,10 +26,13 @@ import QRCornersIconSVG from './qrCorners/QRCornersIconSVG';
 import SearchIconSVG from './search/SearchIconSVG';
 import SendIconSVG from './send/SendIconSVG';
 import SettingsIconSVG from './settings/SettingsIconSVG';
+import ShareIconSVG from './share/ShareIconSVG';
 import UserAddIconSVG from './userAdd/UserAddIconSVG';
 import UserCheckIconSVG from './userCheck/UserCheckIconSVG';
+import UserRemoveIconSVG from './userRemove/UserRemoveIconSVG';
 import WarningIconSVG from './warning/WarningIconSVG';
 import WriteIconSVG from './write/WriteIconSVG';
+
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -59,4 +64,8 @@ export const icons = {
   nfc: NFCIconSVG,
   qrCorners: QRCornersIconSVG,
   write: WriteIconSVG,
+  userRemove: UserRemoveIconSVG,
+  share: ShareIconSVG,
+  copy: CopyIconSVG,
+  chat: ChatIconSVG,
 };

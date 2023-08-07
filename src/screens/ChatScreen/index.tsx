@@ -7,17 +7,18 @@ import {
   ImageBackground,
   Platform,
   StyleSheet,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon, Loading, Spacer, Text } from '../../common';
-import { Chat, Header } from '../../components';
+import { Chat, Header, ProfileModal } from '../../components';
 import { DIMENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
+import { useFetchChat, useFetchMessages } from '../../hooks/db';
 import { useAuth } from '../../providers/AuthProvider';
 import { useSocket } from '../../providers/SocketProvider';
 import { fetchMessage, sendIsTypingEvent } from '../../services';
-import { useFetchChat, useFetchMessages } from '../../services/db/hooks';
 import { markMessagesAsRead, sendChatMessage } from '../../services/messaging';
 import {
   MessageModel,
@@ -46,11 +47,9 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const [otherUserTyping, setOtherUserTyping] = useState(false);
   const [otherUserLastRead, setOtherUserLastRead] = useState<Date | undefined>(null);
   const [otherUserActive, setOtherUserActive] = useState(false);
-  const [unreadMessages, setUnreadMessages] = useState<number[]>([]);
-  const [usersTyping, setUsersTyping] = useState<UserModel[]>([]);
+  const [showProfile, setShowProfile] = useState(false);
   const translateKey = 'chatScreen.';
   const { currentUser } = useAuth();
-  console.log(dateNow);
 
   const { data, fetchNextPage, hasNextPage, isFetching, fetchPreviousPage } = useFetchMessages(
     {
@@ -165,6 +164,9 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   useEffect(() => {
     console.log(isFetching);
   }, [isFetching]);
+  const navigateToOtherUser = () => {
+    setShowProfile(true);
+  };
 
   const existsMessagesLeftToSee =
     messages && totalMessagesCount && messages?.length < totalMessagesCount;
@@ -183,15 +185,18 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
             onPress={() => navigation.goBack()}
             key='back'
           />,
-          <Image
-            key='image'
-            source={{
-              uri: currentUser?.profileImage?.url,
-            }}
-            style={styles(theme).profileImage}
-          />,
+          <TouchableWithoutFeedback onPress={navigateToOtherUser} key='image'>
+            <Image
+              source={{
+                uri: currentUser?.profileImage?.url,
+              }}
+              style={styles(theme).profileImage}
+            />
+          </TouchableWithoutFeedback>,
         ]}
-        rightItems={[<Icon icon='dots' variant='third' size={25} key={'dots'} />]}
+        rightItems={[
+          <Icon icon='dots' variant='third' size={25} key={'dots'} onPress={navigateToOtherUser} />,
+        ]}
         headerTitleProps={{ type: 'header', weight: 'bold', emphasis: 'high' }}
         subHeader={otherUserActive ? 'Active now' : formatRelativeDate(otherUser?.lastActive)}
         header={otherUser?.name}
@@ -212,6 +217,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
         isFetching={isFetching}
         onSendMessage={sendMessage}
         totalMessageCount={totalMessagesCount}
+        onOtherUserPress={navigateToOtherUser}
         usersTyping={otherUserTyping ? [otherUser] : []}
         header={() =>
           isFetching || existsMessagesLeftToSee ? (
@@ -243,6 +249,9 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
         }
       />
       <Spacer />
+      {showProfile && (
+        <ProfileModal userId={otherUser.id} visible={showProfile} setVisible={setShowProfile} />
+      )}
     </View>
   );
 };
@@ -259,6 +268,8 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       top: 0,
       zIndex: 100,
+      paddingHorizontal: SPACING.medium,
+      paddingVertical: SPACING.medium,
     },
     profileImage: {
       width: 42,

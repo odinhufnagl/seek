@@ -1,7 +1,15 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { NAVIGATOR_STACKS, SCREENS } from '../constants';
-const { LOGIN_SCREEN, WELCOME_SCREEN, ONBOARD_SCREEN, CHATS_SCREEN, CHAT_SCREEN, QUESTION_SCREEN } =
-  SCREENS;
+const {
+  LOGIN_SCREEN,
+  WELCOME_SCREEN,
+  ONBOARD_SCREEN,
+  CHATS_SCREEN,
+  CHAT_SCREEN,
+  QUESTION_SCREEN,
+  PROFILE_SCREEN,
+  DIARY_ENTRY_SCREEN,
+} = SCREENS;
 type StackParamList = {
   [LOGIN_SCREEN]: any;
   [WELCOME_SCREEN]: any;
@@ -10,6 +18,8 @@ type StackParamList = {
   [CHAT_SCREEN]: any;
   [NAVIGATOR_STACKS.CHATS_STACK]: any;
   [QUESTION_SCREEN]: any;
+  [PROFILE_SCREEN]: any;
+  [DIARY_ENTRY_SCREEN]: any;
 };
 
 export type NavigationProps = StackNavigationProp<StackParamList>;

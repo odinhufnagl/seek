@@ -11,7 +11,7 @@ import {
 import { storageGet } from '../utils';
 import { ApiError, NetworkError } from './errors';
 
-type DBModelName = 'users' | 'chats' | 'messages' | 'userChats' | 'notificationTokens';
+type DBModelName = 'users' | 'chats' | 'messages' | 'userChats' | 'notificationTokens' | 'answers';
 type AuthModelName = 'users';
 type HttpMethod = 'post' | 'put' | 'get' | 'delete';
 type HttpConfig = AxiosRequestConfig<any>;
@@ -71,12 +71,13 @@ export class ApiClient {
     const { sortBy, fields, limit, offset, where = {}, orderBy } = options;
 
     const parsedWhere: Record<string, string> = {};
+    console.log('where', where);
     Object.values(where).forEach((v, index) => {
       if (v) {
         const { value, unaryOperator } = v;
         parsedWhere[Object.keys(where)[index]] = unaryOperator
-          ? `${unaryOperator}:${JSON.stringify(value)}`
-          : JSON.stringify(value);
+          ? `${unaryOperator}:${value}`
+          : value;
       }
     });
     const parsedSortBy = `${sortBy}.${orderBy === 'DESC' ? 'desc' : 'asc'}`;
@@ -98,6 +99,7 @@ export class ApiClient {
         chats: 'chats',
         messages: 'messages',
         userChats: 'userChats',
+        answers: 'answers',
         notificationTokens: 'notificationTokens',
       } as Record<DBModelName, string>
     )[model]);
