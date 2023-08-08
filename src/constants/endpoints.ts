@@ -14,7 +14,9 @@ const seekApi = {
     signUp: (table: string) => `${SEEK_API_PATH}/auth/${table}/signup`,
     authenticate: (table: string) => `${SEEK_API_PATH}/auth/${table}/`,
   },
-  functions: {},
+  functions: {
+    search: () => `${SEEK_API_PATH}/f/search`,
+  },
   socket: (token: string) => `${SEEK_API_SOCKET_PATH}/auth=${token}`,
 };
 

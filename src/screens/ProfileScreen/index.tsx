@@ -34,6 +34,7 @@ const ProfileScreen = ({ navigation }: Props) => {
     }, []) || [];
 
   const handleDayPress = (day: Date) => {
+    console.log('date', day);
     const answer = answers?.find((a) => a.createdAt && isSameDate(new Date(a.createdAt), day));
     if (!answer) {
       showSnackbar('No diary entry');
@@ -54,7 +55,7 @@ const ProfileScreen = ({ navigation }: Props) => {
             icon='chevronDown'
             key='back'
             variant='third'
-            size={17}
+            size={18}
             onPress={() => navigation.goBack()}
           />,
         ]}

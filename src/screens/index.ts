@@ -5,6 +5,7 @@ import LoginScreen from './LoginScreen';
 import OnboardScreen from './OnboardScreen';
 import ProfileScreen from './ProfileScreen';
 import QuestionScreen from './QuestionScreen';
+import SearchScreen from './SearchScreen';
 import WelcomeScreen from './WelcomeScreen';
 
 export {
@@ -15,5 +16,6 @@ export {
   OnboardScreen,
   ProfileScreen,
   QuestionScreen,
+  SearchScreen,
   WelcomeScreen,
 };
