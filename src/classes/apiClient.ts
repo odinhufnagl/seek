@@ -5,6 +5,7 @@ import {
   Response,
   ResponseAuth,
   ResponseDBGetPlural,
+  ResponseSearch,
   ResponseSignin,
   ResponseSignup,
 } from '../types';
@@ -156,4 +157,28 @@ export class ApiClient {
 
   signIn = async (model: AuthModelName, obj: any): Promise<ResponseSignin> =>
     await this.fetch('post', ENDPOINTS.seekApi.auth.signIn(this.endpointAuthModelName(model)), obj);
+
+  search = async ({
+    searchQuery,
+    userId,
+    limit,
+    offset,
+  }: {
+    searchQuery: string;
+    userId?: number;
+    limit?: number;
+    offset?: number;
+  }): Promise<ResponseSearch> =>
+    await this.fetch(
+      'get',
+      ENDPOINTS.seekApi.functions.search(),
+      {},
+      {
+        userId,
+        search_query: searchQuery,
+        limit,
+        offset,
+      },
+    );
 }
+Response;

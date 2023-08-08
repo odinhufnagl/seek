@@ -1,3 +1,4 @@
 import useTheme from './useTheme';
-export * from './db';
+
+export * from './api';
 export { useTheme };

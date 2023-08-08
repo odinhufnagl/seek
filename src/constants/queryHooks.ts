@@ -6,5 +6,6 @@ export default {
     user: 'user',
     usersAnswers: 'usersAnswers',
     answer: 'answer',
+    searchItems: 'searchItems',
   },
 };
