@@ -6,5 +6,8 @@ const slideVerticallyDefaultOptions = {
 const slideHorizontallyDefaultOptions = {
   ...TransitionPresets.SlideFromRightIOS,
 };
+const fadeDefaultOptions = {
+  ...TransitionPresets.ModalFadeTransition,
+};
 
-export { slideVerticallyDefaultOptions, slideHorizontallyDefaultOptions };
+export { fadeDefaultOptions, slideHorizontallyDefaultOptions, slideVerticallyDefaultOptions };

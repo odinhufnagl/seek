@@ -8,4 +8,5 @@ export default {
   PROFILE_SCREEN: 'ProfileScreen',
   DIARY_ENTRY_SCREEN: 'DiaryEntryScreen',
   DIARY_ENTRY_CHAT_SCREEN: 'DiaryEntryChatScreen',
+  SEARCH_SCREEN: 'SearchScreen',
 } as const;

@@ -8,6 +8,9 @@ export interface ResponseBodyAuthUser {
   accessToken: string;
   user: any;
 }
+export interface ResponseBodySearch {
+  chats: { rows: any; count: number };
+}
 export interface ResponseBodyGetPlural<T> {
   rows: T[];
   count: number;
@@ -38,6 +41,9 @@ export interface ResponseSignup extends Response {
 }
 export interface ResponseSignin extends Response {
   data: ResponseBodySignin;
+}
+export interface ResponseSearch extends Response {
+  data: ResponseBodySearch;
 }
 export interface ResponseDBGetPlural<T> {
   data: ResponseBodyGetPlural<T>;
