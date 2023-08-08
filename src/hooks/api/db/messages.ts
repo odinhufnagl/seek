@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { QUERY_HOOKS } from '../../constants';
-import { fetchMessages } from '../../services/db/queries';
-import { DBOptions, MessageWhere } from '../../types';
+import { QUERY_HOOKS } from '../../../constants';
+import { fetchMessages } from '../../../services/db/queries';
+import { DBOptions, MessageWhere } from '../../../types';
 
 export const useFetchMessages = (dbOptions?: DBOptions<MessageWhere>, limit = 20) =>
   useInfiniteQuery(

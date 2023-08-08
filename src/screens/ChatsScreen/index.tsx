@@ -1,12 +1,11 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Container, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
 import { DIMENS, NAVIGATOR_STACKS, SCREENS, SPACING } from '../../constants';
-import { useTheme } from '../../hooks';
-import { useFetchUsersChats } from '../../hooks/db';
+import { useFetchUsersChats, useTheme } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNotification } from '../../providers/NotificationProvider';
@@ -46,7 +45,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const { addSocketMessageHandler, removeSocketMessageHandler, socket } = useSocket();
   const { data, refetch } = useFetchUsersChats(currentUser?.id);
   const [chats, setChats] = useState<Chat[]>([]);
-
   const { addNotificationHandler, removeNotificationHandler } = useNotification();
 
   const handleUserMessageOpenedApp = async (data: NotificationMessageServerUserMessageData) => {
@@ -209,17 +207,23 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
       <Header
         style={styles(theme).header}
         leftItems={[
-          <TouchableWithoutFeedback key='image' onPress={navigateToCurrentUser}>
+          <TouchableOpacity key='image' onPress={navigateToCurrentUser}>
             <Image
               source={{
                 uri: currentUser?.profileImage?.url,
               }}
               style={styles(theme).profileImage}
             />
-          </TouchableWithoutFeedback>,
+          </TouchableOpacity>,
         ]}
         rightItems={[
-          <Icon icon='search' variant='third' size={25} key='search' />,
+          <Icon
+            icon='search'
+            variant='third'
+            size={25}
+            key='search'
+            onPress={() => navigation.navigate(SCREENS.SEARCH_SCREEN)}
+          />,
           <Icon icon='settings' variant='third' size={24} key='settings' />,
         ]}
         header={translate(translateKey + 'header')}
