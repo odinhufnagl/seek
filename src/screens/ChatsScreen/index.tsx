@@ -43,7 +43,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const { currentUser } = useAuth();
   const route = useRoute();
   const { addSocketMessageHandler, removeSocketMessageHandler, socket } = useSocket();
-  const { data, refetch } = useFetchUsersChats(currentUser?.id);
+  const { data, refetch, isLoading } = useFetchUsersChats(currentUser?.id);
   const [chats, setChats] = useState<Chat[]>([]);
   const { addNotificationHandler, removeNotificationHandler } = useNotification();
 
@@ -70,12 +70,13 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
       })),
     );
   };
+  // TODO: should parse the SocketMessageServer before sending it to the app to use
   const handleNewMessage = async (data: SocketMessageServerUserMessageData) => {
-    // the socketmessage could just include all the data instead
+    // the socketmessage could just include all the data instead, maybe
     const message = await fetchMessage(data.messageId);
-
+    console.log('newmessage', message);
     setChats((p) =>
-      updateItemInList(p, 'chatId', data.chatId, (item) => ({
+      updateItemInList(p, 'chatId', Number(data.chatId), (item) => ({
         lastMessage: message,
         // TODO: part of the "focusTest"
         /* unreadMessagesCount: currentScreenIsChat(data.chatId)
@@ -238,6 +239,11 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
           </Text>
           <Spacer spacing='small' />
           {chats?.map(renderChatCard)}
+          {chats.length === 0 && !isLoading && (
+            <View style={styles(theme).noChatsContainer}>
+              <Text>No chats yet</Text>
+            </View>
+          )}
         </>
       </Container>
       <Icon
@@ -269,6 +275,11 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       right: SPACING.large,
       bottom: SPACING.large,
+    },
+    noChatsContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });
 

@@ -107,4 +107,17 @@ export interface AnswerModel {
   areaId: number;
   isPrivate: boolean;
   createdAt: string;
+  area?: AreaModel;
 }
+
+type AreaType = 'radius' | 'country' | 'world';
+
+export interface AreaModel {
+  id: number;
+  type: AreaType;
+  countryArea?: CountryAreaModel;
+  subTypeId?: number;
+  radiusArea?: RadiusAreaModel;
+}
+export interface CountryAreaModel {}
+export interface RadiusAreaModel {}
