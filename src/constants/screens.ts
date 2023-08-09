@@ -9,4 +9,5 @@ export default {
   DIARY_ENTRY_SCREEN: 'DiaryEntryScreen',
   DIARY_ENTRY_CHAT_SCREEN: 'DiaryEntryChatScreen',
   SEARCH_SCREEN: 'SearchScreen',
+  NEW_CONNECTION_SCREEN: 'NewConnectionScreen',
 } as const;

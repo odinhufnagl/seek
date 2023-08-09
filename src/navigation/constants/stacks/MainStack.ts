@@ -1,5 +1,11 @@
 import { NAVIGATOR_STACKS, SCREENS } from '../../../constants';
-import { ChatScreen, ChatsScreen, QuestionScreen, SearchScreen } from '../../../screens';
+import {
+  ChatScreen,
+  ChatsScreen,
+  NewConnectionScreen,
+  QuestionScreen,
+  SearchScreen,
+} from '../../../screens';
 import { Stack } from '../../../types';
 import ProfileNavigator from '../../navigators/ProfileNavigator';
 import {
@@ -23,4 +29,12 @@ export const MainStack: Stack = [
     options: slideVerticallyDefaultOptions,
   },
   { name: SCREENS.SEARCH_SCREEN, component: SearchScreen, options: fadeDefaultOptions },
+  {
+    name: SCREENS.NEW_CONNECTION_SCREEN,
+    component: NewConnectionScreen,
+    options: {
+      cardStyle: { backgroundColor: 'transparent' },
+      presentation: 'transparentModal',
+    },
+  },
 ];

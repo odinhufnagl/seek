@@ -1,13 +1,8 @@
-import React, {Dispatch} from 'react';
-import {
-  Modal as RNModal,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import useTheme from '../../hooks/useTheme';
-import {Theme} from '../../types';
+import React, { Dispatch } from 'react';
+import { Modal as RNModal, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import useTheme from '../../hooks/useTheme';
+import { Theme } from '../../types';
 
 type Props = {
   visible: boolean;
@@ -40,20 +35,18 @@ const linearGradientColors = [
   'rgba(0, 0, 0, 1)',
 ];
 
-const Modal = ({visible, setVisible, children}: Props) => {
-  const {theme} = useTheme();
+const Modal = ({ visible, setVisible, children }: Props) => {
+  const { theme } = useTheme();
   return (
     <RNModal
       visible={visible}
       onRequestClose={() => setVisible(false)}
-      animationType="slide"
-      transparent={true}>
+      animationType='slide'
+      transparent={true}
+    >
       <TouchableWithoutFeedback onPress={() => setVisible(false)}>
         <View style={styles(theme).root}>
-          <LinearGradient
-            colors={linearGradientColors}
-            style={styles(theme).linearGradient}
-          />
+          <LinearGradient colors={linearGradientColors} style={styles(theme).linearGradient} />
           <View style={styles(theme).childrenContainer}>
             <View>{children}</View>
           </View>

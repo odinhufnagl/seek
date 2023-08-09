@@ -9,6 +9,10 @@ export interface NotificationMessageServerIsActiveData extends NotificationMessa
   isActive: boolean;
 }
 
+export interface NotificationMessageServerNewChatData extends NotificationMessageServerData {
+  chatId: number;
+}
+
 export interface NotificationMessageServerUserMessageData extends NotificationMessageServerData {
   userId: number;
   message: string;
@@ -24,7 +28,12 @@ export interface NotificationMessageServerTypingData extends NotificationMessage
 
 export type NotificationMessageServerDailyQuestionData = NotificationMessageServerData;
 
-export type NotificationMessageServerType = 'message' | 'typing' | 'isActive' | 'dailyQuestion';
+export type NotificationMessageServerType =
+  | 'message'
+  | 'typing'
+  | 'isActive'
+  | 'dailyQuestion'
+  | 'newChat';
 
 export interface NotificationMessageServer {
   type: NotificationMessageServerType;
@@ -45,6 +54,9 @@ export interface NotificationServerMessageUserMessage extends NotificationMessag
 }
 export interface NotificationServerMessageDailyQuestion extends NotificationMessageServer {
   data: NotificationMessageServerDailyQuestionData;
+}
+export interface NotificationServerMessageNewChat extends NotificationMessageServer {
+  data: NotificationMessageServerNewChatData;
 }
 
 export type RecievedNotificationMessage = FirebaseMessagingTypes.RemoteMessage;

@@ -14,6 +14,7 @@ const darkTheme: Theme = {
     third: '#262626',
   },
   glass: 'rgba(237, 237, 237, 0.5)',
+  indicator: '#DD4951',
   base: {
     primary: '#ffffffe6',
     high: '#FFFFFF',
