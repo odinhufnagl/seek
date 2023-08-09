@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import {DIMENS, SPACING} from '../../constants';
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
-import {Theme} from '../../types/theme';
-import Icon, {IconProps} from '../Icon/Icon';
+import { Theme } from '../../types/theme';
+import Icon, { IconProps } from '../Icon/Icon';
 import Spacer from '../Spacer/Spacer';
 import Text from '../Text/Text';
 export type ButtonProps = {
@@ -46,7 +40,7 @@ const Button: React.FC<ButtonProps> = ({
   onPressOut,
   ...props
 }) => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const getViewStyle = () => {
     switch (variant) {
@@ -120,25 +114,26 @@ const Button: React.FC<ButtonProps> = ({
         style,
         disabled && styles(theme).disabledButton,
       ]}
-      {...props}>
-      <View>
+      {...props}
+    >
+      <View style={{ alignSelf: 'center' }}>
         {loading ? (
-          <ActivityIndicator color="white" />
+          <ActivityIndicator color='white' />
         ) : (
           <View style={styles(theme).contentContainer}>
-            {rightIcon && (
+            {leftIcon && (
               <>
-                <Icon variant="third" {...rightIcon} />
-                <Spacer orientation="horizontal" spacing="small" />
+                <Icon variant='third' {...leftIcon} />
+                <Spacer orientation='horizontal' spacing='large' />
               </>
             )}
             <Text type={getTextType()} style={textStyle} color={getTextColor()}>
               {title || ''}
             </Text>
-            {leftIcon && (
+            {rightIcon && (
               <>
-                <Spacer orientation="horizontal" spacing="medium" />
-                <Icon variant="third" {...leftIcon} />
+                <Spacer orientation='horizontal' spacing='large' />
+                <Icon variant='third' {...rightIcon} />
               </>
             )}
           </View>
@@ -153,7 +148,6 @@ const styles = (theme: Theme) =>
       borderRadius: DIMENS.common.borderRadiusMedium,
       justifyContent: 'center',
       alignItems: 'center',
-      alignSelf: 'center',
     },
     primaryButton: {
       backgroundColor: theme.brand,
@@ -163,7 +157,7 @@ const styles = (theme: Theme) =>
     secondaryButton: {
       backgroundColor: theme.brand,
       borderRadius: DIMENS.common.borderRadiusRound,
-      height: 40,
+      height: 43,
       minWidth: 130,
       paddingHorizontal: SPACING.medium,
     },

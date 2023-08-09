@@ -157,7 +157,8 @@ export class ApiClient {
 
   signIn = async (model: AuthModelName, obj: any): Promise<ResponseSignin> =>
     await this.fetch('post', ENDPOINTS.seekApi.auth.signIn(this.endpointAuthModelName(model)), obj);
-
+  getNewQuestion = async (userId?: number): Promise<Response> =>
+    await this.fetch('get', ENDPOINTS.seekApi.database.getNewQuestion(String(userId)));
   search = async ({
     searchQuery,
     userId,
