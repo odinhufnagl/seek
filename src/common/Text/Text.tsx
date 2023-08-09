@@ -132,6 +132,7 @@ const styles = (theme: Theme) =>
     caption: {
       fontSize: FONT_SIZE.CAPTION,
       fontFamily: FONT_FAMILY.medium,
+      color: theme.base.medium,
     },
     small: {
       fontSize: FONT_SIZE.SMALL,

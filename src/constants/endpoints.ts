@@ -9,6 +9,7 @@ const seekApi = {
     put: (table: string, id: string) => `${SEEK_API_PATH}/${table}/${id}`,
     delete: (table: string) => `${SEEK_API_PATH}/${table}`,
     getNewQuestion: (userId: string) => `${SEEK_API_PATH}/users/${userId}/questions/new`,
+    getNewChat: (userId: string) => `${SEEK_API_PATH}/users/${userId}/chats/new`,
   },
   auth: {
     signIn: (table: string) => `${SEEK_API_PATH}/auth/${table}/signin`,
@@ -17,6 +18,7 @@ const seekApi = {
   },
   functions: {
     search: () => `${SEEK_API_PATH}/f/search`,
+    newChatSeen: () => `${SEEK_API_PATH}/f/newChatSeen`,
   },
   socket: (token: string) => `${SEEK_API_SOCKET_PATH}/auth=${token}`,
 };

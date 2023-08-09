@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-clipboard/clipboard": "^1.11.2",
+    "@react-native-community/blur": "^4.3.2",
     "@react-native-firebase/app": "^16.4.0",
     "@react-native-firebase/in-app-messaging": "^16.4.0",
     "@react-native-firebase/messaging": "^16.4.0",
@@ -21,6 +22,7 @@
     "axios": "^0.27.2",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-prettier": "^4.2.1",
+    "expo-blur": "^12.4.1",
     "i18n-js": "^3.8.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -36,6 +38,7 @@
     "react-native-permissions": "^3.8.4",
     "react-native-safe-area-context": "^3.3.1",
     "react-native-screens": "^3.18.2",
+    "react-native-skia": "^0.0.1",
     "react-native-snackbar": "^2.4.0",
     "react-native-svg": "^13.10.0",
     "react-native-swipe-gestures": "^1.0.5"

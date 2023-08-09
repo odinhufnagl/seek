@@ -25,6 +25,7 @@ type ChatMessageData = Partial<MessageModel> & { chatId: number; text: string; u
 
 export const sendChatMessage = async (socket: WebSocket, data: ChatMessageData) => {
   const { chatId, text, userId } = data;
+  console.log('sockettt', socket, data);
   sendSocketMessage(
     socket,
     SOCKET_MESSAGE.chatMessage({
