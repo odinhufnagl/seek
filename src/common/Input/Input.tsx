@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, MutableRefObject } from 'react';
 import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
 import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
@@ -20,6 +20,7 @@ interface Props extends TextInputProps {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   variant?: 'primary' | 'secondary' | 'third';
   rightIcon?: IconProps;
+  inputRef?: MutableRefObject<TextInput | null>;
 }
 
 const Input: React.FC<Props> = ({
@@ -34,6 +35,7 @@ const Input: React.FC<Props> = ({
   secureTextEntry,
   autoCapitalize,
   rightIcon,
+  inputRef,
   variant = 'primary',
   ...props
 }) => {
@@ -79,6 +81,7 @@ const Input: React.FC<Props> = ({
         ]}
       >
         <TextInput
+          ref={inputRef}
           selectionColor={theme.base.primary}
           placeholderTextColor={theme.base.low}
           style={[getInputStyle(), style]}

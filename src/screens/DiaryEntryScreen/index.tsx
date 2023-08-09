@@ -95,14 +95,18 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
 
       <View style={styles(theme).bottomContainer}>
         <View style={styles(theme).bottomFloatingContainer}>
-          <Icon
-            icon='chat'
-            variant='third'
-            size={21}
-            fill={theme.base.medium}
-            onPress={handleChatPressed}
-          />
-          <Spacer orientation='horizontal' spacing={32} />
+          {!answer?.isPrivate && (
+            <>
+              <Icon
+                icon='chat'
+                variant='third'
+                size={21}
+                fill={theme.base.medium}
+                onPress={handleChatPressed}
+              />
+              <Spacer orientation='horizontal' spacing={32} />
+            </>
+          )}
           <Icon
             icon='share'
             variant='third'

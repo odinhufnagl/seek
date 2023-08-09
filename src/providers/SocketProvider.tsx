@@ -31,6 +31,7 @@ const SocketContext = React.createContext({} as ContextValues);
 export const useSocket = () => useContext(SocketContext);
 
 const SOCKET_RECONNECT_TIMER = 100000;
+const SOCKET_BACKGROUND_UNTIL_CLOSED = 5000;
 
 // TODO: this is not completely general, the endpoint is not general, and how the data looks is not general because we use socketmessageserverdata and type is socketmessageservertype
 export const SocketProvider = ({ children, token }: { children: JSX.Element; token: string }) => {
@@ -69,7 +70,9 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   // Handle change in state on app
 
   const handleAppInBackground = () => {
-    socket.close();
+    setTimeout(() => {
+      socket.close();
+    }, SOCKET_BACKGROUND_UNTIL_CLOSED);
   };
   const handleAppIsActive = () => {
     connectToSocket();

@@ -8,6 +8,7 @@ const seekApi = {
     post: (table: string) => `${SEEK_API_PATH}/${table}`,
     put: (table: string, id: string) => `${SEEK_API_PATH}/${table}/${id}`,
     delete: (table: string) => `${SEEK_API_PATH}/${table}`,
+    getNewQuestion: (userId: string) => `${SEEK_API_PATH}/users/${userId}/questions/new`,
   },
   auth: {
     signIn: (table: string) => `${SEEK_API_PATH}/auth/${table}/signin`,
