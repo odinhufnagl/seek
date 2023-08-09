@@ -1,4 +1,4 @@
-import {Dispatch} from 'react';
+import { Dispatch } from 'react';
 
 export interface Theme {
   black: string;
@@ -14,6 +14,7 @@ export interface Theme {
     third: string;
   };
   glass: string;
+  indicator: string;
   base: {
     primary: string;
     high: string;

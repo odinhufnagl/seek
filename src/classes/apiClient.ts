@@ -37,7 +37,7 @@ export class ApiClient {
   fetch = async (
     method: HttpMethod,
     url: string,
-    config?: HttpConfig,
+    config?: any,
     params?: Record<string, any>,
   ): Promise<Response> => {
     try {
@@ -47,6 +47,7 @@ export class ApiClient {
         ...config,
         params,
       });
+      console.log('res', res);
 
       if (!res) {
         throw Error();
@@ -159,6 +160,10 @@ export class ApiClient {
     await this.fetch('post', ENDPOINTS.seekApi.auth.signIn(this.endpointAuthModelName(model)), obj);
   getNewQuestion = async (userId?: number): Promise<Response> =>
     await this.fetch('get', ENDPOINTS.seekApi.database.getNewQuestion(String(userId)));
+  getNewChat = async (userId?: number): Promise<Response> =>
+    await this.fetch('get', ENDPOINTS.seekApi.database.getNewChat(String(userId)));
+  newChatSeen = async (userId: number, chatId: number): Promise<Response> =>
+    await this.fetch('post', ENDPOINTS.seekApi.functions.newChatSeen(), { userId, chatId });
   search = async ({
     searchQuery,
     userId,

@@ -144,6 +144,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   }, []);
 
   const sendMessage = async (message: string) => {
+    console.log('sendis mesig', message, otherUser, currentUser);
     if (!otherUser || !currentUser) {
       return false;
     }
@@ -187,7 +188,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
           <TouchableWithoutFeedback onPress={navigateToOtherUser} key='image'>
             <Image
               source={{
-                uri: currentUser?.profileImage?.url,
+                uri: otherUser?.profileImage?.url,
               }}
               style={styles(theme).profileImage}
             />

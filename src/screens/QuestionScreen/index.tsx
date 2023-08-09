@@ -139,6 +139,7 @@ const QuestionScreen = ({ navigation }: Props) => {
           </View>
           <View style={styles(theme).buttonContainer}>
             <Button
+              disabled={answerText === ''}
               title='Send'
               variant='secondary'
               rightIcon={{ icon: 'chevronRight', size: 14 }}

@@ -1,6 +1,5 @@
 import { ApiClient } from '../../../classes';
-import { ChatModel, ChatWhere, DBOptions } from '../../../types';
-
+import { ChatModel, ChatWhere, DBOptions, FetchOne } from '../../../types';
 const apiClient = new ApiClient();
 // TODO: cheating not using count
 export const fetchUsersChats = async (
@@ -25,4 +24,10 @@ export const fetchChat = async (
 export const fetchChats = async (dbOptions?: DBOptions<ChatWhere>): Promise<ChatModel[]> => {
   const res = await apiClient.dbGetPlural(['chats'], dbOptions);
   return res.data.rows;
+};
+
+export const fetchNewChat = async (userId?: number): Promise<FetchOne<ChatModel | null>> => {
+  const res = await apiClient.getNewChat(userId);
+  console.log('res', res.data);
+  return res.data;
 };
