@@ -8,5 +8,6 @@ export default {
     answer: 'answer',
     searchItems: 'searchItems',
     newQuestion: 'newQuestion',
+    newChat: 'newChat',
   },
 };

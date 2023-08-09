@@ -5,7 +5,7 @@ import { Container, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
 import { DIMENS, NAVIGATOR_STACKS, SCREENS, SPACING } from '../../constants';
-import { useFetchUsersChats, useTheme } from '../../hooks';
+import { useFetchNewQuestion, useFetchUsersChats, useTheme } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNotification } from '../../providers/NotificationProvider';
@@ -14,7 +14,6 @@ import { fetchMessage } from '../../services';
 import {
   MessageModel,
   NavigationProps,
-  NotificationMessageServerDailyQuestionData,
   NotificationMessageServerUserMessageData,
   SocketMessageServerIsActiveData,
   SocketMessageServerTypingData,
@@ -44,22 +43,20 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const route = useRoute();
   const { addSocketMessageHandler, removeSocketMessageHandler, socket } = useSocket();
   const { data, refetch, isLoading } = useFetchUsersChats(currentUser?.id);
+  const { data: newQuestion } = useFetchNewQuestion(currentUser?.id);
   const [chats, setChats] = useState<Chat[]>([]);
+  const [showNewQuestionIndicator, setShowNewQuestionIndicator] = useState(false);
   const { addNotificationHandler, removeNotificationHandler } = useNotification();
 
   const handleUserMessageOpenedApp = async (data: NotificationMessageServerUserMessageData) => {
     navigateToChat(data.chatId);
   };
-  const handleQuestionOpenedApp = async (data: NotificationMessageServerDailyQuestionData) => {
-    navigateToQuestion();
-  };
 
   useEffect(() => {
     addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
-    addNotificationHandler('openedApp', 'dailyQuestion', handleQuestionOpenedApp);
+
     return () => {
       removeNotificationHandler(handleUserMessageOpenedApp);
-      removeNotificationHandler(handleQuestionOpenedApp);
     };
   }, []);
 
@@ -127,6 +124,12 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     console.log('newChats', newChats, newChats.length);
     setChats(newChats);
   }, [data]);
+  useEffect(() => {
+    console.log('there exists a new question', newQuestion);
+    if (newQuestion) {
+      setShowNewQuestionIndicator(true);
+    }
+  }, [newQuestion]);
   // TODO: this might be bad, because if a user goes to a chat far down, they will end up in the top
   useFocusEffect(
     React.useCallback(() => {
@@ -200,6 +203,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   const handleWriteButtonPress = () => {
+    setShowNewQuestionIndicator(false);
     navigateToQuestion();
   };
 
@@ -234,9 +238,11 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
       <Container>
         <>
           <Spacer spacing={40} />
-          <Text weight='bold' emphasis='high'>
-            Recents
-          </Text>
+          {chats.length > 0 && (
+            <Text weight='bold' emphasis='high'>
+              Recents
+            </Text>
+          )}
           <Spacer spacing='small' />
           {chats?.map(renderChatCard)}
           {chats.length === 0 && !isLoading && (
@@ -247,6 +253,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         </>
       </Container>
       <Icon
+        showIndicator={showNewQuestionIndicator}
         variant='primary'
         icon='write'
         style={styles(theme).iconQuestion}

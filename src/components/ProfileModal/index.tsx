@@ -50,7 +50,7 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
                     {`${user.location?.cityName}, ${user.location?.country.code}`}
                   </Text>
                 </View>
-                <Spacer spacing='medium' />
+                <Spacer spacing='large' />
               </>
             )}
             {user.bio && (
@@ -76,7 +76,11 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
 
 const styles = (theme: Theme) =>
   StyleSheet.create({
-    container: { justifyContent: 'flex-end', paddingBottom: SPACING.extraLarge },
+    container: {
+      justifyContent: 'flex-end',
+      paddingBottom: SPACING.extraLarge,
+      flex: 0,
+    },
     upperContainer: {
       alignSelf: 'center',
       alignItems: 'center',

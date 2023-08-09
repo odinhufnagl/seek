@@ -12,12 +12,13 @@ export type IconProps = {
   size?: IconSize | number;
   style?: ViewStyle;
   onPress?: () => void;
+  showIndicator?: boolean;
 };
 
 type IconViewProps = { fill: string; size: { width: any; height: any } };
 const Icon: React.FC<IconProps> = (props) => {
   const { theme } = useTheme();
-  const { icon, fill, size, style, variant, onPress } = props;
+  const { icon, fill, size, style, variant, onPress, showIndicator } = props;
 
   const getViewStyle = (): ViewStyle => {
     switch (variant) {
@@ -85,10 +86,12 @@ const Icon: React.FC<IconProps> = (props) => {
         style={[styles(theme).defaultStyle, getViewStyle(), style]}
       >
         <IconView fill={getIconColor()} size={getIconSize()} />
+        {showIndicator && <View style={styles(theme).indicator} />}
       </TouchableOpacity>
     ) : (
       <View style={[styles(theme).defaultStyle, getViewStyle(), style]}>
         <IconView fill={getIconColor()} size={getIconSize()} />
+        {showIndicator && <View style={styles(theme).indicator} />}
       </View>
     )
   ) : (
@@ -115,6 +118,15 @@ const styles = (theme: Theme) =>
       width: 45,
     },
     thirdButton: { borderRadius: 0, width: 'auto', height: 'auto' },
+    indicator: {
+      width: 18,
+      height: 18,
+      backgroundColor: theme.indicator,
+      borderRadius: DIMENS.common.borderRadiusRound,
+      position: 'absolute',
+      top: 0,
+      right: 0,
+    },
   });
 
 export default Icon;

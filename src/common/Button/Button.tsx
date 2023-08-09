@@ -123,7 +123,11 @@ const Button: React.FC<ButtonProps> = ({
           <View style={styles(theme).contentContainer}>
             {leftIcon && (
               <>
-                <Icon variant='third' {...leftIcon} />
+                <Icon
+                  variant='third'
+                  fill={disabled ? theme.base.low : theme.base.high}
+                  {...leftIcon}
+                />
                 <Spacer orientation='horizontal' spacing='large' />
               </>
             )}
@@ -133,7 +137,11 @@ const Button: React.FC<ButtonProps> = ({
             {rightIcon && (
               <>
                 <Spacer orientation='horizontal' spacing='large' />
-                <Icon variant='third' {...rightIcon} />
+                <Icon
+                  variant='third'
+                  fill={disabled ? theme.base.low : theme.base.high}
+                  {...rightIcon}
+                />
               </>
             )}
           </View>
