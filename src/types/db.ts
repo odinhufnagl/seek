@@ -5,6 +5,7 @@ type DBWhere<T> = {
   [K in keyof T]?: { unaryOperator?: string; value: T[K] };
 };
 
+// TODO: these are not db, they are for services. Stupid
 export type ChatWhere = ChatModel;
 export type AnswerWhere = AnswerModel;
 export type MessageWhere = MessageModel;
