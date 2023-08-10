@@ -22,7 +22,7 @@ const QuestionScreen = ({ navigation }: Props) => {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
   const [areaMode, setAreaMode] = useState<AreaMode>('global');
-  const { data: question, isLoading } = useFetchNewQuestion(currentUser?.id);
+  const { data: question, isLoading, refetch } = useFetchNewQuestion(currentUser?.id);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const [answerText, setAnswerText] = useState('');

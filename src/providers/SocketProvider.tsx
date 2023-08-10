@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 
+import BackgroundTimer from 'react-native-background-timer';
 import endpoints from '../constants/endpoints';
 import { getSocket } from '../services/socket';
 import {
@@ -39,6 +40,8 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   const [socketIsConnected, setSocketIsConnected] = useState(false);
   const url = () => endpoints.seekApi.socket(token);
   const [socket, setSocket] = useState(() => getSocket(url()));
+  const backgroundClosedTimeoutRef = useRef<NodeJS.Timeout>();
+
   const [messageHandlers, setMessageHandlers] = useState<MessageHandlerState[]>([]);
   const messageHandlersRef = useRef<MessageHandlerState[]>([]);
   useEffect(() => {
@@ -68,14 +71,19 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   };
 
   // Handle change in state on app
-
+  // TODO: the backgroundtimer right now only works for ANDROID i think
   const handleAppInBackground = () => {
-    setTimeout(() => {
+    backgroundClosedTimeoutRef.current = BackgroundTimer.setTimeout(() => {
       socket.close();
     }, SOCKET_BACKGROUND_UNTIL_CLOSED);
+    BackgroundTimer.start();
   };
   const handleAppIsActive = () => {
-    connectToSocket();
+    BackgroundTimer.stop();
+    BackgroundTimer.clearTimeout(backgroundClosedTimeoutRef.current);
+    if (!socketIsConnected) {
+      connectToSocket();
+    }
   };
   const handleAppStateChange = (state: AppStateStatus) => {
     if (state === 'background') {
@@ -118,6 +126,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     };
 
     socket.onclose = (e) => {
+      console.log('socket closing');
       setSocketIsConnected(false);
       cleanupSocket();
       setTimeout(() => {
@@ -131,7 +140,8 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     socket.onerror = null;
     socket.onmessage = null;
   };
-
+  // TODO: I think if you enter the app via a notification, then put it in background, and then enter the app again, it will be seen as i you opened the app with the notificiation again
+  // because it will rerender and initialNotification is still same
   if (!socketIsConnected) {
     return <></>;
   }
