@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
 import {
   DBOptions,
+  FileInfo,
   Response,
   ResponseAuth,
   ResponseDBGetPlural,
@@ -20,6 +21,7 @@ type HttpConfig = AxiosRequestConfig<any>;
 export class ApiClient {
   private instance: () => Promise<AxiosInstance>;
   constructor() {
+    // TODO: should be able to add to headers, like overrite content-type
     this.instance = async () => {
       const token = await storageGet(LOCAL_STORAGE.keys.userToken);
       return axios.create({
@@ -41,6 +43,7 @@ export class ApiClient {
     params?: Record<string, any>,
   ): Promise<Response> => {
     try {
+      // TODO: WHERE IS DATA?? RIGHT NOW CONFIG IS USED LIKE DATA OR SOMETHING LIKE THAT. look through this
       const res = await (
         await this.instance()
       )[method](url, {
@@ -111,7 +114,7 @@ export class ApiClient {
 
   dbGetOne = async <T>(
     model: DBModelName,
-    id: string | number,
+    id?: string | number,
     dbOptions?: DBOptions<T>,
   ): Promise<Response> =>
     await this.fetch(
@@ -164,6 +167,20 @@ export class ApiClient {
     await this.fetch('get', ENDPOINTS.seekApi.database.getNewChat(String(userId)));
   newChatSeen = async (userId: number, chatId: number): Promise<Response> =>
     await this.fetch('post', ENDPOINTS.seekApi.functions.newChatSeen(), { userId, chatId });
+  fileUpload = async (file: FileInfo): Promise<Response> => {
+    const formData = new FormData();
+
+    // Replace 'file' with the key you want to use on the server to access the file
+    formData.append('file', file);
+    console.log('formData', formData);
+    console.log('file', file);
+    const res = await axios.post(ENDPOINTS.seekApi.functions.fileUpload(), formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    console.log('res', res);
+    return res;
+  };
   search = async ({
     searchQuery,
     userId,

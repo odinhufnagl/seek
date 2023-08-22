@@ -3,12 +3,14 @@ import { NetworkError } from '../classes';
 import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
 import {
   authenticateUser,
+  fetchUser,
   removeUsersNotificationTokens,
   signInUser,
   signUpUser,
 } from '../services';
 
 import { Text } from '../common';
+import { WelcomeView } from '../components';
 import { SigninUserModel, SignupUserModel, UserModel } from '../types';
 import { storageGet, storageRemove, storageSet } from '../utils';
 
@@ -18,6 +20,7 @@ interface ContextValues {
   signUp: (body: SignUpBody) => Promise<boolean>;
   token: string | null;
   logOut: () => void;
+  refetchCurrentUser: () => void;
 }
 
 const AuthContext = React.createContext<ContextValues>({
@@ -26,6 +29,7 @@ const AuthContext = React.createContext<ContextValues>({
   signUp: async () => false,
   logOut: () => false,
   token: null,
+  refetchCurrentUser: async () => false,
 });
 
 export const useAuth = () => {
@@ -108,6 +112,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const getUserToken = async () => {
     return await storageGet(LOCAL_STORAGE.keys.userToken);
   };
+  const refetchCurrentUser = async () => {
+    const newUser = await fetchUser(currentUser?.id);
+    setCurrentUser(newUser);
+  };
 
   useEffect(() => {
     (async () => {
@@ -122,6 +130,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     signUp,
     logOut,
     token,
+    refetchCurrentUser,
   };
 
   if (networkError) {
@@ -134,7 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   if (loading) {
     return (
       <>
-        <Text>Loading..</Text>
+        <WelcomeView />
       </>
     );
   }

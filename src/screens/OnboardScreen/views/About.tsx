@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Container, Input, Text } from '../../../common';
 import { translate } from '../../../i18n';
 import Spacer from './../../../common/Spacer/Spacer';
@@ -8,39 +8,49 @@ const About = ({
   about,
   updateAbout,
   maxLength = 0,
+  onSubmit,
   ...props
 }: {
   about: string;
   updateAbout: Dispatch<string>;
   maxLength?: number;
+  onSubmit?: () => void;
 }) => {
   const translateKey = 'onboardAbout.';
   return (
     <Container style={styles.center} {...props}>
-      <View>
-        <Text type='header' weight='bold'>
+      <>
+        <Spacer spacing={100} />
+        <Text type='header' weight='bold' style={{ textAlign: 'center' }}>
           {translate(translateKey + 'header')}
         </Text>
-        <Text emphasis='medium' type='body' weight='medium'>
+        <Spacer spacing='small' />
+        <Text
+          emphasis='medium'
+          type='body'
+          weight='regular'
+          style={{ textAlign: 'center', width: '60%' }}
+        >
           {translate(translateKey + 'subTitle')}
         </Text>
-        <Spacer />
+        <Spacer spacing='extraLarge' />
         <Input
-          placeholder={translate(translateKey + 'header')}
           value={about}
           updateValue={updateAbout}
-          multiline={true}
-          {...(maxLength ? { maxLength } : {})}
-          showLength={Boolean(maxLength)}
+          multiline
+          autoFocus
+          variant='third'
+          // {...(maxLength ? { maxLength } : {})}
+          //  showLength={Boolean(maxLength)}
         />
-      </View>
+      </>
     </Container>
   );
 };
 
 const styles = StyleSheet.create({
   center: {
-    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

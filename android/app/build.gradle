@@ -253,6 +253,7 @@ android {
 
 dependencies {
     implementation project(':react-native-background-timer')
+    implementation project(':react-native-fetch-blob')  
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-config')
 

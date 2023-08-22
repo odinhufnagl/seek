@@ -1,5 +1,5 @@
-import React, { Dispatch } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { Dispatch, useRef } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { Container, Input, Spacer, Text } from '../../../common';
 import { translate } from '../../../i18n';
 
@@ -11,6 +11,7 @@ const Register = ({
   confirmedPassword,
   updateConfirmedPassword,
   maxLength,
+  onSubmit,
   ...props
 }: {
   email: string;
@@ -20,7 +21,10 @@ const Register = ({
   confirmedPassword: string;
   updateConfirmedPassword: Dispatch<string>;
   maxLength?: number;
+  onSubmit?: () => void;
 }) => {
+  const inputRef2 = useRef<TextInput>(null);
+  const inputRef3 = useRef<TextInput>(null);
   const translateKey = 'onboardRegister.';
   return (
     <Container style={styles.center} {...props}>
@@ -28,29 +32,42 @@ const Register = ({
         <Text type='header' weight='bold'>
           {translate(translateKey + 'header')}
         </Text>
-        <Text emphasis='medium' type='body' weight='medium'>
+        <Spacer spacing='small' />
+        <Text emphasis='medium' type='body' weight='regular'>
           {translate(translateKey + 'subTitle')}
         </Text>
-        <Spacer />
+        <Spacer spacing='extraLarge' />
         <Input
-          placeholder={translate(translateKey + 'email')}
+          autoCapitalize='none'
+          autoFocus
+          variant='third'
+          placeholder={translate(translateKey + 'emailPlaceholder')}
           value={email}
-          updateValue={updateEmail}
+          updateValue={(val) => updateEmail(val.trim())}
           {...(maxLength !== undefined ? { maxLength } : {})}
           showLength={Boolean(maxLength)}
+          onSubmitEditing={() => inputRef2.current?.focus()}
         />
         <Spacer />
         <Input
-          placeholder={translate(translateKey + 'password')}
+          inputRef={inputRef2}
+          variant='third'
+          placeholder={translate(translateKey + 'passwordPlaceholder')}
           value={password}
           updateValue={updatePassword}
           {...(maxLength !== undefined ? { maxLength } : {})}
           showLength={Boolean(maxLength)}
           secureTextEntry={true}
+          onSubmitEditing={() => inputRef3.current?.focus()}
+          autoCapitalize='none'
         />
         <Spacer />
         <Input
-          placeholder={translate(translateKey + 'confirmPassword')}
+          autoCapitalize='none'
+          inputRef={inputRef3}
+          onSubmitEditing={onSubmit}
+          variant='third'
+          placeholder={translate(translateKey + 'confirmPasswordPlaceholder')}
           value={confirmedPassword}
           updateValue={updateConfirmedPassword}
           {...(maxLength !== undefined ? { maxLength } : {})}
@@ -65,7 +82,6 @@ const Register = ({
 const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',
-    overflow: 'visible',
   },
 });
 export default Register;

@@ -39,7 +39,7 @@ const styles = (theme: Theme) =>
     input: {
       flex: 1,
 
-      height: 50,
+      height: 44,
     },
   });
 

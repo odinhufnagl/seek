@@ -9,9 +9,9 @@ const darkTheme: Theme = {
   success: '#52c41a',
   error: '#DD4951',
   background: {
-    primary: '#1F1F1F',
-    secondary: '#343434',
-    third: '#262626',
+    primary: '#121212',
+    secondary: '#202020',
+    third: '#1B1B1B',
   },
   glass: 'rgba(237, 237, 237, 0.5)',
   indicator: '#DD4951',
