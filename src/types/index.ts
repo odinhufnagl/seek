@@ -3,6 +3,7 @@ export * from './apiResponse';
 export * from './auth';
 export * from './db';
 export * from './dbModels';
+export * from './file';
 export * from './hooks';
 export * from './icons';
 export * from './maps';

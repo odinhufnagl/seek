@@ -16,6 +16,7 @@ import java.util.List;
 import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;  
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativeFirebaseMessagingPackage();
           new ReactNativeConfigPackage();
           new BackgroundTimerPackage();
+          new RNFetchBlobPackage();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;

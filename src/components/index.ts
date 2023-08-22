@@ -8,6 +8,7 @@ import Header from './Header';
 import List from './List';
 import ModalList from './ModalList';
 import ProfileModal from './ProfileModal';
+import WelcomeView from './WelcomeView';
 import WriteMessage from './WriteMessage';
 
 export {
@@ -21,5 +22,6 @@ export {
   List,
   ModalList,
   ProfileModal,
+  WelcomeView,
   WriteMessage,
 };

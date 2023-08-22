@@ -46,7 +46,7 @@ const NewConnectionScreen = ({ navigation }: Props) => {
           leftItems={[
             <Icon
               icon='back'
-              size={20}
+              size={80}
               variant='third'
               key='back'
               onPress={() => navigation.goBack()}
@@ -91,13 +91,13 @@ const styles = (theme: Theme) =>
       width: 115,
       height: 115,
       borderRadius: DIMENS.common.borderRadiusRound,
-      borderWidth: 4,
+      borderWidth: 0,
       borderColor: theme.white,
     },
     emojiContainer: {
       height: 50,
       width: 50,
-      backgroundColor: theme.white,
+      backgroundColor: theme.background.secondary,
       borderRadius: DIMENS.common.borderRadiusRound,
       alignItems: 'center',
       justifyContent: 'center',

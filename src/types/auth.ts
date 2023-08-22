@@ -1,4 +1,4 @@
-import {UserModel} from './dbModels';
+import { UserModel } from './dbModels';
 
 export interface UserAccessToken {
   token: string;

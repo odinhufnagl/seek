@@ -10,4 +10,5 @@ export default {
   DIARY_ENTRY_CHAT_SCREEN: 'DiaryEntryChatScreen',
   SEARCH_SCREEN: 'SearchScreen',
   NEW_CONNECTION_SCREEN: 'NewConnectionScreen',
+  EDIT_PROFILE_SCREEN: 'EditProfileScreen',
 } as const;

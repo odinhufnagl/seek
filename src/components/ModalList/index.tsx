@@ -1,8 +1,8 @@
 import React, { Dispatch } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { Button, Container, Icon, Modal, Spacer, Text } from '../../common';
+import { StyleSheet } from 'react-native';
+import { Container, Modal, Spacer } from '../../common';
 import { ButtonProps } from '../../common/Button/Button';
-import { DIMENS, SPACING } from '../../constants';
+import { SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
 import { IconSize, IconVariant, Theme } from '../../types';
 import List from '../List';
@@ -23,7 +23,7 @@ type ModalListProps = {
 type ModalListItemProps = {
   title: string;
   icon: IconVariant;
-  iconSize: IconSize;
+  iconSize?: IconSize;
   onPress?: () => void;
 };
 
@@ -53,39 +53,6 @@ const ModalList = ({
     <Modal visible={visible} setVisible={setVisible}>
       <Container style={styles(theme).container}>
         <>
-          <View style={styles(theme).upperContainer}>
-            {image && <Image style={styles(theme).image} source={{ uri: image }} />}
-            <Spacer />
-            {header && <Text weight='bold'>{header}</Text>}
-
-            {subHeader && (
-              <>
-                <View style={styles(theme).subHeaderContainer}>
-                  {subHeaderIcon && (
-                    <>
-                      <Icon icon={subHeaderIcon} fill={theme.base.low} variant='third' size={13} />
-                      <Spacer spacing='tiny' orientation='horizontal' />
-                    </>
-                  )}
-                  <Text type='small' emphasis='medium'>
-                    {subHeader}
-                  </Text>
-                </View>
-                <Spacer spacing='medium' />
-              </>
-            )}
-            {body && (
-              <Text type='caption' emphasis='primary'>
-                {body}
-              </Text>
-            )}
-          </View>
-          {button && (
-            <>
-              <Spacer spacing='large' />
-              <Button {...button} />
-            </>
-          )}
           <Spacer spacing='large' />
           <List items={items} />
           <Spacer spacing='small' />
@@ -97,21 +64,7 @@ const ModalList = ({
 
 const styles = (theme: Theme) =>
   StyleSheet.create({
-    container: { justifyContent: 'flex-end', paddingBottom: SPACING.extraLarge },
-    upperContainer: {
-      alignSelf: 'center',
-      alignItems: 'center',
-    },
-    subHeaderContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    image: {
-      width: 110,
-      height: 110,
-      borderRadius: DIMENS.common.borderRadiusRound,
-    },
+    container: { justifyContent: 'flex-end', paddingBottom: SPACING.extraLarge, flex: 0 },
   });
 
 export default ModalList;

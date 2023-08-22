@@ -19,7 +19,7 @@ type Params = {
 const ProfileScreen = ({ navigation }: Props) => {
   const { params } = useRoute();
   const { id: userId } = params as Params;
-  const { data: user, isLoading } = useFetchUser(userId);
+  const { data: user, isLoading, refetch } = useFetchUser(userId);
   const { data } = useFetchUsersAnswers(userId);
   const answers = data?.rows;
   const { theme } = useTheme();
@@ -27,6 +27,7 @@ const ProfileScreen = ({ navigation }: Props) => {
   useEffect(() => {
     console.log('answers', markedDates);
   }, [answers]);
+
   const markedDates =
     answers?.reduce((acc: Date[], item) => {
       item.createdAt && acc.push(new Date(item.createdAt));
@@ -44,6 +45,10 @@ const ProfileScreen = ({ navigation }: Props) => {
     navigation.navigate(SCREENS.DIARY_ENTRY_SCREEN, { answerId: answer.id });
   };
 
+  const handleEditProfilePress = () => {
+    navigation.navigate(SCREENS.EDIT_PROFILE_SCREEN, { refetch });
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -59,7 +64,15 @@ const ProfileScreen = ({ navigation }: Props) => {
             onPress={() => navigation.goBack()}
           />,
         ]}
-        rightItems={[<Icon icon='dots' key='dots' variant='third' size={25} />]}
+        rightItems={[
+          <Icon
+            icon='write'
+            key='edit'
+            variant='third'
+            size={24}
+            onPress={handleEditProfilePress}
+          />,
+        ]}
       />
       <Spacer />
       <Container>
