@@ -1,6 +1,6 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Container, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
@@ -42,7 +42,9 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const { currentUser } = useAuth();
   const route = useRoute();
   const { addSocketMessageHandler, removeSocketMessageHandler, socket } = useSocket();
-  const { data, refetch, isLoading } = useFetchUsersChats(currentUser?.id);
+  const { data, refetch, isLoading, fetchNextPage, hasNextPage } = useFetchUsersChats(
+    currentUser?.id,
+  );
   const { data: newQuestion } = useFetchNewQuestion(currentUser?.id);
   const [chats, setChats] = useState<Chat[]>([]);
   const [showNewQuestionIndicator, setShowNewQuestionIndicator] = useState(false);
@@ -99,28 +101,29 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   useEffect(() => {
-    console.log('newChat', data, data?.length);
     const newChats: Chat[] = [];
-    data?.forEach((c) => {
-      const otherUser = c.users?.find((u) => u.id !== currentUser?.id);
-      if (!otherUser || !c.lastMessage) {
-        return;
-      }
-      newChats.push({
-        lastMessage: c.lastMessage,
-        otherUser: {
-          lastActive: new Date(otherUser.lastActive),
-          id: otherUser.id,
-          profileImage: otherUser.profileImage?.url || '',
-          userName: otherUser.name,
-          isActive: otherUser.isActive,
-          isTyping: false,
-        },
-        unreadMessagesCount: Number(c.unreadMessagesCount) || 0,
-        chatId: Number(c.id),
-        otherUserId: otherUser.id,
+    data?.pages
+      .flatMap((page) => page?.rows)
+      .forEach((c) => {
+        const otherUser = c.users?.find((u) => u.id !== currentUser?.id);
+        if (!otherUser || !c.lastMessage) {
+          return;
+        }
+        newChats.push({
+          lastMessage: c.lastMessage,
+          otherUser: {
+            lastActive: new Date(otherUser.lastActive),
+            id: otherUser.id,
+            profileImage: otherUser.profileImage?.url || '',
+            userName: otherUser.name,
+            isActive: otherUser.isActive,
+            isTyping: false,
+          },
+          unreadMessagesCount: Number(c.unreadMessagesCount) || 0,
+          chatId: Number(c.id),
+          otherUserId: otherUser.id,
+        });
       });
-    });
     console.log('newChats', newChats, newChats.length);
     setChats(newChats);
   }, [data]);
@@ -175,7 +178,13 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     navigateToChat(chatId);
   };
 
-  const renderChatCard = ({ chatId, lastMessage, otherUser, unreadMessagesCount }: Chat) => {
+  const renderChatCard = ({
+    item: { chatId, lastMessage, otherUser, unreadMessagesCount },
+    index,
+  }: {
+    item: Chat;
+    index: number;
+  }) => {
     return (
       <>
         <ChatCard
@@ -235,6 +244,15 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         headerTitleProps={{ type: 'header', weight: 'bold', emphasis: 'high' }}
         headerLeft
       />
+      {chats.length === 0 && !isLoading && (
+        <View style={styles(theme).noChatsContainer}>
+          <Text weight='bold'>No chats yet</Text>
+          <Spacer spacing='tiny' />
+          <Text type='small' style={{ width: '40%', textAlign: 'center' }}>
+            You will be notified when there is a new chat available
+          </Text>
+        </View>
+      )}
       <Container>
         <>
           <Spacer spacing={40} />
@@ -244,11 +262,15 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
             </Text>
           )}
           <Spacer spacing='small' />
-          {chats?.map(renderChatCard)}
-          {chats.length === 0 && !isLoading && (
-            <View style={styles(theme).noChatsContainer}>
-              <Text>No chats yet</Text>
-            </View>
+
+          {chats.length > 0 && !isLoading && (
+            <FlatList
+              data={chats}
+              renderItem={renderChatCard}
+              onEndReached={() => {
+                hasNextPage && fetchNextPage();
+              }}
+            />
           )}
         </>
       </Container>
@@ -287,6 +309,10 @@ const styles = (theme: Theme) =>
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: -100,
     },
   });
 

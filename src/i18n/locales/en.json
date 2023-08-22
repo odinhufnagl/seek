@@ -3,7 +3,7 @@
     "appName": "Youthjob"
   },
   "welcomeScreen": {
-    "subHeader": "Connect. Scan. Capture",
+    "subHeader": "Make meaningful connections",
     "signUpButton": "Sign up",
     "logInButton": "Log in"
   },
@@ -33,5 +33,33 @@
   "relativeDate": {
     "today": "Today",
     "yesterday": "Yesterday"
+  },
+  "onboardAbout": {
+    "header": "Add a bio",
+    "subTitle": "This field is optional but it is always fun to add"
+  },
+  "onboardName": {
+    "header": "What is your name?",
+    "subTitle": "This is how other people will see you"
+  },
+  "onboardRegister": {
+    "header": "Register",
+    "subTitle": "We need these credentials to log you in",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password"
+  },
+  "loginScreen": {
+    "title": "Log in",
+    "subTitle": "Let's get back to it!",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password"
+  },
+  "button": {
+    "next": "Next",
+    "back": "Back"
+  },
+  "snackbar": {
+    "defaultError": "Something went wrong"
   }
 }

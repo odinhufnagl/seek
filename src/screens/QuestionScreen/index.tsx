@@ -62,11 +62,26 @@ const QuestionScreen = ({ navigation }: Props) => {
   }
   if (!question) {
     return (
-      <View style={styles(theme).noQuestionContainer}>
-        <Text style={styles(theme).noQuestionText}>
-          No question available right now. You will be notified!
-        </Text>
-      </View>
+      <>
+        <Header
+          leftItems={[
+            <Icon
+              variant='third'
+              icon='chevronDown'
+              size={18}
+              onPress={() => navigation.goBack()}
+              key='back'
+            />,
+          ]}
+        />
+        <View style={styles(theme).noQuestionContainer}>
+          <Text weight='bold'>No question available</Text>
+          <Spacer spacing='small' />
+          <Text type='small' emphasis='medium' weight='regular'>
+            You will be notified!
+          </Text>
+        </View>
+      </>
     );
   }
   return (
@@ -76,7 +91,7 @@ const QuestionScreen = ({ navigation }: Props) => {
         leftItems={[
           <Icon
             variant='third'
-            icon='back'
+            icon='chevronDown'
             size={18}
             onPress={() => navigation.goBack()}
             key='back'
@@ -195,6 +210,10 @@ const styles = (theme: Theme) =>
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: -100,
     },
     noQuestionText: {
       width: '80%',
