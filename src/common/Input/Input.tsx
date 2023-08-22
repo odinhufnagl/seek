@@ -18,7 +18,7 @@ interface Props extends TextInputProps {
   style?: ViewStyle | ViewStyle[];
   secureTextEntry?: boolean;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  variant?: 'primary' | 'secondary' | 'third';
+  variant?: 'primary' | 'secondary' | 'third' | 'fourth';
   rightIcon?: IconProps;
   inputRef?: MutableRefObject<TextInput | null>;
 }
@@ -49,6 +49,8 @@ const Input: React.FC<Props> = ({
         return styles(theme).secondaryInput;
       case 'third':
         return styles(theme).thirdInput;
+      case 'fourth':
+        return styles(theme).fourthInput;
       default:
         break;
     }
@@ -61,6 +63,8 @@ const Input: React.FC<Props> = ({
         return styles(theme).secondaryContainer;
       case 'third':
         return styles(theme).thirdContainer;
+      case 'fourth':
+        return styles(theme).fourthContainer;
       default:
         break;
     }
@@ -68,7 +72,7 @@ const Input: React.FC<Props> = ({
   return (
     <>
       {title && (
-        <Text style={{ color: theme.base.high }} type='small' weight='semiBold'>
+        <Text emphasis='primary' type='small' weight='semiBold'>
           {title}
         </Text>
       )}
@@ -76,7 +80,7 @@ const Input: React.FC<Props> = ({
         style={[
           styles(theme).defaultContainer,
           getContainerStyle(),
-          multiline && { height: 130 },
+          multiline && { height: 130, paddingTop: 10 },
           style,
         ]}
       >
@@ -121,7 +125,7 @@ const styles = (theme: Theme) =>
     },
     primaryContainer: {
       height: 40,
-      borderRadius: DIMENS.common.borderRadiusRound,
+      borderRadius: 20,
       backgroundColor: theme.background.third,
     },
     secondaryContainer: {
@@ -131,6 +135,11 @@ const styles = (theme: Theme) =>
     thirdContainer: {
       height: 60,
       backgroundColor: 'transparent',
+    },
+    fourthContainer: {
+      height: 50,
+      backgroundColor: theme.background.third,
+      borderRadius: DIMENS.common.borderRadiusMedium,
     },
     primaryInput: {
       paddingLeft: SPACING.medium,
@@ -158,6 +167,17 @@ const styles = (theme: Theme) =>
       fontFamily: FONT_FAMILY.medium,
       fontSize: FONT_SIZE.SUBHEADER,
       textAlign: 'left',
+    },
+    fourthInput: {
+      paddingLeft: SPACING.medium,
+      height: '100%',
+      flex: 1,
+      textAlign: 'left',
+      color: theme.base.high,
+      fontFamily: FONT_FAMILY.medium,
+      fontSize: FONT_SIZE.BODY,
+      paddingTop: 0,
+      paddingBottom: 0,
     },
     bottomContainer: {
       width: '100%',

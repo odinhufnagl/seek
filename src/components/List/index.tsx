@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { Icon, Spacer, Text } from '../../common';
 import { useTheme } from '../../hooks';
 import { IconSize, IconVariant, Theme } from '../../types';
@@ -12,22 +12,24 @@ type ListProps = {
 type ListItemProps = {
   title: string;
   icon: IconVariant;
-  iconSize: IconSize;
+  iconSize?: IconSize;
   onPress?: () => void;
 };
 
-const ListItem = ({ title, icon, iconSize }: ListItemProps) => {
+const ListItem = ({ title, icon, iconSize, onPress }: ListItemProps) => {
   const { theme } = useTheme();
   return (
-    <View style={itemStyles(theme).container}>
-      <View style={itemStyles(theme).iconContainer}>
-        <Icon icon={icon} variant='third' size={iconSize} fill={theme.base.low} />
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={itemStyles(theme).container}>
+        <View style={itemStyles(theme).iconContainer}>
+          <Icon icon={icon} variant='third' size={iconSize} fill={theme.base.low} />
+        </View>
+        <Spacer spacing='large' orientation='horizontal' />
+        <Text type='body' weight='semiBold' emphasis='high'>
+          {title}
+        </Text>
       </View>
-      <Spacer spacing='large' orientation='horizontal' />
-      <Text type='body' weight='semiBold' emphasis='primary'>
-        {title}
-      </Text>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

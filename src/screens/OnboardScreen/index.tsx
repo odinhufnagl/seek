@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
-import { Button } from '../../common';
-import Logo from '../../common/Logo/Logo';
-import { SPACING, USER } from '../../constants';
+import { Button, Icon } from '../../common';
+import { Header } from '../../components';
+import { DEFAULT_IMAGES, SPACING, USER } from '../../constants';
 import { translate } from '../../i18n';
-import { ScreenProps } from '../../types';
+import { useAuth } from '../../providers/AuthProvider';
+import { uploadFile } from '../../services/uploadFile';
+import { FileInfo, ScreenProps } from '../../types';
+import { extractFileTypeFromFilename, getGeoLocation, showSnackbar } from '../../utils';
 import About from './views/About';
 import Name from './views/Name';
+import ProfileImage from './views/ProfileImage';
 import Register from './views/Register';
 
 // FIX: when clicking on an input the entire register
@@ -16,6 +20,7 @@ import Register from './views/Register';
 // api and validation steps still need to be filled int
 const OnboardScreen = ({ navigation }: ScreenProps) => {
   const btnTranslateKey = 'button.';
+  const { signUp } = useAuth();
   const flatListRef = useRef<FlatList>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [email, setEmail] = useState('');
@@ -24,17 +29,78 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
   const [loading, setLoading] = useState(false);
+  const [profileImagePath, setProfileImagePath] = useState<string>(
+    DEFAULT_IMAGES.profileImage(name),
+  );
+  const [profileImageIsDefault, setProfileImageIsDefault] = useState(true);
+
+  const previousPage = () => {
+    loading && setLoading(false);
+    currentPage === 0 ? navigation.goBack() : setCurrentPage(Math.max(currentPage - 1, 0));
+  };
+  const nextPage = () => setCurrentPage(Math.min(currentPage + 1, pages.length - 1));
+  const lastPage = () => pages.length - 1;
+
+  const handleNext = () => {
+    console.log('handleNext', canContinue());
+    if (!canContinue()) {
+      return;
+    }
+    if (currentPage == lastPage()) {
+      handleRegister();
+      return;
+    }
+    nextPage();
+  };
+  const canContinue = () => pages[currentPage].required.reduceRight((a, b) => a && b, true);
+
+  const handleRemoveProfileImage = () => {
+    console.log('hello world');
+    setProfileImageIsDefault(true);
+    setProfileImagePath(DEFAULT_IMAGES.profileImage(name));
+  };
+  const handleUpdateProfileImage = (img) => {
+    setProfileImageIsDefault(false);
+    setProfileImagePath(img);
+  };
+
+  useEffect(() => {
+    if (profileImageIsDefault) {
+      setProfileImagePath(DEFAULT_IMAGES.profileImage(name));
+    }
+  }, [name]);
 
   const pages = [
     {
       key: 'name',
       required: [name.length > 0],
-      component: <Name name={name} updateName={setName} />,
+      component: <Name name={name} updateName={setName} onSubmit={handleNext} />,
+    },
+    {
+      key: 'profileImage',
+      required: [],
+      component: (
+        <ProfileImage
+          profileImage={profileImagePath}
+          onUpdateProfileImage={handleUpdateProfileImage}
+          onRemoveProfileImage={handleRemoveProfileImage}
+
+          /*  isLocalImage={profileImageIsLocal}
+          setIsLocalImage={setProfileImageIsLocal}*/
+        />
+      ),
     },
     {
       key: 'about',
       required: [],
-      component: <About maxLength={USER.ABOUT_LENGTH} about={about} updateAbout={setAbout} />,
+      component: (
+        <About
+          maxLength={USER.ABOUT_LENGTH}
+          about={about}
+          updateAbout={setAbout}
+          onSubmit={handleNext}
+        />
+      ),
     },
     {
       key: 'register',
@@ -52,6 +118,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
           updatePassword={setPassword}
           confirmedPassword={confirmedPassword}
           updateConfirmedPassword={setConfirmedPassword}
+          onSubmit={handleNext}
         />
       ),
     },
@@ -59,27 +126,43 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
 
   const handleRegister = async () => {
     setLoading(true);
-    const bruh = await new Promise((r) => setTimeout(r, 2000));
-    // const {data} = await signUpUser({email, password})
-    // handle storage of authkey optained from data
-    setLoading(false);
-    // nextPage();
-    // Finnish onboarding
-  };
+    let profileImageUrl = profileImagePath;
+    console.log('pi', profileImagePath);
+    try {
+      if (!profileImageIsDefault) {
+        const fileInfo: FileInfo = {
+          name: profileImagePath.split('/').pop() || 'image.png',
+          uri: profileImagePath,
+          type: extractFileTypeFromFilename(profileImagePath),
+        };
 
-  const previousPage = () =>
-    currentPage === 0 ? navigation.goBack() : setCurrentPage(Math.max(currentPage - 1, 0));
-  const nextPage = () => setCurrentPage(Math.min(currentPage + 1, pages.length - 1));
-  const lastPage = () => pages.length - 1;
-
-  const handleNext = () => {
-    if (currentPage == lastPage()) {
-      handleRegister();
-      return;
+        console.log('f', fileInfo);
+        profileImageUrl = await uploadFile(fileInfo);
+      }
+      console.log('profileImageURL', profileImageUrl);
+      getGeoLocation(async (location) => {
+        console.log('location', location);
+        const user = await signUp({
+          name,
+          email,
+          password,
+          bio: about,
+          profileImage: { url: profileImageUrl },
+          location: {
+            coordinate: {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            },
+          },
+        });
+        setLoading(false);
+      });
+    } catch (e) {
+      console.log('e', e, e.message);
+      showSnackbar(translate('snackbar.defaultError'), 'error');
+      setLoading(false);
     }
-    nextPage();
   };
-  const canContinue = () => pages[currentPage].required.reduceRight((a, b) => a && b, true);
 
   useEffect(() => {
     flatListRef.current?.scrollToIndex({ index: currentPage, animated: true });
@@ -90,11 +173,23 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
     offset: Dimensions.get('window').width * index,
     index,
   });
+
   return (
     <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Logo />
-      </View>
+      <Header
+        leftItems={[
+          currentPage === 0 ? (
+            <Icon
+              icon='chevronDown'
+              onPress={() => navigation.goBack()}
+              size={18}
+              variant='third'
+            />
+          ) : (
+            <Icon icon='back' onPress={() => previousPage()} size={18} variant='third' />
+          ),
+        ]}
+      />
       <View style={styles.flatList}>
         <FlatList
           showsHorizontalScrollIndicator={false}
@@ -109,17 +204,9 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
       </View>
       <View style={styles.bottomBar}>
         <Button
-          onPress={previousPage}
-          title={translate(btnTranslateKey + 'back')}
-          size='large'
-          variant='third'
-        />
-
-        <Button
           loading={loading}
           onPress={handleNext}
           title={translate(btnTranslateKey + 'next')}
-          size='large'
           disabled={!canContinue()}
         />
       </View>

@@ -13,7 +13,12 @@ const Logo = ({
   const baseUrl = '../../../assets/images/logo/';
 
   return (
-    <Image style={[styles[size], style]} source={require(baseUrl + './logo.png')} {...props} />
+    <Image
+      style={[styles[size], style]}
+      source={require(baseUrl + './logo.png')}
+      resizeMode='cover'
+      {...props}
+    />
   );
 };
 

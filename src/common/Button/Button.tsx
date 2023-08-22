@@ -82,7 +82,7 @@ const Button: React.FC<ButtonProps> = ({
       case 'secondary':
         return 'body';
       case 'third':
-        return 'body';
+        return 'caption';
       case 'fourth':
         return 'caption';
       default:

@@ -2231,6 +2231,11 @@
     "prompts" "^2.4.0"
     "semver" "^6.3.0"
 
+"@react-native-community/geolocation@^3.0.6":
+  "integrity" "sha512-+iidKFgw1HxCJSHVnlywAKu6uerdpDAKTXLRnlsUdhgqtgTiIixb496Z267iPVFmIO1bp4lOU6UiwzmvcyXdbg=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/geolocation/-/geolocation-3.0.6.tgz"
+  "version" "3.0.6"
+
 "@react-native-firebase/analytics@16.4.3":
   "integrity" "sha512-N930rgrnP6jjiZouCY+YsRI62gm/I7NGRMRecbhSO60HgObrLfVfPhNY3Ugm0VRlNxHMTME9SRER0qL4eZK/3w=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/analytics/-/analytics-16.4.3.tgz"
@@ -3309,6 +3314,11 @@
   "integrity" "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="
   "resolved" "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
   "version" "1.0.2"
+
+"base-64@0.1.0":
+  "integrity" "sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA=="
+  "resolved" "https://registry.npmjs.org/base-64/-/base-64-0.1.0.tgz"
+  "version" "0.1.0"
 
 "base@^0.11.1":
   "integrity" "sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg=="
@@ -6151,6 +6161,18 @@
     "inherits" "2"
     "minimatch" "^5.0.1"
     "once" "^1.3.0"
+
+"glob@7.0.6":
+  "integrity" "sha512-f8c0rE8JiCxpa52kWPAOa3ZaYEnzofDzCQLCn3Vdk0Z5OVLq3BsRFJI4S4ykpeVW6QMGBUkMeUpoEgWnMTnw5Q=="
+  "resolved" "https://registry.npmjs.org/glob/-/glob-7.0.6.tgz"
+  "version" "7.0.6"
+  dependencies:
+    "fs.realpath" "^1.0.0"
+    "inflight" "^1.0.4"
+    "inherits" "2"
+    "minimatch" "^3.0.2"
+    "once" "^1.3.0"
+    "path-is-absolute" "^1.0.0"
 
 "glob@7.1.6":
   "integrity" "sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA=="
@@ -9042,10 +9064,20 @@
   dependencies:
     "mime-db" "1.52.0"
 
-"mime@^2.4.1", "mime@^2.4.4":
+"mime@^2.4.1":
   "integrity" "sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg=="
   "resolved" "https://registry.npmjs.org/mime/-/mime-2.6.0.tgz"
   "version" "2.6.0"
+
+"mime@^2.4.4":
+  "integrity" "sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg=="
+  "resolved" "https://registry.npmjs.org/mime/-/mime-2.6.0.tgz"
+  "version" "2.6.0"
+
+"mime@^3.0.0":
+  "integrity" "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A=="
+  "resolved" "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz"
+  "version" "3.0.0"
 
 "mime@1.6.0":
   "integrity" "sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg=="
@@ -10250,6 +10282,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
+"react-native-background-timer@^2.4.1":
+  "integrity" "sha512-TE4Kiy7jUyv+hugxDxitzu38sW1NqjCk4uE5IgU2WevLv7sZacaBc6PZKOShNRPGirLl1NWkaG3LDEkdb9Um5g=="
+  "resolved" "https://registry.npmjs.org/react-native-background-timer/-/react-native-background-timer-2.4.1.tgz"
+  "version" "2.4.1"
+
 "react-native-calendars@^1.1300.0":
   "integrity" "sha512-2p6nbNsKftC1dhkQroE4uIXuBcDfr7cxZkPzWqCOpEggg7U2etg2CUd3RR5lQKU224nytxIgODm0znSW6346VA=="
   "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1300.0.tgz"
@@ -10290,6 +10327,14 @@
   "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.6.tgz"
   "version" "5.4.6"
 
+"react-native-fetch-blob@^0.10.8":
+  "integrity" "sha512-+zE/VjBO9HTjqNXL1KgtgS3ZTH8CNuxg9rJDml+GsO1UbIe4EgdRiCy/sIV9X8lVYimKfep8iJsVMTsjJvQHmA=="
+  "resolved" "https://registry.npmjs.org/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz"
+  "version" "0.10.8"
+  dependencies:
+    "base-64" "0.1.0"
+    "glob" "7.0.6"
+
 "react-native-gesture-handler@^1.10.3", "react-native-gesture-handler@> 1.0.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz"
@@ -10305,6 +10350,11 @@
   "integrity" "sha512-1dVk9NwhoyKHCSxcrM6vY6cxmojeATsBobDicX0ZKr7DgUF2cBQRTKsimQFvzH8XhOVXyH8p4HyDSZNIFI8OlQ=="
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.19.tgz"
   "version" "0.71.19"
+
+"react-native-image-picker@^5.6.0":
+  "integrity" "sha512-QHHb0qw3VXDedllrfS6SjxNG1SubnjUjIR2OH1HVbjv/IRVa3v4fI1MHbQaSNXlGopT9kL9jcnh7tbcX1z74Vg=="
+  "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-5.6.0.tgz"
+  "version" "5.6.0"
 
 "react-native-linear-gradient@^2.7.3":
   "integrity" "sha512-iyJszlZ1Ech2c+2qV+isMvvJKyoctR9ashDkhJg1/cuSF0vQaeLV1FAYTT3qW9doxChJGxVAFfYoxotH0yi3Iw=="
@@ -10378,7 +10428,7 @@
     "yeoman-environment" "^1.5.3"
     "yeoman-generator" "^0.21.2"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", "react-native@^0.63.2", "react-native@> 0.50.0", "react-native@>= 0.30.0", "react-native@>=0.57.0", "react-native@>=0.60", "react-native@>=0.60.0", "react-native@>=0.63.3", "react-native@~0.41.0", "react-native@0.71.10":
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", "react-native@^0.63.2", "react-native@> 0.50.0", "react-native@>= 0.30.0", "react-native@>=0.47.0", "react-native@>=0.57.0", "react-native@>=0.60", "react-native@>=0.60.0", "react-native@>=0.63.3", "react-native@~0.41.0", "react-native@0.71.10":
   "integrity" "sha512-O+sWH9ln7euxhHdooVL8is2FiVc7CfAp2zsKgIRhbq/8lGbJr5ZyT6QkCQK0M8Sx1zNe9puebr+BE8uBFsartg=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.71.10.tgz"
   "version" "0.71.10"
