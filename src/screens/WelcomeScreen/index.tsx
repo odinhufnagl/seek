@@ -1,13 +1,19 @@
 import React from 'react';
 
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import {
+  ImageBackground,
+  Text as RNText,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import wallpaper from '../../../assets/images/wallpapers/peopleSittingOnWall.jpg';
 import { Button, Container, Logo, Spacer, Text } from '../../common';
+import { FONT_FAMILY } from '../../common/Text/Text';
 import { SCREENS } from '../../constants';
 import { useTheme } from '../../hooks';
 import { translate } from '../../i18n';
 import { NavigationProps, Theme } from '../../types';
-
 type Props = {
   navigation: NavigationProps;
 };
@@ -41,7 +47,24 @@ const WelcomeScreen = ({ navigation }: Props) => {
                 onPress={handleSignUpPressed}
               />
               <Spacer spacing='large' />
-              <Text onPress={handleLogInPressed}>{translate(translateKey + 'logInButton')}</Text>
+              <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREENS.LOGIN_SCREEN)}>
+                <RNText style={{ fontSize: 10, fontFamily: FONT_FAMILY.regular }}>
+                  {'Already have an account?  '}
+                  <TouchableWithoutFeedback
+                    onPress={() => navigation.navigate(SCREENS.LOGIN_SCREEN)}
+                  >
+                    <Text
+                      style={{
+                        color: theme.brand,
+                        fontSize: 10,
+                        textDecorationLine: 'underline',
+                      }}
+                    >
+                      Log in
+                    </Text>
+                  </TouchableWithoutFeedback>
+                </RNText>
+              </TouchableWithoutFeedback>
             </View>
           </>
         </Container>
