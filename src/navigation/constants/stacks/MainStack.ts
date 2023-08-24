@@ -5,10 +5,11 @@ import {
   NewConnectionScreen,
   QuestionScreen,
   SearchScreen,
-  SettingsScreen,
 } from '../../../screens';
+import PrivacyPolicyScreen from '../../../screens/PrivacyPolicyScreen/PrivacyPolicyScreen';
 import { Stack } from '../../../types';
 import ProfileNavigator from '../../navigators/ProfileNavigator';
+import SettingsNavigator from '../../navigators/SettingsNavigator';
 import {
   fadeDefaultOptions,
   slideHorizontallyDefaultOptions,
@@ -31,8 +32,13 @@ export const MainStack: Stack = [
   },
   { name: SCREENS.SEARCH_SCREEN, component: SearchScreen, options: fadeDefaultOptions },
   {
-    name: SCREENS.SETTINGS_SCREEN,
-    component: SettingsScreen,
+    name: NAVIGATOR_STACKS.SETTINGS_STACK,
+    component: SettingsNavigator,
+    options: slideHorizontallyDefaultOptions,
+  },
+  {
+    name: SCREENS.PRIVACY_POLICY_SCREEN,
+    component: PrivacyPolicyScreen,
     options: slideHorizontallyDefaultOptions,
   },
   {
