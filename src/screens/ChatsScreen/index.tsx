@@ -229,6 +229,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
               style={styles(theme).profileImage}
             />
           </TouchableOpacity>,
+          //   <Logo size='medium' />,
         ]}
         rightItems={[
           <Icon
