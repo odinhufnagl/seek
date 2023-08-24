@@ -5,8 +5,9 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Container, Icon, Modal, Spacer, Text } from '../../common';
 import { DIMENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
-import { blockUser, fetchUser, reportUser } from '../../services';
+import { fetchUser } from '../../services';
 import { Theme, UserModel } from '../../types';
+import { showSnackbar } from '../../utils';
 import List from '../List';
 
 type Props = {
@@ -63,8 +64,18 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
           <Spacer spacing='large' />
           <List
             items={[
-              { title: 'Block', icon: 'userRemove', iconSize: 27, onPress: blockUser },
-              { title: 'Report', icon: 'warning', iconSize: 28, onPress: reportUser },
+              {
+                title: 'Block',
+                icon: 'userRemove',
+                iconSize: 27,
+                onPress: () => showSnackbar('Blocking is being added by our developers'),
+              },
+              {
+                title: 'Report',
+                icon: 'warning',
+                iconSize: 28,
+                onPress: () => showSnackbar('Reporting is being added by our developers'),
+              },
             ]}
           />
           <Spacer spacing='small' />
