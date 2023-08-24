@@ -33,6 +33,7 @@ export const useSocket = () => useContext(SocketContext);
 
 const SOCKET_RECONNECT_TIMER = 100000;
 const SOCKET_BACKGROUND_UNTIL_CLOSED = 5000;
+const KEEP_ALIVE_TIMER = 20000;
 
 // TODO: this is not completely general, the endpoint is not general, and how the data looks is not general because we use socketmessageserverdata and type is socketmessageservertype
 export const SocketProvider = ({ children, token }: { children: JSX.Element; token: string }) => {
@@ -41,12 +42,24 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   const url = () => endpoints.seekApi.socket(token);
   const [socket, setSocket] = useState(() => getSocket(url()));
   const backgroundClosedTimeoutRef = useRef<NodeJS.Timeout>();
+  const keepAliveIntervalRef = useRef<NodeJS.Timeout>();
 
   const [messageHandlers, setMessageHandlers] = useState<MessageHandlerState[]>([]);
   const messageHandlersRef = useRef<MessageHandlerState[]>([]);
+
+  const keepAlive = (timeout = KEEP_ALIVE_TIMER) => {
+    if (socket.readyState === socket.OPEN) {
+      socket.send('');
+    }
+    keepAliveIntervalRef.current = setInterval(keepAlive, timeout);
+  };
   useEffect(() => {
     messageHandlersRef.current = messageHandlers;
   }, [messageHandlers]);
+  useEffect(() => {
+    keepAlive();
+    return () => clearInterval(keepAliveIntervalRef.current);
+  }, [socket]);
 
   const addSocketMessageHandler = <T extends SocketMessageServerData>(
     type: SocketMessageServerType,
@@ -74,6 +87,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   // TODO: the backgroundtimer right now only works for ANDROID i think
   const handleAppInBackground = () => {
     backgroundClosedTimeoutRef.current = BackgroundTimer.setTimeout(() => {
+      console.log('hello world?');
       socket.close();
     }, SOCKET_BACKGROUND_UNTIL_CLOSED);
     BackgroundTimer.start();

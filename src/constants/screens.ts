@@ -12,4 +12,5 @@ export default {
   NEW_CONNECTION_SCREEN: 'NewConnectionScreen',
   EDIT_PROFILE_SCREEN: 'EditProfileScreen',
   SETTINGS_SCREEN: 'SettingsScreen',
+  PRIVACY_POLICY_SCREEN: 'PrivacyPolicyScreen',
 } as const;

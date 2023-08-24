@@ -250,7 +250,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
             variant='third'
             size={24}
             key='settings'
-            onPress={() => navigation.navigate(SCREENS.SETTINGS_SCREEN)}
+            onPress={() => navigation.navigate(NAVIGATOR_STACKS.SETTINGS_STACK)}
           />,
         ]}
         header={translate(translateKey + 'header')}
