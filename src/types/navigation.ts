@@ -12,6 +12,7 @@ const {
   SEARCH_SCREEN,
   NEW_CONNECTION_SCREEN,
   EDIT_PROFILE_SCREEN,
+  SETTINGS_SCREEN,
 } = SCREENS;
 type StackParamList = {
   [LOGIN_SCREEN]: any;
@@ -26,6 +27,7 @@ type StackParamList = {
   [SEARCH_SCREEN]: any;
   [NEW_CONNECTION_SCREEN]: any;
   [EDIT_PROFILE_SCREEN]: any;
+  [SETTINGS_SCREEN]: any;
 };
 
 export type NavigationProps = StackNavigationProp<StackParamList>;

@@ -1,5 +1,5 @@
-const SEEK_API_PATH = 'http://192.168.0.11:3000/api';
-const SEEK_API_SOCKET_PATH = 'ws://192.168.0.11:7071';
+const SEEK_API_PATH = 'https://seek-backend.onrender.com/api';
+const SEEK_API_SOCKET_PATH = 'wss://seek-backend.onrender.com';
 
 const seekApi = {
   database: {
@@ -21,7 +21,7 @@ const seekApi = {
     newChatSeen: () => `${SEEK_API_PATH}/f/newChatSeen`,
     fileUpload: () => `${SEEK_API_PATH}/f/fileUpload`,
   },
-  socket: (token: string) => `${SEEK_API_SOCKET_PATH}/auth=${token}`,
+  socket: (token: string) => `${SEEK_API_SOCKET_PATH}?auth=${token}`,
 };
 
 export default { seekApi };

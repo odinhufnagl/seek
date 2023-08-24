@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { BlurView } from '@react-native-community/blur';
 import { useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, View } from 'react-native';
-import handShakeImage from '../../../assets/images/emojis/handShake/handShake.png';
 import { Button, Container, Icon, Spacer, Text } from '../../common';
 import { Header } from '../../components';
 import { DIMENS, SCREENS } from '../../constants';
@@ -46,7 +45,7 @@ const NewConnectionScreen = ({ navigation }: Props) => {
           leftItems={[
             <Icon
               icon='back'
-              size={80}
+              size={18}
               variant='third'
               key='back'
               onPress={() => navigation.goBack()}
@@ -56,21 +55,24 @@ const NewConnectionScreen = ({ navigation }: Props) => {
         <Container>
           <>
             <View style={styles(theme).middleContainer}>
+              <Text type='header' emphasis='high' weight='bold' style={styles(theme).header}>
+                New Connection
+              </Text>
+              <Spacer spacing='small' />
               <Text
-                type='header'
-                emphasis='high'
-                style={styles(theme).header}
+                weight='regular'
+                emphasis='medium'
               >{`You've connected with ${otherUser?.name}!`}</Text>
-              <Spacer spacing={60} />
+              <Spacer spacing={50} />
               <View style={styles(theme).imagesContainer}>
                 <Image
                   style={styles(theme).profileImage}
                   source={{ uri: otherUser?.profileImage?.url }}
                 />
-                <View style={styles(theme).emojiContainer}>
+                {/* <View style={styles(theme).emojiContainer}>
                   <Image source={handShakeImage} resizeMode='cover' />
-                </View>
-
+        </View>*/}
+                <Spacer orientation='horizontal' spacing='large' />
                 <Image
                   style={styles(theme).profileImage}
                   source={{ uri: currentUserExtended?.profileImage?.url }}
@@ -91,7 +93,7 @@ const styles = (theme: Theme) =>
       width: 115,
       height: 115,
       borderRadius: DIMENS.common.borderRadiusRound,
-      borderWidth: 0,
+      borderWidth: 2,
       borderColor: theme.white,
     },
     emojiContainer: {
@@ -107,7 +109,7 @@ const styles = (theme: Theme) =>
     },
     blurContainer: {
       flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
     },
     header: {
       width: '80%',
