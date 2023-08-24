@@ -5,6 +5,7 @@ import {
   NewConnectionScreen,
   QuestionScreen,
   SearchScreen,
+  SettingsScreen,
 } from '../../../screens';
 import { Stack } from '../../../types';
 import ProfileNavigator from '../../navigators/ProfileNavigator';
@@ -29,6 +30,11 @@ export const MainStack: Stack = [
     options: slideVerticallyDefaultOptions,
   },
   { name: SCREENS.SEARCH_SCREEN, component: SearchScreen, options: fadeDefaultOptions },
+  {
+    name: SCREENS.SETTINGS_SCREEN,
+    component: SettingsScreen,
+    options: slideHorizontallyDefaultOptions,
+  },
   {
     name: SCREENS.NEW_CONNECTION_SCREEN,
     component: NewConnectionScreen,

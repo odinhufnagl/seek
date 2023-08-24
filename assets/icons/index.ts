@@ -11,14 +11,17 @@ import ExploreIconSvg from './explore/ExploreIconSVG';
 import FlashOffIconSvg from './flash/FlashOffSVG';
 import FlashOnIconSvg from './flash/FlashOnSVG';
 import FlipCameraIconSvg from './flipCamera/FlipCameraIconSVG';
+import FolderIconSvg from './folder/FolderIconSVG';
 import GlobeIconSvg from './globe/GlobeIconSVG';
 import HeartIconSVG from './heart/HeartIconSVG';
 import HomeIconSvg from './home/HomeIconSVG';
 import ImageIconSvg from './image/ImageIconSVG';
 import LocationIconSvg from './location/LocationIconSVG';
 import LogOutIconSvg from './logOut/LogOut';
+import MessageQuestionIconSvg from './messageQuestion/MessageQuestionIconSVG';
 import NFCIconSVG from './nfc/NFCIconSVG';
 import PaperStackIconSVG from './paperStack/PaperStackIconSVG';
+import PhoneIconSvg from './phone/PhoneIconSVG';
 import PlusIconSVG from './plus/PlusIconSVG';
 import ProfileIconSVG from './profile/ProfileIconSVG';
 import QRIconSVG from './qr/QRIconSVG';
@@ -27,6 +30,7 @@ import SearchIconSVG from './search/SearchIconSVG';
 import SendIconSVG from './send/SendIconSVG';
 import SettingsIconSVG from './settings/SettingsIconSVG';
 import ShareIconSVG from './share/ShareIconSVG';
+import TrashcanIconSvg from './trashcan/TrashcanIconSVG';
 import UserAddIconSVG from './userAdd/UserAddIconSVG';
 import UserCheckIconSVG from './userCheck/UserCheckIconSVG';
 import UserRemoveIconSVG from './userRemove/UserRemoveIconSVG';
@@ -68,4 +72,8 @@ export const icons = {
   share: ShareIconSVG,
   copy: CopyIconSVG,
   chat: ChatIconSVG,
+  contact: PhoneIconSvg,
+  about: MessageQuestionIconSvg,
+  privacyPolicy: FolderIconSvg,
+  delete: TrashcanIconSvg,
 };

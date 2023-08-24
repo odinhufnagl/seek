@@ -42,12 +42,14 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
     if (!answer) {
       return;
     }
+    console.log(answer);
     const chat = (
       await fetchUsersChats(currentUser?.id, {
         where: { questionId: { value: answer?.questionId } },
         limit: 1,
       })
-    )[0];
+    ).rows[0];
+    console.log('chat', chat);
     navigation.navigate(SCREENS.CHAT_SCREEN, { id: chat.id });
   };
   if (isLoading) {
@@ -90,7 +92,9 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
       </ImageBackground>
       <Spacer />
       <View style={styles(theme).answerContainer}>
-        <Text>{answer?.text}</Text>
+        <Text emphasis='primary' weight='regular'>
+          {answer?.text}
+        </Text>
       </View>
 
       <View style={styles(theme).bottomContainer}>

@@ -19,7 +19,6 @@ const Name = ({
   return (
     <Container style={styles.center} {...props}>
       <>
-        <Spacer spacing={100} />
         <Text type='header' weight='bold' style={{ textAlign: 'center' }}>
           {translate(translateKey + 'header')}
         </Text>
@@ -53,6 +52,7 @@ const Name = ({
 const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export default Name;

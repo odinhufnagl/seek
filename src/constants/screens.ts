@@ -11,4 +11,5 @@ export default {
   SEARCH_SCREEN: 'SearchScreen',
   NEW_CONNECTION_SCREEN: 'NewConnectionScreen',
   EDIT_PROFILE_SCREEN: 'EditProfileScreen',
+  SETTINGS_SCREEN: 'SettingsScreen',
 } as const;

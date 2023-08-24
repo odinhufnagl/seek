@@ -20,7 +20,6 @@ const About = ({
   return (
     <Container style={styles.center} {...props}>
       <>
-        <Spacer spacing={100} />
         <Text type='header' weight='bold' style={{ textAlign: 'center' }}>
           {translate(translateKey + 'header')}
         </Text>
@@ -51,6 +50,7 @@ const About = ({
 const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

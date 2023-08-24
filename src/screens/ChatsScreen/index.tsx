@@ -238,7 +238,13 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
             key='search'
             onPress={() => navigation.navigate(SCREENS.SEARCH_SCREEN)}
           />,
-          <Icon icon='settings' variant='third' size={24} key='settings' />,
+          <Icon
+            icon='settings'
+            variant='third'
+            size={24}
+            key='settings'
+            onPress={() => navigation.navigate(SCREENS.SETTINGS_SCREEN)}
+          />,
         ]}
         header={translate(translateKey + 'header')}
         headerTitleProps={{ type: 'header', weight: 'bold', emphasis: 'high' }}
