@@ -137,6 +137,15 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    signingConfigs {
+    release {
+            storeFile file('your_key_name.keystore')
+      storePassword '@M1lan2012'
+      keyAlias 'your_key_alias'
+      keyPassword '@M1lan2012'
+    }
+    }
+
     defaultConfig {
         applicationId "com.seek"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -253,7 +262,6 @@ android {
 
 dependencies {
     implementation project(':react-native-background-timer')
-    implementation project(':react-native-fetch-blob')  
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-config')
 
