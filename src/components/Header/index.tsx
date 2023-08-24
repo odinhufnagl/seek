@@ -56,15 +56,15 @@ const Header = ({
           )}
         </View>
 
-        {header && !headerLeft && !subHeader && (
-          <View style={styles.centerContainer}>
-            <Text type='subHeader' emphasis='high'>
-              {header}
-            </Text>
-          </View>
-        )}
         <View style={styles.rightContainer}>{renderAllItems(rightItems)}</View>
       </View>
+      {header && !headerLeft && !subHeader && (
+        <View style={styles.centerContainer}>
+          <Text type='subHeader' emphasis='high'>
+            {header}
+          </Text>
+        </View>
+      )}
     </Animated.View>
   );
 };
@@ -72,9 +72,10 @@ const Header = ({
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: SPACING.large,
-    backgroundColor: 'transparent',
     width: '100%',
     paddingVertical: SPACING.large,
+    position: 'relative',
+    height: 70,
   },
   upperContainer: {
     flexDirection: 'row',
@@ -88,10 +89,13 @@ const styles = StyleSheet.create({
   centerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
     justifyContent: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: '50%',
+    bottom: '50%',
     width: '100%',
-    height: '100%',
+    zIndex: -1000,
   },
   rightContainer: {
     flexDirection: 'row',

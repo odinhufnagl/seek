@@ -1,5 +1,5 @@
 import React, { Dispatch, useRef } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { Container, Input, Spacer, Text } from '../../../common';
 import { translate } from '../../../i18n';
 
@@ -28,7 +28,7 @@ const Register = ({
   const translateKey = 'onboardRegister.';
   return (
     <Container style={styles.center} {...props}>
-      <View>
+      <>
         <Text type='header' weight='bold'>
           {translate(translateKey + 'header')}
         </Text>
@@ -74,7 +74,7 @@ const Register = ({
           showLength={Boolean(maxLength)}
           secureTextEntry={true}
         />
-      </View>
+      </>
     </Container>
   );
 };

@@ -8,6 +8,7 @@ import OnboardScreen from './OnboardScreen';
 import ProfileScreen from './ProfileScreen';
 import QuestionScreen from './QuestionScreen';
 import SearchScreen from './SearchScreen';
+import SettingsScreen from './SettingsScreen';
 import WelcomeScreen from './WelcomeScreen';
 export {
   ChatScreen,
@@ -20,5 +21,6 @@ export {
   ProfileScreen,
   QuestionScreen,
   SearchScreen,
+  SettingsScreen,
   WelcomeScreen,
 };

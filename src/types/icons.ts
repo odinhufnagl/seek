@@ -32,6 +32,10 @@ export type IconVariant =
   | 'userRemove'
   | 'chat'
   | 'share'
-  | 'copy';
+  | 'copy'
+  | 'contact'
+  | 'about'
+  | 'privacyPolicy'
+  | 'delete';
 
 export type IconSize = 'small' | 'extraSmall' | 'medium' | 'large' | 'extraLarge' | number;
