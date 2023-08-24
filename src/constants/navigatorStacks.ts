@@ -4,4 +4,5 @@ export default {
   AUTH_STACK: 'AuthStack',
   CHATS_STACK: 'ChatStack',
   PROFILE_STACK: 'ProfileStack',
+  SETTINGS_STACK: 'SettingsStack',
 } as const;

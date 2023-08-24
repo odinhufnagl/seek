@@ -9,9 +9,10 @@ import { uploadFile } from '../../services/uploadFile';
 import { FileInfo, ScreenProps } from '../../types';
 import { extractFileTypeFromFilename, getGeoLocation, showSnackbar } from '../../utils';
 import About from './views/About';
+import Email from './views/Email';
 import Name from './views/Name';
+import Password from './views/Password';
 import ProfileImage from './views/ProfileImage';
-import Register from './views/Register';
 
 // FIX: when clicking on an input the entire register
 // component gets pushed so far up that the text gets
@@ -33,6 +34,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
     DEFAULT_IMAGES.profileImage(name),
   );
   const [profileImageIsDefault, setProfileImageIsDefault] = useState(true);
+  const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
 
   const previousPage = () => {
     loading && setLoading(false);
@@ -103,6 +105,24 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
       ),
     },
     {
+      key: 'password',
+      required: [password == confirmedPassword, password.length > 0, password.length > 0],
+      component: (
+        <Password
+          password={password}
+          updatePassword={setPassword}
+          confirmedPassword={confirmedPassword}
+          updateConfirmedPassword={setConfirmedPassword}
+          onSubmit={handleNext}
+        />
+      ),
+    },
+    {
+      key: 'email',
+      required: [password == confirmedPassword, password.length > 0, password.length > 0],
+      component: <Email email={email} updateEmail={setEmail} onSubmit={handleNext} />,
+    },
+    /* {
       key: 'register',
       required: [
         email.length > 0,
@@ -114,6 +134,8 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
         <Register
           email={email}
           updateEmail={setEmail}
+          privacyPolicyChecked={privacyPolicyChecked}
+          updatePrivacyPolicyChecked={setPrivacyPolicyChecked}
           password={password}
           updatePassword={setPassword}
           confirmedPassword={confirmedPassword}
@@ -121,7 +143,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
           onSubmit={handleNext}
         />
       ),
-    },
+    },*/
   ];
 
   const handleRegister = async () => {
@@ -206,7 +228,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
         <Button
           loading={loading}
           onPress={handleNext}
-          title={translate(btnTranslateKey + 'next')}
+          title={currentPage === lastPage() ? 'Register' : translate(btnTranslateKey + 'next')}
           disabled={!canContinue()}
         />
       </View>
