@@ -39,7 +39,7 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
             )}
             <Spacer />
             {user.name && <Text weight='bold'>{user.name}</Text>}
-
+            <Spacer spacing='tiny' />
             {user.location && (
               <>
                 <View style={styles(theme).subHeaderContainer}>
@@ -50,11 +50,11 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
                     {`${user.location?.cityName}, ${user.location?.country.code}`}
                   </Text>
                 </View>
-                <Spacer spacing='large' />
+                <Spacer spacing='medium' />
               </>
             )}
             {user.bio && (
-              <Text type='caption' emphasis='primary'>
+              <Text type='caption' emphasis='high'>
                 {user.bio}
               </Text>
             )}
