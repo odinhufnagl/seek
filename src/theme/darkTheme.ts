@@ -11,7 +11,7 @@ const darkTheme: Theme = {
   background: {
     primary: '#121212',
     secondary: '#202020',
-    third: '#1B1B1B',
+    third: '#1E1E1E',
   },
   glass: 'rgba(237, 237, 237, 0.5)',
   indicator: '#DD4951',

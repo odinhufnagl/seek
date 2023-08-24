@@ -31,7 +31,12 @@ const ProfileImage = ({
         <Spacer spacing='extraLarge' />
         <Text type='header'>Add profilepicture</Text>
         <Spacer spacing='small' />
-        <Text type='body' style={{ textAlign: 'center' }} emphasis='medium'>
+        <Text
+          type='body'
+          style={{ textAlign: 'center', width: '70%' }}
+          emphasis='medium'
+          weight='regular'
+        >
           Make it easier for people to recognize you
         </Text>
         <Spacer spacing='extraLarge' />
@@ -75,7 +80,7 @@ const styles = (theme: Theme) =>
       alignItems: 'center',
     },
     button: {
-      width: 150,
+      width: 160,
     },
     image: {
       width: 130,
