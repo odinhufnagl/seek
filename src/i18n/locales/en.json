@@ -49,6 +49,17 @@
     "passwordPlaceholder": "Password",
     "confirmPasswordPlaceholder": "Confirm Password"
   },
+  "onboardEmail": {
+    "header": "Email",
+    "subTitle": "Your email is the last we need",
+    "emailPlaceholder": "Email"
+  },
+  "onboardPassword": {
+    "header": "Password",
+    "subTitle": "Enter a secure password",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password"
+  },
   "loginScreen": {
     "title": "Log in",
     "subTitle": "Let's get back to it!",

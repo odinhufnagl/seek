@@ -13,6 +13,7 @@ const {
   NEW_CONNECTION_SCREEN,
   EDIT_PROFILE_SCREEN,
   SETTINGS_SCREEN,
+  PRIVACY_POLICY_SCREEN,
 } = SCREENS;
 type StackParamList = {
   [LOGIN_SCREEN]: any;
@@ -21,6 +22,7 @@ type StackParamList = {
   [CHATS_SCREEN]: any;
   [CHAT_SCREEN]: any;
   [NAVIGATOR_STACKS.CHATS_STACK]: any;
+  [NAVIGATOR_STACKS.SETTINGS_STACK]: any;
   [QUESTION_SCREEN]: any;
   [PROFILE_SCREEN]: any;
   [DIARY_ENTRY_SCREEN]: any;
@@ -28,6 +30,7 @@ type StackParamList = {
   [NEW_CONNECTION_SCREEN]: any;
   [EDIT_PROFILE_SCREEN]: any;
   [SETTINGS_SCREEN]: any;
+  [PRIVACY_POLICY_SCREEN]: any;
 };
 
 export type NavigationProps = StackNavigationProp<StackParamList>;
