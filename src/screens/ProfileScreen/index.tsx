@@ -84,6 +84,7 @@ const ProfileScreen = ({ navigation }: Props) => {
               <Text type='subHeader' emphasis='high'>
                 {user?.name}
               </Text>
+              <Spacer spacing='tiny' />
               <View style={styles(theme).locationContainer}>
                 <Icon icon='location' variant='third' size={12} fill={theme.base.low} />
                 <Spacer spacing='tiny' orientation='horizontal' />
