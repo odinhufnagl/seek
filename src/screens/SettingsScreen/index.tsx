@@ -80,7 +80,7 @@ const SettingsScreen = ({ navigation }: Props) => {
           <ListItem
             icon='privacyPolicy'
             title='Privacy policy'
-            onPress={() => showSnackbar('Coming soon...')}
+            onPress={() => navigation.navigate(SCREENS.PRIVACY_POLICY_SCREEN)}
           />
           <ListItem
             icon='contact'
