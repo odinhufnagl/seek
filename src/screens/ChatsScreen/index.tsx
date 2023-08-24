@@ -55,6 +55,12 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   useEffect(() => {
+    setChats((p) =>
+      p.sort((a, b) => new Date(b?.lastMessage.createdAt) - new Date(a?.lastMessage.createdAt)),
+    );
+  }, [chats]);
+
+  useEffect(() => {
     addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
 
     return () => {
