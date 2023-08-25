@@ -75,7 +75,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const otherUserRef = useRef<UserModel>();
 
   useEffect(() => {
-    console.log(chat);
+    console.log('ccaa', chat);
     setOtherUser(chat?.users?.find((u) => u.id !== currentUser?.id));
   }, [chat]);
   useEffect(() => {
@@ -238,7 +238,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
                     {chat?.question?.timeToStart && formatRelativeDate(chat?.question?.timeToStart)}
                   </Text>
                   <Spacer spacing='tiny' />
-                  <Text weight='bold' emphasis='high' type='header'>
+                  <Text weight='bold' emphasis='high' type='subHeader'>
                     {chat?.question?.title}
                   </Text>
                   <Spacer spacing='medium' />
@@ -283,12 +283,13 @@ const styles = (theme: Theme) =>
     },
     coverImageBackground: {
       width: '100%',
-      height: 190,
       opacity: 1.0,
       backgroundColor: theme.black,
+      position: 'relative',
+      justifyContent: 'flex-end',
     },
     coverImageStyle: {
-      opacity: 0.4,
+      opacity: 0.3,
     },
     linearGradient: {
       width: '100%',

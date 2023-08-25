@@ -49,7 +49,7 @@ const Email = ({
       </Container>
       <View style={styles.privacyPolicyContainer}>
         <Spacer spacing='small' orientation='horizontal' />
-        <RNText style={{ fontSize: 10, fontFamily: FONT_FAMILY.regular }}>
+        <RNText style={{ fontSize: 10, fontFamily: FONT_FAMILY.regular, color: theme.base.medium }}>
           {'By pressing register I agree that I have read and accepted the '}
           <TouchableWithoutFeedback
             onPress={() => navigation.navigate(SCREENS.PRIVACY_POLICY_SCREEN)}
