@@ -50,15 +50,12 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const [showNewQuestionIndicator, setShowNewQuestionIndicator] = useState(false);
   const { addNotificationHandler, removeNotificationHandler } = useNotification();
 
+  const sortRecentsOrder = (chats: Chat[]) =>
+    chats.sort((a, b) => new Date(b?.lastMessage.createdAt) - new Date(a?.lastMessage.createdAt));
+
   const handleUserMessageOpenedApp = async (data: NotificationMessageServerUserMessageData) => {
     navigateToChat(data.chatId);
   };
-
-  useEffect(() => {
-    setChats((p) =>
-      p.sort((a, b) => new Date(b?.lastMessage.createdAt) - new Date(a?.lastMessage.createdAt)),
-    );
-  }, [chats]);
 
   useEffect(() => {
     addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
@@ -81,14 +78,16 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     const message = await fetchMessage(data.messageId);
     console.log('newmessage', message);
     setChats((p) =>
-      updateItemInList(p, 'chatId', Number(data.chatId), (item) => ({
-        lastMessage: message,
-        // TODO: part of the "focusTest"
-        /* unreadMessagesCount: currentScreenIsChat(data.chatId)
+      sortRecentsOrder(
+        updateItemInList(p, 'chatId', Number(data.chatId), (item) => ({
+          lastMessage: message,
+          // TODO: part of the "focusTest"
+          /* unreadMessagesCount: currentScreenIsChat(data.chatId)
           ? item.unreadMessagesCount
           : item.unreadMessagesCount + 1,*/
-        unreadMessagesCount: item.unreadMessagesCount + 1,
-      })),
+          unreadMessagesCount: item.unreadMessagesCount + 1,
+        })),
+      ),
     );
   };
 
@@ -131,7 +130,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         });
       });
     console.log('newChats', newChats, newChats.length);
-    setChats(newChats);
+    setChats(sortRecentsOrder(newChats));
   }, [data]);
   useEffect(() => {
     console.log('there exists a new question', newQuestion);
