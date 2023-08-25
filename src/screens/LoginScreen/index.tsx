@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
+import { WrongEmailPasswordError } from '../../classes';
 import { Button, Container, Icon, Input, Spacer, Text } from '../../common';
 import { Header } from '../../components';
 import { translate } from '../../i18n';
@@ -20,6 +21,12 @@ const LoginScreen = ({ navigation }: ScreenProps) => {
       await logIn({ email, password });
       setLoading(false);
     } catch (e) {
+      console.log('e', e);
+      if (e instanceof WrongEmailPasswordError) {
+        showSnackbar('Wrong email or password', 'error');
+        setLoading(false);
+        return;
+      }
       showSnackbar(translate('snackbar.defaultError'), 'error');
       setLoading(false);
     }
