@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
+import { EmailInUseError } from '../../classes';
 import { Button, Icon } from '../../common';
 import { Header } from '../../components';
 import { DEFAULT_IMAGES, SPACING, USER } from '../../constants';
@@ -162,23 +163,38 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
         profileImageUrl = await uploadFile(fileInfo);
       }
       console.log('profileImageURL', profileImageUrl);
-      getGeoLocation(async (location) => {
-        console.log('location', location);
-        const user = await signUp({
-          name,
-          email,
-          password,
-          bio: about,
-          profileImage: { url: profileImageUrl },
-          location: {
-            coordinate: {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            },
-          },
-        });
-        setLoading(false);
-      });
+      getGeoLocation(
+        async (location) => {
+          console.log('location', location);
+          try {
+            const user = await signUp({
+              name,
+              email,
+              password,
+              bio: about,
+              profileImage: { url: profileImageUrl },
+              location: {
+                coordinate: {
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude,
+                },
+              },
+            });
+          } catch (e) {
+            console.log('e', e);
+            if (e instanceof EmailInUseError) {
+              showSnackbar('Email already in use', 'error');
+              setLoading(false);
+              return;
+            }
+          }
+          setLoading(false);
+        },
+        () => {
+          showSnackbar('You must allow location');
+          setLoading(false);
+        },
+      );
     } catch (e) {
       console.log('e', e, e.message);
       showSnackbar(translate('snackbar.defaultError'), 'error');
