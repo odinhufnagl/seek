@@ -57,24 +57,23 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
   }
   return (
     <View style={styles(theme).container}>
-      <Header
-        style={[styles(theme).header]}
-        leftItems={[
-          <Icon
-            variant='third'
-            icon='back'
-            size={18}
-            onPress={() => navigation.goBack()}
-            key='back'
-          />,
-        ]}
-      />
-
       <ImageBackground
         style={styles(theme).coverImageBackground}
         imageStyle={styles(theme).coverImageStyle}
         source={{ uri: answer?.question?.coverImage?.url }}
       >
+        <Header
+          style={[styles(theme).header]}
+          leftItems={[
+            <Icon
+              variant='third'
+              icon='back'
+              size={18}
+              onPress={() => navigation.goBack()}
+              key='back'
+            />,
+          ]}
+        />
         <LinearGradient
           style={styles(theme).linearGradient}
           colors={['rgba(0, 0, 0, 0.8)', 'transparent']}
@@ -83,14 +82,14 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
           <>
             <Text type='caption'>{answer?.createdAt && formatRelativeDate(answer.createdAt)}</Text>
             <Spacer spacing='tiny' />
-            <Text weight='bold' emphasis='high' type='header'>
+            <Text weight='bold' emphasis='high' type='subHeader'>
               {answer?.question?.title}
             </Text>
             <Spacer spacing='medium' />
           </>
         </View>
       </ImageBackground>
-      <Spacer />
+      <Spacer spacing='large' />
       <View style={styles(theme).answerContainer}>
         <Text emphasis='primary' weight='regular'>
           {answer?.text}
@@ -139,25 +138,26 @@ const styles = (theme: Theme) =>
       paddingHorizontal: SPACING.medium,
     },
     header: {
-      position: 'absolute',
-      top: 0,
-      zIndex: 100,
       paddingHorizontal: SPACING.medium,
       paddingVertical: SPACING.medium,
+      height: 60,
+      zIndex: 1000,
     },
     coverImageBackground: {
       width: '100%',
-      height: 190,
       opacity: 1.0,
       backgroundColor: theme.black,
       position: 'relative',
+      justifyContent: 'flex-end',
     },
     coverImageStyle: {
-      opacity: 0.4,
+      opacity: 0.3,
     },
     linearGradient: {
       width: '100%',
       height: 80,
+      position: 'absolute',
+      top: 0,
     },
     bottomContainer: {
       position: 'absolute',

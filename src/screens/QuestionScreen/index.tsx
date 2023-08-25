@@ -86,33 +86,32 @@ const QuestionScreen = ({ navigation }: Props) => {
   }
   return (
     <View style={styles(theme).container}>
-      <Header
-        style={[styles(theme).header]}
-        leftItems={[
-          <Icon
-            variant='third'
-            icon='chevronDown'
-            size={18}
-            onPress={() => navigation.goBack()}
-            key='back'
-          />,
-        ]}
-      />
-
       <ImageBackground
         style={styles(theme).coverImageBackground}
         imageStyle={styles(theme).coverImageStyle}
         source={{ uri: question?.coverImage?.url }}
       >
+        <Header
+          style={[styles(theme).header]}
+          leftItems={[
+            <Icon
+              variant='third'
+              icon='chevronDown'
+              size={18}
+              onPress={() => navigation.goBack()}
+              key='back'
+            />,
+          ]}
+        />
         <LinearGradient
           style={styles(theme).linearGradient}
           colors={['rgba(0, 0, 0, 0.8)', 'transparent']}
         />
-        <View style={{ paddingHorizontal: SPACING.medium, width: '80%' }}>
+        <View style={{ paddingHorizontal: SPACING.medium, width: '90%' }}>
           <>
             <Text type='caption'>{'Todays Question'}</Text>
             <Spacer spacing='tiny' />
-            <Text weight='bold' emphasis='high' type='header'>
+            <Text weight='bold' emphasis='high' type='subHeader'>
               {question?.title}
             </Text>
             <Spacer spacing='medium' />
@@ -174,25 +173,26 @@ const styles = (theme: Theme) =>
       paddingHorizontal: SPACING.medium,
     },
     header: {
-      position: 'absolute',
-      top: 0,
-      zIndex: 100,
+      zIndex: 1000,
       paddingHorizontal: SPACING.medium,
       paddingVertical: SPACING.medium,
+      height: 60,
     },
     coverImageBackground: {
       width: '100%',
-      height: 190,
       opacity: 1.0,
       backgroundColor: theme.black,
       position: 'relative',
+      justifyContent: 'flex-end',
     },
     coverImageStyle: {
-      opacity: 0.4,
+      opacity: 0.3,
     },
     linearGradient: {
       width: '100%',
       height: 80,
+      position: 'absolute',
+      top: 0,
     },
     profileImage: {
       width: 45,
