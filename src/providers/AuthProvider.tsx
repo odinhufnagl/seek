@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { NetworkError } from '../classes';
+import { ApiError, AppError, NetworkError } from '../classes';
 import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
 import {
   authenticateUser,
@@ -47,29 +47,49 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logIn = async (body: SignInBody): Promise<boolean> => {
     console.log(body, ENDPOINTS.seekApi.auth);
-    const { token, user } = await signInUser(body);
-    if (!token) {
-      console.log('login failed');
-      return false;
+    try {
+      const { token, user } = await signInUser(body);
+      if (!token) {
+        console.log('login failed');
+        return false;
+      }
+      await storageSet(LOCAL_STORAGE.keys.userToken, token);
+      setToken(token);
+      setCurrentUser(user);
+      return true;
+    } catch (e) {
+      switch (true) {
+        case e instanceof ApiError: {
+          throw AppError.fromApiError(e);
+        }
+        default:
+          throw new AppError();
+      }
     }
-    await storageSet(LOCAL_STORAGE.keys.userToken, token);
-    setToken(token);
-    setCurrentUser(user);
-    return true;
   };
 
   const signUp = async (body: SignUpBody): Promise<boolean> => {
     console.log('hello?');
-    const { token, user } = await signUpUser(body);
-    console.log('token', token);
-    if (!token) {
-      console.log('signup failed');
-      return false;
+    try {
+      const { token, user } = await signUpUser(body);
+      console.log('token', token);
+      if (!token) {
+        console.log('signup failed');
+        return false;
+      }
+      await storageSet(LOCAL_STORAGE.keys.userToken, token);
+      setToken(token);
+      setCurrentUser(user);
+      return true;
+    } catch (e) {
+      switch (true) {
+        case e instanceof ApiError: {
+          throw AppError.fromApiError(e);
+        }
+        default:
+          throw new AppError();
+      }
     }
-    await storageSet(LOCAL_STORAGE.keys.userToken, token);
-    setToken(token);
-    setCurrentUser(user);
-    return true;
   };
 
   const logOut = async () => {
