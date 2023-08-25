@@ -48,11 +48,13 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   const [messageHandlers, setMessageHandlers] = useState<MessageHandlerState[]>([]);
   const messageHandlersRef = useRef<MessageHandlerState[]>([]);
 
-  const keepAlive = (timeout = KEEP_ALIVE_TIMER) => {
+  const sendKeepAliveMessage = () => {
     if (socket.readyState === socket.OPEN) {
       socket.send('');
     }
-    keepAliveIntervalRef.current = setInterval(keepAlive, timeout);
+  };
+  const keepAlive = (timeout = KEEP_ALIVE_TIMER) => {
+    keepAliveIntervalRef.current = setInterval(sendKeepAliveMessage, timeout);
   };
   useEffect(() => {
     messageHandlersRef.current = messageHandlers;
@@ -60,7 +62,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   useEffect(() => {
     keepAlive();
     return () => clearInterval(keepAliveIntervalRef.current);
-  }, [socket]);
+  }, []);
 
   const addSocketMessageHandler = <T extends SocketMessageServerData>(
     type: SocketMessageServerType,
