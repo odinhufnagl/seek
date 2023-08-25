@@ -29,7 +29,7 @@ const ListItem = ({
       <View style={{ flexDirection: 'row' }}>
         <Icon icon={icon} variant='third' size={19} fill={theme.base.low} />
         <Spacer spacing='large' orientation='horizontal' />
-        <Text type='caption' weight='medium' emphasis='high'>
+        <Text type='caption' weight='semiBold' emphasis='high'>
           {title}
         </Text>
       </View>

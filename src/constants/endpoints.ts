@@ -1,4 +1,5 @@
 import { SEEK_API_PATH, SEEK_API_SOCKET_PATH } from 'react-native-dotenv';
+
 const seekApi = {
   database: {
     getOne: (table: string, id?: string | number) => `${SEEK_API_PATH}/${table}/${id}`,
