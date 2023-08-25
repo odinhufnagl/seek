@@ -48,7 +48,13 @@ const WelcomeScreen = ({ navigation }: Props) => {
               />
               <Spacer spacing='large' />
               <TouchableWithoutFeedback onPress={() => navigation.navigate(SCREENS.LOGIN_SCREEN)}>
-                <RNText style={{ fontSize: 10, fontFamily: FONT_FAMILY.regular }}>
+                <RNText
+                  style={{
+                    fontSize: 10,
+                    fontFamily: FONT_FAMILY.regular,
+                    color: theme.base.medium,
+                  }}
+                >
                   {'Already have an account?  '}
                   <TouchableWithoutFeedback
                     onPress={() => navigation.navigate(SCREENS.LOGIN_SCREEN)}
