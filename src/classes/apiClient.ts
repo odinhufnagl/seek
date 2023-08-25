@@ -60,9 +60,13 @@ export class ApiClient {
       if (e instanceof AxiosError) {
         if (e.response) {
           console.log('throwing error');
-          throw new ApiError(e.response.status, e?.response?.data?.error?.message);
+          throw new ApiError(
+            e.response.status,
+            e.response.data.error.errorCode,
+            e?.response?.data?.error?.message,
+          );
         } else {
-          throw new NetworkError(e.message);
+          throw new NetworkError();
         }
       }
       throw Error();
