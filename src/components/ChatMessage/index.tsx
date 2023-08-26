@@ -45,7 +45,7 @@ const ChatMessage = ({
           )}
         </View>
       )}
-      {!isUser && image && (
+      {!isUser && (
         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
           {showImage ? (
             <TouchableWithoutFeedback onPress={onImagePress}>
