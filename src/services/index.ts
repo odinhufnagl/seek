@@ -1,5 +1,5 @@
 export * from './auth';
-export * from './blockUser';
+export * from './blocking';
 export * from './camera';
 export * from './chats';
 export * from './db';

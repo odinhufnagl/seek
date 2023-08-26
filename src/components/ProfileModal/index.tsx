@@ -5,7 +5,8 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Container, Icon, Modal, Spacer, Text } from '../../common';
 import { DIMENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
-import { fetchUser } from '../../services';
+import { useAuth } from '../../providers/AuthProvider';
+import { blockUser, fetchUser, isUserBlocked, unblockUser } from '../../services';
 import { Theme, UserModel } from '../../types';
 import { showSnackbar } from '../../utils';
 import List from '../List';
@@ -18,14 +19,36 @@ type Props = {
 
 const ProfileModal = ({ userId, visible, setVisible }: Props) => {
   const { theme } = useTheme();
+  const { currentUser } = useAuth();
   const [user, setUser] = useState<UserModel>();
+  const [userIsBlocked, setUserIsBlocked] = useState(false);
   useEffect(() => {
     (async () => {
+      if (!currentUser) {
+        return;
+      }
       const userFetched = await fetchUser(userId);
+      const userBlocked = await isUserBlocked(userId, currentUser?.id);
       console.log('userFetched', userFetched);
       setUser(userFetched);
+      setUserIsBlocked(userBlocked);
     })();
-  }, [userId]);
+  }, [userId, currentUser]);
+
+  const handleBlockUserPress = () => {
+    if (currentUser) {
+      blockUser(userId, currentUser?.id);
+      setVisible(false);
+      showSnackbar(`${user?.name} is blocked`);
+    }
+  };
+  const handleUnblockUserPress = () => {
+    if (currentUser) {
+      unblockUser(userId, currentUser.id);
+      setVisible(false);
+      showSnackbar(`${user?.name} is unblocked`);
+    }
+  };
 
   if (!user) {
     return <></>;
@@ -65,10 +88,10 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
           <List
             items={[
               {
-                title: 'Block',
+                title: userIsBlocked ? 'Unblock' : 'Block',
                 icon: 'userRemove',
                 iconSize: 27,
-                onPress: () => showSnackbar('Blocking is being added by our developers'),
+                onPress: userIsBlocked ? handleUnblockUserPress : handleBlockUserPress,
               },
               {
                 title: 'Report',
