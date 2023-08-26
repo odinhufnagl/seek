@@ -24,6 +24,7 @@ export interface UserChatModel {
   userId: number;
   chatId: number;
   lastRead: string;
+  isBlocked: boolean;
 }
 export interface UserModel {
   id: number;

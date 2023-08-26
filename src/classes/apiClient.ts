@@ -60,6 +60,7 @@ export class ApiClient {
       if (e instanceof AxiosError) {
         if (e.response) {
           console.log('throwing error');
+          console.log('e', e);
           throw new ApiError(
             e.response.status,
             e.response.data.error.errorCode,
@@ -171,6 +172,26 @@ export class ApiClient {
     await this.fetch('get', ENDPOINTS.seekApi.database.getNewChat(String(userId)));
   newChatSeen = async (userId: number, chatId: number): Promise<Response> =>
     await this.fetch('post', ENDPOINTS.seekApi.functions.newChatSeen(), { userId, chatId });
+  blockUser = async (userToBlockId: number, userBlockingId: number): Promise<Response> =>
+    await this.fetch('post', ENDPOINTS.seekApi.functions.blockUser(), {
+      userBlockingId,
+      userToBlockId,
+    });
+  unblockUser = async (userToBlockId: number, userBlockingId: number): Promise<Response> =>
+    await this.fetch('post', ENDPOINTS.seekApi.functions.unblockUser(), {
+      userBlockingId,
+      userToBlockId,
+    });
+  isUserBlocked = async (userId: number, blockerId: number): Promise<Response> =>
+    await this.fetch(
+      'get',
+      ENDPOINTS.seekApi.functions.isUserBlocked(),
+      {},
+      {
+        userId,
+        blockerId,
+      },
+    );
   fileUpload = async (file: FileInfo): Promise<Response> => {
     const formData = new FormData();
 
