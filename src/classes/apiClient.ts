@@ -51,7 +51,6 @@ export class ApiClient {
         ...config,
         params,
       });
-      console.log('res', res);
 
       if (!res) {
         throw Error();
@@ -60,8 +59,6 @@ export class ApiClient {
     } catch (e: any) {
       if (e instanceof AxiosError) {
         if (e.response) {
-          console.log('throwing error');
-          console.log('e', e);
           throw new ApiError(
             e.response.status,
             e.response.data.error.errorCode,
@@ -82,7 +79,7 @@ export class ApiClient {
     const { sortBy, fields, limit, offset, where = {}, orderBy } = options;
 
     const parsedWhere: Record<string, string> = {};
-    console.log('where', where);
+
     Object.values(where).forEach((v, index) => {
       if (v) {
         const { value, unaryOperator } = v;
@@ -99,7 +96,7 @@ export class ApiClient {
       offset,
       ...parsedWhere,
     };
-    console.log('parsed', parsed);
+
     return parsed;
   };
 
@@ -203,8 +200,7 @@ export class ApiClient {
 
     // Replace 'file' with the key you want to use on the server to access the file
     formData.append('file', file);
-    console.log('formData', formData);
-    console.log('file', file);
+
     const res = await axios.post(
       ENDPOINTS.seekApi.functions.fileUpload(this.fileUploadTypeToEndpointVariant(type)),
       formData,
@@ -213,7 +209,6 @@ export class ApiClient {
       },
     );
 
-    console.log('res', res);
     return res;
   };
   search = async ({

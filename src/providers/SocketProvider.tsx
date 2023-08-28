@@ -38,19 +38,25 @@ const KEEP_ALIVE_TIMER = 20000;
 
 // TODO: this is not completely general, the endpoint is not general, and how the data looks is not general because we use socketmessageserverdata and type is socketmessageservertype
 export const SocketProvider = ({ children, token }: { children: JSX.Element; token: string }) => {
-  // socketMessage can be used in the app to react to new messages
-  const [socketIsConnected, setSocketIsConnected] = useState(false);
   const url = () => endpoints.seekApi.socket(token);
-  const [socket, setSocket] = useState(() => getSocket(url()));
-  const backgroundClosedTimeoutRef = useRef<NodeJS.Timeout>();
+
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const socketRef = useRef<WebSocket | null>();
+  const [socketIsConnected, setSocketIsConnected] = useState(false);
+  // socketMessage can be used in the app to react to new messages
+  const backgroundClosedTimeoutRef = useRef<number>();
   const keepAliveIntervalRef = useRef<NodeJS.Timeout>();
 
   const [messageHandlers, setMessageHandlers] = useState<MessageHandlerState[]>([]);
   const messageHandlersRef = useRef<MessageHandlerState[]>([]);
 
+  useEffect(() => {
+    socketRef.current = socket;
+  }, [socket]);
   const sendKeepAliveMessage = () => {
-    if (socket.readyState === socket.OPEN) {
-      socket.send('');
+    if (socketRef.current && socketRef.current.readyState === socketRef.current.OPEN) {
+      console.log('send keep alive message');
+      socketRef.current.send('');
     }
   };
   const keepAlive = (timeout = KEEP_ALIVE_TIMER) => {
@@ -68,7 +74,6 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     type: SocketMessageServerType,
     handler: MessageHandler<T>,
   ) => {
-    console.log('handler', handler, 'type', type);
     const handlerExists = messageHandlersRef.current.find(
       ({ handler: h, type: t }) => h === handler && type === t,
     );
@@ -83,22 +88,53 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   };
 
   const connectToSocket = () => {
-    setSocket(() => getSocket(url()));
+    if (socket && (socket.readyState === socket.OPEN || socket.readyState === socket.CONNECTING)) {
+      socket.close();
+    }
+    const newSocket = getSocket(url());
+    newSocket.onopen = () => {
+      setSocketIsConnected(true);
+    };
+
+    newSocket.onmessage = (e) => {
+      handleOnMessage(e);
+    };
+
+    newSocket.onerror = (e) => {
+      console.log('error', e);
+    };
+
+    newSocket.onclose = (e) => {
+      setSocketIsConnected(false);
+      cleanupSocket(newSocket);
+      /*  setTimeout(() => {
+        connectToSocket();
+      }, SOCKET_RECONNECT_TIMER);*/
+    };
+    setSocket(newSocket);
   };
+
+  useEffect(() => {
+    connectToSocket();
+    () => {
+      console.log('socket useEffect ended', socket);
+      socket && socket.close();
+    };
+  }, []);
 
   // Handle change in state on app
   // TODO: the backgroundtimer right now only works for ANDROID i think
   const handleAppInBackground = () => {
     backgroundClosedTimeoutRef.current = BackgroundTimer.setTimeout(() => {
-      console.log('hello world?');
-      socket.close();
+      console.log('socket is closing from backgrountimer');
+      socketRef.current && socketRef.current.close();
     }, SOCKET_BACKGROUND_UNTIL_CLOSED);
     BackgroundTimer.start();
   };
   const handleAppIsActive = () => {
     BackgroundTimer.stop();
     BackgroundTimer.clearTimeout(backgroundClosedTimeoutRef.current);
-    if (!socketIsConnected) {
+    if (!socketRef.current || socketRef.current?.readyState === socketRef.current.CLOSED) {
       connectToSocket();
     }
   };
@@ -119,40 +155,18 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
 
   // TODO: if we were to make it all generic, this must be moved outside
   const handleOnMessage = (e) => {
-    console.log('s', socket);
+    console.log('on message', e);
     const msg = JSON.parse(e.data) as SocketMessageServer;
-    console.log('sm', msg);
-    console.log('messageHandlers', messageHandlersRef.current.length);
 
     messageHandlersRef.current.forEach(
       ({ type, handler }) => type === msg.type && handler(msg.data),
     );
   };
 
-  useEffect(() => {
-    socket.onopen = () => {
-      setSocketIsConnected(true);
-    };
-
-    socket.onmessage = (e) => {
-      handleOnMessage(e);
-    };
-
-    socket.onerror = (e) => {
-      console.log('error: ', e);
-    };
-
-    socket.onclose = (e) => {
-      console.log('socket closing');
-      setSocketIsConnected(false);
-      cleanupSocket();
-      setTimeout(() => {
-        connectToSocket();
-      }, SOCKET_RECONNECT_TIMER);
-    };
-  }, [socket]);
-
-  const cleanupSocket = () => {
+  const cleanupSocket = (socket: WebSocket) => {
+    if (!socket) {
+      return;
+    }
     socket.onopen = null;
     socket.onerror = null;
     socket.onmessage = null;

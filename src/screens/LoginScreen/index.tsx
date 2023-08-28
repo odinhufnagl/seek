@@ -21,7 +21,6 @@ const LoginScreen = ({ navigation }: ScreenProps) => {
       await logIn({ email, password });
       setLoading(false);
     } catch (e) {
-      console.log('e', e);
       if (e instanceof WrongEmailPasswordError) {
         showSnackbar('Wrong email or password', 'error');
         setLoading(false);

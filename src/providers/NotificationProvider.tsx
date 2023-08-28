@@ -45,7 +45,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
       authStatus === firebase.messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      console.log('Authorization status:', authStatus);
     }
   };
 
@@ -60,7 +59,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
       // TODO: unsubsribe
       const initialMessage = await firebase.messaging().getInitialNotification();
       if (initialMessage) {
-        console.log('initMessage', initialMessage);
         handleOnNotificationOpenedApp(initialMessage);
       }
     })();
@@ -75,7 +73,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
     type: NotificationMessageServerType,
     handler: MessageHandler<T>,
   ) => {
-    console.log('handler', handler, 'type', type);
     const handlerExists = messageHandlersRef.current.find(
       ({ handler: h, type: t }) => h === handler && type === t,
     );
@@ -94,8 +91,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
   const handleOnNotificationOpenedApp = (message: RecievedNotificationMessage) => {
     const data = message.data as NotificationMessageServerData;
     const type = message.data?.type as NotificationMessageServerType;
-    console.log('messageHandlers', messageHandlersRef.current.length);
-    console.log('mssg', message);
 
     messageHandlersRef.current.forEach(
       ({ type: t, handler, mode }) => t === type && mode === 'openedApp' && handler(data),
@@ -105,8 +100,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
   const handleOnNotificationInBackground = async (message: RecievedNotificationMessage) => {
     const data = message.data as NotificationMessageServerData;
     const type = message.data?.type as NotificationMessageServerType;
-    console.log('messageHandlers', messageHandlersRef.current.length);
-    console.log('mssg', message);
 
     messageHandlersRef.current.forEach(
       ({ type: t, handler, mode }) => t === type && mode === 'background' && handler(data),
@@ -116,8 +109,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
   const handleOnNotificationInApp = (message: RecievedNotificationMessage) => {
     const data = message.data as NotificationMessageServerData;
     const type = message.data?.type as NotificationMessageServerType;
-    console.log('messageHandlers', messageHandlersRef.current.length);
-    console.log('mssg', message);
 
     messageHandlersRef.current.forEach(
       ({ type: t, handler, mode }) => t === type && mode === 'inApp' && handler(data),

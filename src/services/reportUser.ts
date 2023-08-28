@@ -1,3 +1,1 @@
-export const reportUser = async () => {
-  console.log('reporting user');
-};
+export const reportUser = async () => {};

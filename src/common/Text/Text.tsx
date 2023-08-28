@@ -39,7 +39,6 @@ const Text: React.FC<TextProps> = ({
   );
   const typeWriterDelay = 300;
   useEffect(() => {
-    console.log(typeWriterText, typeWriter, children, 'hello');
     if (!typeWriter || !children) {
       return;
     }
