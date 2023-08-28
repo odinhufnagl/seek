@@ -8,7 +8,7 @@ import { DEFAULT_IMAGES, DIMENS } from '../../constants';
 import { useFetchUser, useTheme } from '../../hooks';
 import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
-import { openCamera, openLibrary, updateUser, uploadFile } from '../../services';
+import { openCamera, openLibrary, updateUser, uploadProfileImageFile } from '../../services';
 import { FileInfo, NavigationProps, Theme } from '../../types';
 import { extractFileTypeFromFilename, showSnackbar } from '../../utils';
 
@@ -46,7 +46,7 @@ const EditProfileScreen = ({ navigation }: Props) => {
           uri: newProfileImagePath,
           type: extractFileTypeFromFilename(newProfileImagePath),
         };
-        const profileImageUrl = await uploadFile(fileInfo);
+        const profileImageUrl = await uploadProfileImageFile(fileInfo);
         await updateUser(currentUser?.id, { name, bio, profileImage: { url: profileImageUrl } });
       } else {
         if (newProfileImagePath && isDefaultProfileImage) {
