@@ -6,7 +6,7 @@ import { Header } from '../../components';
 import { DEFAULT_IMAGES, SPACING, USER } from '../../constants';
 import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
-import { uploadFile } from '../../services/uploadFile';
+import { uploadProfileImageFile } from '../../services/uploadFile';
 import { FileInfo, ScreenProps } from '../../types';
 import { extractFileTypeFromFilename, getGeoLocation, showSnackbar } from '../../utils';
 import About from './views/About';
@@ -160,7 +160,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
         };
 
         console.log('f', fileInfo);
-        profileImageUrl = await uploadFile(fileInfo);
+        profileImageUrl = await uploadProfileImageFile(fileInfo);
       }
       console.log('profileImageURL', profileImageUrl);
       getGeoLocation(
