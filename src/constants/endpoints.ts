@@ -19,7 +19,7 @@ const seekApi = {
   functions: {
     search: () => `${SEEK_API_PATH}/f/search`,
     newChatSeen: () => `${SEEK_API_PATH}/f/newChatSeen`,
-    fileUpload: () => `${SEEK_API_PATH}/f/fileUpload`,
+    fileUpload: (variant: string) => `${SEEK_API_PATH}/f/fileUpload/${variant}`,
     blockUser: () => `${SEEK_API_PATH}/f/blockUser`,
     unblockUser: () => `${SEEK_API_PATH}/f/unblockUser`,
     isUserBlocked: () => `${SEEK_API_PATH}/f/isUserBlocked`,
