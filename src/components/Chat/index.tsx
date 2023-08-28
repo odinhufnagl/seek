@@ -32,14 +32,14 @@ const messagesTimeSeparated = (messages?: MessageModel[]) => {
       currentYear = year;
       currentDateId = dateId;
       currentMessages.length > 0 && data.push(...currentMessages);
-      console.log(formatRelativeDate(d));
+
       data.push(formatRelativeDate(d));
       currentMessages = [];
     }
     currentMessages.push(message);
   });
   data.push(...currentMessages);
-  console.log('data', data);
+
   // return data.reverse();
   return data;
 };
@@ -129,7 +129,6 @@ const Chat = ({
   const [messagesOrdered, setMessagesOrdered] = useState<(string | MessageModel)[]>([]);
   const { currentUser } = useAuth();
   useEffect(() => {
-    console.log('messages updated', messages?.length);
     setMessagesOrdered([...messagesTimeSeparated(messages)].reverse());
   }, [messages]);
 
@@ -138,7 +137,7 @@ const Chat = ({
       return;
     }
 
-    // console.log('itemId', item.id);
+    //
 
     const beforeItem = messagesOrdered[index - 1];
     if (typeof item === 'string') {

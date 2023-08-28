@@ -45,7 +45,6 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
   const lastPage = () => pages.length - 1;
 
   const handleNext = () => {
-    console.log('handleNext', canContinue());
     if (!canContinue()) {
       return;
     }
@@ -58,7 +57,6 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
   const canContinue = () => pages[currentPage].required.reduceRight((a, b) => a && b, true);
 
   const handleRemoveProfileImage = () => {
-    console.log('hello world');
     setProfileImageIsDefault(true);
     setProfileImagePath(DEFAULT_IMAGES.profileImage(name));
   };
@@ -150,7 +148,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
   const handleRegister = async () => {
     setLoading(true);
     let profileImageUrl = profileImagePath;
-    console.log('pi', profileImagePath);
+
     try {
       if (!profileImageIsDefault) {
         const fileInfo: FileInfo = {
@@ -159,13 +157,11 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
           type: extractFileTypeFromFilename(profileImagePath),
         };
 
-        console.log('f', fileInfo);
         profileImageUrl = await uploadProfileImageFile(fileInfo);
       }
-      console.log('profileImageURL', profileImageUrl);
+
       getGeoLocation(
         async (location) => {
-          console.log('location', location);
           try {
             const user = await signUp({
               name,
@@ -181,7 +177,6 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
               },
             });
           } catch (e) {
-            console.log('e', e);
             if (e instanceof EmailInUseError) {
               showSnackbar('Email already in use', 'error');
               setLoading(false);
@@ -196,7 +191,6 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
         },
       );
     } catch (e) {
-      console.log('e', e, e.message);
       showSnackbar(translate('snackbar.defaultError'), 'error');
       setLoading(false);
     }

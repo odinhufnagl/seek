@@ -46,9 +46,7 @@ const SearchScreen = ({ navigation }: Props) => {
   const [searchPhrase, setSearchPhrase] = useState('');
   const translateKey = 'SearchScreen.';
   const { data, refetch } = useSearchItems(searchPhrase, currentUser?.id);
-  useEffect(() => {
-    console.log('data', chats);
-  }, [data]);
+  useEffect(() => {}, [data]);
   const chats = data?.pages.flatMap((page) => page.chats.rows);
   const renderChatItem = ({ item }: { item: ChatModel }) => {
     return (

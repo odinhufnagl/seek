@@ -65,7 +65,6 @@ const EditProfileScreen = ({ navigation }: Props) => {
       refetch();
       navigation.goBack();
     } catch (e) {
-      console.log('ee', e);
       showSnackbar(translate('snackbar.defaultError'), 'error');
       setIsSavingLoading(false);
     }
