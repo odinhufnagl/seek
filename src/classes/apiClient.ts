@@ -16,6 +16,7 @@ import { ApiError, NetworkError } from './errors';
 type DBModelName = 'users' | 'chats' | 'messages' | 'userChats' | 'notificationTokens' | 'answers';
 type AuthModelName = 'users';
 type HttpMethod = 'post' | 'put' | 'get' | 'delete';
+type FileUploadType = 'singleFile' | 'profileImage';
 type HttpConfig = AxiosRequestConfig<any>;
 
 export class ApiClient {
@@ -192,16 +193,25 @@ export class ApiClient {
         blockerId,
       },
     );
-  fileUpload = async (file: FileInfo): Promise<Response> => {
+  fileUploadTypeToEndpointVariant = (type: FileUploadType): string =>
+    ({
+      singleFile: '',
+      profileImage: 'profileImage',
+    }[type]);
+  fileUpload = async (file: FileInfo, type: FileUploadType = 'singleFile'): Promise<Response> => {
     const formData = new FormData();
 
     // Replace 'file' with the key you want to use on the server to access the file
     formData.append('file', file);
     console.log('formData', formData);
     console.log('file', file);
-    const res = await axios.post(ENDPOINTS.seekApi.functions.fileUpload(), formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    const res = await axios.post(
+      ENDPOINTS.seekApi.functions.fileUpload(this.fileUploadTypeToEndpointVariant(type)),
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      },
+    );
 
     console.log('res', res);
     return res;
