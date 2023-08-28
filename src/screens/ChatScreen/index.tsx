@@ -75,7 +75,6 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const otherUserRef = useRef<UserModel>();
 
   useEffect(() => {
-    console.log('ccaa', chat);
     setOtherUser(chat?.users?.find((u) => u.id !== currentUser?.id));
   }, [chat]);
   useEffect(() => {
@@ -101,7 +100,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const handleNewMessage = async (data: SocketMessageServerUserMessageData) => {
     // the socketmessage could just include all the data instead
     const message = await fetchMessage(data.messageId);
-    console.log('message', message);
+
     setNewMessages((p) => [...p, message]);
     chat && currentUser && markMessagesAsRead(chat, currentUser?.id);
   };
@@ -116,9 +115,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     });
   };
   const handleIsActiveEvent = (data: SocketMessageServerIsActiveData) => {
-    console.log(currentUser?.id, 'active event');
     if (data.userId === otherUserRef.current?.id) {
-      console.log('lalal');
       setOtherUserActive(data.isActive);
     }
   };
@@ -127,12 +124,9 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     setOtherUserActive(Boolean(otherUser?.isActive));
   }, [otherUser]);
 
-  useEffect(() => {
-    console.log('otherUserActive', otherUserActive);
-  }, [otherUserActive]);
+  useEffect(() => {}, [otherUserActive]);
 
   useEffect(() => {
-    console.log('adding function');
     addSocketMessageHandler('message', handleNewMessage);
     addSocketMessageHandler('typing', handleExternalTypingEvent);
     addSocketMessageHandler('isActive', handleIsActiveEvent);
@@ -144,7 +138,6 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   }, []);
 
   const sendMessage = async (message: string) => {
-    console.log('sendis mesig', message, otherUser, currentUser);
     if (!otherUser || !currentUser) {
       return false;
     }
@@ -158,12 +151,9 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     scrollY.setValue(pos);
   };
   useEffect(() => {
-    console.log('hello world');
     chatListRef.current?.scrollToOffset({ offset: 1 });
   }, []);
-  useEffect(() => {
-    console.log(isFetching);
-  }, [isFetching]);
+  useEffect(() => {}, [isFetching]);
   const navigateToOtherUser = () => {
     setShowProfile(true);
   };
@@ -235,7 +225,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
               <View style={{ paddingHorizontal: SPACING.medium, width: '80%' }}>
                 <>
                   <Text type='caption'>
-                    {chat?.question?.timeToStart && formatRelativeDate(chat?.question?.timeToStart)}
+                    {chat?.question?.timeToStart && formatRelativeDate(chat?.question?.createdAt)}
                   </Text>
                   <Spacer spacing='tiny' />
                   <Text weight='bold' emphasis='high' type='subHeader'>

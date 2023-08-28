@@ -18,7 +18,6 @@ export const searchItems = async ({
   limit,
   offset,
 }: Params): Promise<SearchItems> => {
-  console.log('limit offset', limit, offset);
   const res = await apiClient.search({ searchQuery, userId, limit, offset });
   return { chats: { rows: res.data.chats.rows, count: Number(res.data.chats.count) } };
 };

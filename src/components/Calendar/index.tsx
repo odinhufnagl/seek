@@ -32,13 +32,12 @@ const Calendar = ({ style, onDayPress, markedDates }: Props) => {
           textDayHeaderFontSize: FONT_SIZE.SMALL,
         }}
         onDayPress={(day) => {
-          console.log('day pressed', day);
           onDayPress(new Date(day.dateString));
         }}
         markedDates={markedDates?.reduce((acc, item) => {
           if (item) {
             const date = item.toISOString().split('T')[0];
-            console.log(date);
+
             acc[date] = { selected: true };
           }
           return acc;

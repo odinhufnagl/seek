@@ -69,7 +69,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   useEffect(() => {
     (async () => {
       const fcmToken = await firebase.messaging().getToken();
-      console.log('fcmToken', fcmToken);
     })();
   }, []);
 
@@ -84,7 +83,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const handleNewMessage = async (data: SocketMessageServerUserMessageData) => {
     // the socketmessage could just include all the data instead, maybe
     const message = await fetchMessage(data.messageId);
-    console.log('newmessage', message);
+
     setChats((p) =>
       sortRecentsOrder(
         updateItemInList(p, 'chatId', Number(data.chatId), (item) => ({
@@ -105,7 +104,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   const handleIsActiveEvent = (data: SocketMessageServerIsActiveData) => {
-    console.log(currentUser?.id, 'active event');
     setChats((p) =>
       updateItemInList(p, 'otherUserId', data.userId, (item) => ({
         otherUser: { ...item.otherUser, isActive: data.isActive },
@@ -137,11 +135,10 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
           otherUserId: otherUser.id,
         });
       });
-    console.log('newChats', newChats, newChats.length);
+
     setChats(sortRecentsOrder(newChats));
   }, [data]);
   useEffect(() => {
-    console.log('there exists a new question', newQuestion);
     if (newQuestion) {
       setShowNewQuestionIndicator(true);
     }
@@ -155,7 +152,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   // TODO: right now trying focus, might not be optimal
   useFocusEffect(
     React.useCallback(() => {
-      console.log('adding function');
       addSocketMessageHandler('message', handleNewMessage);
       addSocketMessageHandler('typing', handleTypingEvent);
       addSocketMessageHandler('isActive', handleIsActiveEvent);
@@ -168,7 +164,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   );
 
   const navigateToChat = (chatId: number) => {
-    console.log('wassup', chats, chatId);
     // TODO: part of the "focusTest"
     /* 
     setChats((p) =>
@@ -179,10 +174,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     navigation.navigate(SCREENS.CHAT_SCREEN, { id: chatId });
   };
 
-  useEffect(() => {
-    console.log('chatsupdated');
-    console.log(chats.map((c) => console.log(c.chatId, c.unreadMessagesCount)));
-  }, [chats]);
+  useEffect(() => {}, [chats]);
   const navigateToQuestion = () => {
     navigation.navigate(SCREENS.QUESTION_SCREEN);
   };

@@ -6,9 +6,8 @@ export const fetchUsersChats = async (
   userId?: number,
   dbOptions?: DBOptions<ChatWhere>,
 ): Promise<FetchPlural<ChatModel>> => {
-  console.log('heloo');
   const res = await apiClient.dbGetPlural(['users', String(userId), 'chats'], dbOptions);
-  console.log('chats', res.data);
+
   return res.data;
 };
 
@@ -28,6 +27,6 @@ export const fetchChats = async (dbOptions?: DBOptions<ChatWhere>): Promise<Chat
 
 export const fetchNewChat = async (userId?: number): Promise<FetchOne<ChatModel | null>> => {
   const res = await apiClient.getNewChat(userId);
-  console.log('res', res.data);
+
   return res.data;
 };
