@@ -8,7 +8,7 @@ export const markMessagesAsRead = async (chat: ChatModel, userId: number) => {
   if (!chat || !chat.users) {
     return;
   }
-  console.log('chatUsers', chat.users);
+
   const userChatId = chat?.users.find((u) => u.id === userId)?.userChat?.id;
   if (!userChatId) {
     return;
@@ -25,7 +25,7 @@ type ChatMessageData = Partial<MessageModel> & { chatId: number; text: string; u
 
 export const sendChatMessage = async (socket: WebSocket, data: ChatMessageData) => {
   const { chatId, text, userId } = data;
-  console.log('sockettt', socket, data);
+
   sendSocketMessage(
     socket,
     SOCKET_MESSAGE.chatMessage({

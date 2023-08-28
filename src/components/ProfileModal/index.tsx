@@ -29,7 +29,7 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
       }
       const userFetched = await fetchUser(userId);
       const userBlocked = await isUserBlocked(userId, currentUser?.id);
-      console.log('userFetched', userFetched);
+
       setUser(userFetched);
       setUserIsBlocked(userBlocked);
     })();

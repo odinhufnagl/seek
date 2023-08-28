@@ -3,7 +3,6 @@ import { Permission } from '../constants';
 import { hasPermission } from '../utils';
 
 export const openLibrary = async (callback: (string) => void) => {
-  console.log('helo');
   await hasPermission(Permission.WRITE_PHOTOS);
   ImagePicker.launchImageLibrary({}, (res) => {
     if (res.errorMessage || res.didCancel) {
@@ -18,7 +17,6 @@ export const openLibrary = async (callback: (string) => void) => {
 export const openCamera = async (callback: (string) => void) => {
   await hasPermission(Permission.CAMERA);
   ImagePicker.launchCamera({}, (res) => {
-    console.log(res);
     if (res.errorMessage || res.didCancel) {
       return;
     }

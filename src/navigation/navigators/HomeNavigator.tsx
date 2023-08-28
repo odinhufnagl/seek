@@ -71,7 +71,7 @@ const HomeNavigator = () => {
     (async () => {
       // TODO: should not happen each time right
       const fcmToken = await firebase.messaging().getToken();
-      console.log('fcmToken', fcmToken);
+
       createNotificationToken({ name: fcmToken, userId: currentUser?.id });
     })();
   }, [currentUser]);
