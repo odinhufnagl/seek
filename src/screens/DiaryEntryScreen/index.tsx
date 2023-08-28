@@ -42,14 +42,14 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
     if (!answer) {
       return;
     }
-    console.log(answer);
+
     const chat = (
       await fetchUsersChats(currentUser?.id, {
         where: { questionId: { value: answer?.questionId } },
         limit: 1,
       })
     ).rows[0];
-    console.log('chat', chat);
+
     navigation.navigate(SCREENS.CHAT_SCREEN, { id: chat.id });
   };
   if (isLoading) {

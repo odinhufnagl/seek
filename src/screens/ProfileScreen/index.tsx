@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useRoute } from '@react-navigation/native';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
@@ -24,9 +24,6 @@ const ProfileScreen = ({ navigation }: Props) => {
   const answers = data?.rows;
   const { theme } = useTheme();
   const translateKey = 'ProfileScreen.';
-  useEffect(() => {
-    console.log('answers', markedDates);
-  }, [answers]);
 
   const markedDates =
     answers?.reduce((acc: Date[], item) => {
@@ -35,7 +32,6 @@ const ProfileScreen = ({ navigation }: Props) => {
     }, []) || [];
 
   const handleDayPress = (day: Date) => {
-    console.log('date', day);
     const answer = answers?.find((a) => a.createdAt && isSameDate(new Date(a.createdAt), day));
     if (!answer) {
       showSnackbar('No diary entry');
