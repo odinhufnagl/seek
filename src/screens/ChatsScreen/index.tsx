@@ -1,3 +1,4 @@
+import { firebase } from '@react-native-firebase/messaging';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -63,6 +64,13 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     return () => {
       removeNotificationHandler(handleUserMessageOpenedApp);
     };
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const fcmToken = await firebase.messaging().getToken();
+      console.log('fcmToken', fcmToken);
+    })();
   }, []);
 
   const handleTypingEvent = (data: SocketMessageServerTypingData) => {
