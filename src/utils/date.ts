@@ -29,13 +29,13 @@ export const formatRelativeDate = (date: Date | string) => {
 
     if (year === currentYear) {
       // Format as 'month day' (e.g., 'July 13')
-      return date.toLocaleString('en-US', {
+      return date.toLocaleString(undefined, {
         month: 'long',
         day: 'numeric',
       });
     } else {
       // Format as 'month day, year' (e.g., 'July 13, 2022')
-      return date.toLocaleString('en-US', {
+      return date.toLocaleString(undefined, {
         month: 'long',
         day: 'numeric',
         year: 'numeric',
