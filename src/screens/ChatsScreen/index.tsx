@@ -139,9 +139,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     setChats(sortRecentsOrder(newChats));
   }, [data]);
   useEffect(() => {
-    if (newQuestion) {
-      setShowNewQuestionIndicator(true);
-    }
+    setShowNewQuestionIndicator(Boolean(newQuestion));
   }, [newQuestion]);
   // TODO: this might be bad, because if a user goes to a chat far down, they will end up in the top
   useFocusEffect(
@@ -174,7 +172,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     navigation.navigate(SCREENS.CHAT_SCREEN, { id: chatId });
   };
 
-  useEffect(() => {}, [chats]);
   const navigateToQuestion = () => {
     navigation.navigate(SCREENS.QUESTION_SCREEN);
   };
