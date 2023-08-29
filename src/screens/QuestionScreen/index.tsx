@@ -26,6 +26,7 @@ const QuestionScreen = ({ navigation }: Props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const [answerText, setAnswerText] = useState('');
+  const [loadingUpload, setLoadingUpload] = useState(false);
   const translateKey = 'QuestionScreen.';
 
   const handleSendPressed = async () => {
@@ -33,6 +34,7 @@ const QuestionScreen = ({ navigation }: Props) => {
       return;
     }
     try {
+      setLoadingUpload(true);
       const res = await createAnswer({
         userId: currentUser?.id,
         isPrivate: areaMode === 'private',
@@ -41,9 +43,11 @@ const QuestionScreen = ({ navigation }: Props) => {
         ...(areaMode === 'global' ? { area: { type: 'world' } } : {}),
       });
       showSnackbar('Answer is posted', 'success');
+      setLoadingUpload(false);
       navigation.goBack();
     } catch (e) {
       showSnackbar('Could not post answer', 'error');
+      setLoadingUpload(false);
     }
   };
 
@@ -153,6 +157,7 @@ const QuestionScreen = ({ navigation }: Props) => {
           </View>
           <View style={styles(theme).buttonContainer}>
             <Button
+              loading={loadingUpload}
               disabled={answerText === ''}
               title='Send'
               variant='secondary'
