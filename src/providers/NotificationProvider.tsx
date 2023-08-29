@@ -43,9 +43,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
     const enabled =
       authStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === firebase.messaging.AuthorizationStatus.PROVISIONAL;
-
-    if (enabled) {
-    }
   };
 
   useEffect(() => {
@@ -53,11 +50,13 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
       .messaging()
       .onNotificationOpenedApp(handleOnNotificationOpenedApp);
     const unsubscribeInApp = firebase.messaging().onMessage(handleOnNotificationInApp);
+
     firebase.messaging().setBackgroundMessageHandler(handleOnNotificationInBackground);
     (async () => {
       await requestNotificationUserPermission();
       // TODO: unsubsribe
       const initialMessage = await firebase.messaging().getInitialNotification();
+      console.log('initialMessage from notification', initialMessage);
       if (initialMessage) {
         handleOnNotificationOpenedApp(initialMessage);
       }
