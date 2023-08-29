@@ -14,11 +14,11 @@ const RootNavigator = () => {
   return (
     <View style={styles().root}>
       {currentUser && token ? (
-        <SocketProvider token={token}>
-          <NotificationProvider>
+        <NotificationProvider>
+          <SocketProvider token={token}>
             <HomeNavigator />
-          </NotificationProvider>
-        </SocketProvider>
+          </SocketProvider>
+        </NotificationProvider>
       ) : (
         <AuthNavigator />
       )}
