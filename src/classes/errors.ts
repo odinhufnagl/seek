@@ -16,11 +16,14 @@ export class AppError extends Error {
     super(message);
   }
   static fromApiError(e: ApiError) {
+    console.log(e.errorCode, e.message);
     switch (e.errorCode) {
       case 'E203':
         return new EmailInUseError();
       case 'E101':
         return new WrongEmailPasswordError();
+      case 'E100':
+        return new NotAuthenticatedError();
       default:
         return new AppError('Something went wrong');
     }
@@ -39,5 +42,10 @@ export class WrongEmailPasswordError extends AppError {
 export class NetworkError extends AppError {
   constructor() {
     super('Network error');
+  }
+}
+export class NotAuthenticatedError extends AppError {
+  constructor() {
+    super('Not authenticated');
   }
 }
