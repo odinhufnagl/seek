@@ -62,7 +62,11 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
               <Image style={styles(theme).image} source={{ uri: user.profileImage.url }} />
             )}
             <Spacer />
-            {user.name && <Text weight='bold'>{user.name}</Text>}
+            {user.name && (
+              <Text weight='bold' emphasis='high'>
+                {user.name}
+              </Text>
+            )}
             <Spacer spacing='tiny' />
             {user.location && (
               <>
