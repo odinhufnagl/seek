@@ -36,7 +36,7 @@ const keyboardVerticalOffset = Platform.OS === 'ios' ? 120 : 0;
 const ChatScreen = ({ navigation }: ScreenProps) => {
   const { socket, addSocketMessageHandler, removeSocketMessageHandler, sendSocketMessage } =
     useSocket();
-  const chatListRef = useRef<FlatList>();
+  const chatListRef = useRef<FlatList>(null);
   const { theme } = useTheme();
   const { params } = useRoute();
   const { id: chatId } = params as Params;
@@ -124,8 +124,6 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     setOtherUserActive(Boolean(otherUser?.isActive));
   }, [otherUser]);
 
-  useEffect(() => {}, [otherUserActive]);
-
   useEffect(() => {
     addSocketMessageHandler('message', handleNewMessage);
     addSocketMessageHandler('typing', handleExternalTypingEvent);
@@ -150,10 +148,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const handleScrollPositionChange = (pos) => {
     scrollY.setValue(pos);
   };
-  useEffect(() => {
-    chatListRef.current?.scrollToOffset({ offset: 1 });
-  }, []);
-  useEffect(() => {}, [isFetching]);
+
   const navigateToOtherUser = () => {
     setShowProfile(true);
   };

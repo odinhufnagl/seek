@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useState } from 'react';
+import React, { LegacyRef, useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Spacer, Text } from '../../common';
 import { ChatMessage, WriteMessage } from '../../components';
@@ -91,7 +91,7 @@ type Props = {
   onRefresh?: () => void;
   refreshing?: boolean;
   onScrollPositionChange: (e: any) => void;
-  listRef: Ref<any>;
+  listRef: LegacyRef<FlatList>;
   fetchNextPage: () => void;
   hasNextPage?: boolean;
   isFetching?: boolean;
@@ -188,6 +188,9 @@ const Chat = ({
     onScrollPositionChange(scrollPosition);
     scrollPosition < 500 && hasNextPage && fetchNextPage();
   };
+  const handleContentSizeChanged = () => {
+    listRef?.current?.scrollToOffset({ offset: 1 });
+  };
 
   useEffect(() => {
     !isTyping && input && setIsTyping(true);
@@ -210,6 +213,7 @@ const Chat = ({
           keyExtractor={(item) => (typeof item === 'string' ? item : item.id)}
           initialNumToRender={10}
           ref={listRef}
+          onContentSizeChange={handleContentSizeChanged}
           onScroll={handleScroll}
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
           ListFooterComponent={header}
