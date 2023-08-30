@@ -36,20 +36,20 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Seek wants access to your camera</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
 	<dict>
-		<key>YOUR-PURPOSE-KEY</key>
-		<string>YOUR TEXT</string>
+		<key>LocationAccess</key>
+		<string>Seek wants access to your locatin</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Seek wants access to your location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Seek wants access to your microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Seek wants access to your photo-library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Seek wants access your photo-library</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Bold.ttf</string>
