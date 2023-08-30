@@ -75,7 +75,7 @@ const ProfileModal = ({ userId, visible, setVisible }: Props) => {
                   <Spacer spacing='tiny' orientation='horizontal' />
 
                   <Text type='small' emphasis='medium'>
-                    {`${user.location?.cityName}, ${user.location?.country.code}`}
+                    {`${user.location?.cityName}, ${user.location?.country.name}`}
                   </Text>
                 </View>
                 <Spacer spacing='medium' />
