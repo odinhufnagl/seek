@@ -19,6 +19,7 @@ import ImageIconSvg from './image/ImageIconSVG';
 import LocationIconSvg from './location/LocationIconSVG';
 import LogOutIconSvg from './logOut/LogOut';
 import MessageQuestionIconSvg from './messageQuestion/MessageQuestionIconSVG';
+import MyLocationIconSvg from './myLocation/MyLocationIconSVG';
 import NFCIconSVG from './nfc/NFCIconSVG';
 import PaperStackIconSVG from './paperStack/PaperStackIconSVG';
 import PhoneIconSvg from './phone/PhoneIconSVG';
@@ -36,7 +37,6 @@ import UserCheckIconSVG from './userCheck/UserCheckIconSVG';
 import UserRemoveIconSVG from './userRemove/UserRemoveIconSVG';
 import WarningIconSVG from './warning/WarningIconSVG';
 import WriteIconSVG from './write/WriteIconSVG';
-
 export const icons = {
   back: BackIconSVG,
   close: CloseIconSvg,
@@ -76,4 +76,5 @@ export const icons = {
   about: MessageQuestionIconSvg,
   privacyPolicy: FolderIconSvg,
   delete: TrashcanIconSvg,
+  myLocation: MyLocationIconSvg,
 };

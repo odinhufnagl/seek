@@ -1,6 +1,6 @@
 import { SEEK_API_PATH, SEEK_API_SOCKET_PATH } from 'react-native-dotenv';
-// const SEEK_API_PATH = 'http://10.60.30.242:3000/api';
-// const SEEK_API_SOCKET_PATH = 'ws://10.60.30.242:3000';
+// const SEEK_API_PATH = 'http://192.168.0.11:3000/api';
+// const SEEK_API_SOCKET_PATH = 'ws://192.168.0.11:3000';
 const seekApi = {
   database: {
     getOne: (table: string, id?: string | number) => `${SEEK_API_PATH}/${table}/${id}`,
@@ -18,6 +18,8 @@ const seekApi = {
   },
   functions: {
     search: () => `${SEEK_API_PATH}/f/search`,
+    location: () => `${SEEK_API_PATH}/f/maps/location`,
+    searchLocations: () => `${SEEK_API_PATH}/f/maps/search`,
     newChatSeen: () => `${SEEK_API_PATH}/f/newChatSeen`,
     fileUpload: (variant: string) => `${SEEK_API_PATH}/f/fileUpload/${variant}`,
     blockUser: () => `${SEEK_API_PATH}/f/blockUser`,

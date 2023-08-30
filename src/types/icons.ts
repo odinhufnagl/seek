@@ -36,6 +36,7 @@ export type IconVariant =
   | 'contact'
   | 'about'
   | 'privacyPolicy'
-  | 'delete';
+  | 'delete'
+  | 'myLocation';
 
 export type IconSize = 'small' | 'extraSmall' | 'medium' | 'large' | 'extraLarge' | number;
