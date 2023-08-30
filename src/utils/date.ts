@@ -15,7 +15,7 @@ export const getTime = (date: Date) => {
 };
 
 // TODO: show time if today, make it optional
-export const formatRelativeDate = (date: Date | string, withTime = false) => {
+export const formatRelativeDate = (date: Date | string, showTimeToday = false) => {
   if (typeof date === 'string') {
     date = new Date(date);
   }
@@ -25,7 +25,7 @@ export const formatRelativeDate = (date: Date | string, withTime = false) => {
   const today = new Date();
 
   if (isSameDate(today, date)) {
-    if (withTime) {
+    if (showTimeToday) {
       return getTime(date);
     }
     return translate(translateKey + 'today');
