@@ -118,7 +118,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
     },
     {
       key: 'email',
-      required: [password == confirmedPassword, password.length > 0, password.length > 0],
+      required: [email.length > 0],
       component: <Email email={email} updateEmail={setEmail} onSubmit={handleNext} />,
     },
     /* {
@@ -163,6 +163,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
       getGeoLocation(
         async (location) => {
           try {
+            console.log('location', location);
             const user = await signUp({
               name,
               email,
@@ -182,6 +183,7 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
               setLoading(false);
               return;
             }
+            showSnackbar(translate('snackbar.defaultError'), 'error');
           }
           setLoading(false);
         },
