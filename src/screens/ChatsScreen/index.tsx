@@ -2,6 +2,7 @@ import { firebase } from '@react-native-firebase/messaging';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { getTimeZone, uses24HourClock } from 'react-native-localize';
 import { Container, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
@@ -217,6 +218,9 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     setShowNewQuestionIndicator(false);
     navigateToQuestion();
   };
+  useEffect(() => {
+    console.log('tz', getTimeZone(), uses24HourClock());
+  }, []);
 
   return (
     <View style={styles(theme).container}>
