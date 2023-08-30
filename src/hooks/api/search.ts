@@ -3,7 +3,7 @@ import { QUERY_HOOKS } from '../../constants';
 import { searchItems } from '../../services';
 export const useSearchItems = (searchQuery: string, userId?: number, limit = 20) =>
   useInfiniteQuery(
-    [QUERY_HOOKS.keys.searchItems],
+    [QUERY_HOOKS.keys.searchItems, searchQuery],
     ({ pageParam }) => {
       return searchItems({ searchQuery, userId, limit, offset: pageParam || 0 });
     },
