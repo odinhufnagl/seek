@@ -1,5 +1,13 @@
-import React, { Dispatch, MutableRefObject } from 'react';
-import { StyleSheet, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
+import React, { Dispatch, MutableRefObject, useRef, useState } from 'react';
+import {
+  FlatList,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
@@ -21,6 +29,11 @@ interface Props extends TextInputProps {
   variant?: 'primary' | 'secondary' | 'third' | 'fourth';
   rightIcon?: IconProps;
   inputRef?: MutableRefObject<TextInput | null>;
+  disabled?: boolean;
+  dropdown?: boolean;
+  dropdownItems?: { title: string; value: any }[];
+  dropdownValue?: any;
+  updateDropdownValue?: any;
 }
 
 const Input: React.FC<Props> = ({
@@ -36,10 +49,17 @@ const Input: React.FC<Props> = ({
   autoCapitalize,
   rightIcon,
   inputRef,
+  disabled,
+  dropdown,
+  dropdownItems,
+  dropdownValue,
+  updateDropdownValue,
   variant = 'primary',
   ...props
 }) => {
   const { theme } = useTheme();
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const ref = useRef<TextInput>(null);
 
   const getInputStyle = () => {
     switch (variant) {
@@ -69,12 +89,23 @@ const Input: React.FC<Props> = ({
         break;
     }
   };
+
+  const handleDropdownItemPress = ({ title, value }) => {
+    setIsDropdownVisible(false);
+    inputRef && inputRef?.current?.blur();
+    ref && ref?.current?.blur();
+    updateValue(title);
+    updateDropdownValue(value);
+  };
   return (
     <>
       {title && (
-        <Text emphasis='primary' type='small' weight='semiBold'>
-          {title}
-        </Text>
+        <>
+          <Text emphasis='primary' type='small' weight='semiBold'>
+            {title}
+          </Text>
+          <Spacer spacing='tiny' />
+        </>
       )}
       <View
         style={[
@@ -85,7 +116,8 @@ const Input: React.FC<Props> = ({
         ]}
       >
         <TextInput
-          ref={inputRef}
+          editable={!disabled}
+          ref={inputRef || ref}
           selectionColor={theme.base.primary}
           placeholderTextColor={theme.base.low}
           style={[getInputStyle(), style]}
@@ -97,11 +129,12 @@ const Input: React.FC<Props> = ({
           onChangeText={updateValue}
           secureTextEntry={secureTextEntry}
           autoCapitalize={autoCapitalize}
+          onFocus={() => setIsDropdownVisible(true)}
           {...props}
         />
         {rightIcon && (
           <>
-            <Icon variant='third' fill={theme.base.low} {...rightIcon} />
+            <Icon variant='third' fill={rightIcon.fill || theme.base.low} {...rightIcon} />
             <Spacer spacing='medium' orientation='horizontal' />
           </>
         )}
@@ -113,6 +146,23 @@ const Input: React.FC<Props> = ({
           <Text type='small' emphasis='low'>{`${value.length}/${maxLength}`}</Text>
         </View>
       )}
+      {dropdown && isDropdownVisible && dropdownItems && dropdownItems?.length > 0 && (
+        <FlatList
+          keyboardShouldPersistTaps='always'
+          style={styles(theme).dropdown}
+          data={dropdownItems}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => handleDropdownItemPress(item)}
+              style={styles(theme).dropdownItem}
+            >
+              <Text emphasis='high' weight='medium' type='caption'>
+                {item.title}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      )}
     </>
   );
 };
@@ -122,6 +172,19 @@ const styles = (theme: Theme) =>
     defaultContainer: {
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    dropdown: {
+      marginTop: SPACING.small,
+      borderRadius: DIMENS.common.borderRadiusMedium,
+      backgroundColor: theme.background.secondary,
+      paddingHorizontal: SPACING.medium,
+      paddingVertical: SPACING.small,
+      flexGrow: 0,
+      top: 0,
+      zIndex: 1000,
+    },
+    dropdownItem: {
+      paddingVertical: 12,
     },
     primaryContainer: {
       height: 40,

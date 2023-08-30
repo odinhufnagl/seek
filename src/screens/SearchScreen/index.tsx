@@ -59,9 +59,6 @@ const SearchScreen = ({ navigation }: Props) => {
       </>
     );
   };
-  useEffect(() => {
-    refetch();
-  }, [searchPhrase]);
 
   return (
     <Container>
