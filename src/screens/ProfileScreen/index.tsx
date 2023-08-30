@@ -84,7 +84,7 @@ const ProfileScreen = ({ navigation }: Props) => {
               <View style={styles(theme).locationContainer}>
                 <Icon icon='location' variant='third' size={12} fill={theme.base.low} />
                 <Spacer spacing='tiny' orientation='horizontal' />
-                <Text type='small'>{`${user?.location?.cityName}, ${user?.location?.country.code}`}</Text>
+                <Text type='small'>{`${user?.location?.cityName}, ${user?.location?.country.name}`}</Text>
               </View>
             </View>
           </View>
