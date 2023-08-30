@@ -1,5 +1,6 @@
+import moment from 'moment';
+import { uses24HourClock } from 'react-native-localize';
 import { translate } from '../i18n';
-
 export const isSameDate = (date1: Date, date2: Date) => {
   return (
     date1.getDate() === date2.getDate() &&
@@ -8,8 +9,13 @@ export const isSameDate = (date1: Date, date2: Date) => {
   );
 };
 
+// TODO: should be able to return different types
+export const getTime = (date: Date) => {
+  return moment(date).format(uses24HourClock() ? 'HH:mm' : 'h:mm A');
+};
+
 // TODO: show time if today, make it optional
-export const formatRelativeDate = (date: Date | string) => {
+export const formatRelativeDate = (date: Date | string, showTimeToday = false) => {
   if (typeof date === 'string') {
     date = new Date(date);
   }
@@ -19,6 +25,9 @@ export const formatRelativeDate = (date: Date | string) => {
   const today = new Date();
 
   if (isSameDate(today, date)) {
+    if (showTimeToday) {
+      return getTime(date);
+    }
     return translate(translateKey + 'today');
   }
   if (isSameDate(yesterday, date)) {

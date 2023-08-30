@@ -183,7 +183,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
           <Icon icon='dots' variant='third' size={25} key={'dots'} onPress={navigateToOtherUser} />,
         ]}
         headerTitleProps={{ type: 'header', weight: 'bold', emphasis: 'high' }}
-        subHeader={otherUserActive ? 'Active now' : formatRelativeDate(otherUser?.lastActive)}
+        subHeader={otherUserActive ? 'Active now' : formatRelativeDate(otherUser?.lastActive, true)}
         header={otherUser?.name}
         headerLeft
       />

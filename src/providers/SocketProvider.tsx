@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 
 import BackgroundTimer from 'react-native-background-timer';
-import { WelcomeView } from '../components';
 import endpoints from '../constants/endpoints';
 import { getSocket } from '../services/socket';
 import {
@@ -171,15 +170,6 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     socket.onerror = null;
     socket.onmessage = null;
   };
-  // TODO: I think if you enter the app via a notification, then put it in background, and then enter the app again, it will be seen as i you opened the app with the notificiation again
-  // because it will rerender and initialNotification is still same
-  if (!socketIsConnected) {
-    return (
-      <>
-        <WelcomeView />
-      </>
-    );
-  }
 
   const value = {
     socket,
