@@ -6,39 +6,65 @@ import { DIMENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
 import { useAuth } from '../../providers/AuthProvider';
 import { ChatModel, MessageModel, Theme, UserModel } from '../../types';
-import { formatRelativeDate } from '../../utils';
+import { formatRelativeDate, getTime } from '../../utils';
+const MESSAGES_GROUPING_TRESHOLD_SECONDS = 5 * 60;
+
+const formatGroupingDate = (d: Date) => `${formatRelativeDate(d)}, ${getTime(d)}`;
 
 const messagesTimeSeparated = (messages?: MessageModel[]) => {
-  if (!messages) {
+  if (!messages || messages.length === 0) {
     return [];
   }
-  const data: (MessageModel | string)[] = [];
-  let currentMonthId;
-  let currentDateId;
-  let currentYear;
-  let currentMessages: MessageModel[] = [];
+
   const messagesSorted = messages
     .slice()
     .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-
-  messagesSorted.forEach((message) => {
+  /* for (let i = 1; i < messagesSorted.length; i++) {
+    const message = messagesSorted[i];
     const d = new Date(message.createdAt);
-    const dateId = d.getDate();
-    const monthId = d.getMonth();
-    const year = d.getFullYear();
-
-    if (currentMonthId !== monthId || currentYear !== year || currentDateId !== dateId) {
-      currentMonthId = monthId;
-      currentYear = year;
-      currentDateId = dateId;
+    const groupingThreshold = GROUPING_TRESHOLD_MINUTES * 60 * 1000;
+    const timeDifference = d - currentDate;
+    if (timeDifference >= groupingThreshold) {
+      currentDate = d;
       currentMessages.length > 0 && data.push(...currentMessages);
 
-      data.push(formatRelativeDate(d));
+      data.push(formatDate(d));
       currentMessages = [];
     }
     currentMessages.push(message);
+  }*/
+  const groupedMessages: MessageModel[][] = [];
+
+  let currentGroup = [messagesSorted[0]];
+
+  for (let i = 1; i < messagesSorted.length; i++) {
+    const currentMessage = messagesSorted[i];
+    const previousMessage = messagesSorted[i - 1];
+
+    // Calculate the time difference between the current and previous messages
+    const timeDifference = new Date(currentMessage.createdAt) - new Date(previousMessage.createdAt);
+
+    // Define a threshold (e.g., 5 minutes) for grouping messages
+    const groupingThreshold = MESSAGES_GROUPING_TRESHOLD_SECONDS * 1000;
+    console.log('timeDifference', timeDifference);
+    if (timeDifference <= groupingThreshold) {
+      // If the time difference is within the threshold, add the message to the current group
+      currentGroup.push(currentMessage);
+    } else {
+      // If the time difference exceeds the threshold, start a new group
+
+      groupedMessages.push(currentGroup);
+      currentGroup = [currentMessage];
+    }
+  }
+  groupedMessages.push(currentGroup);
+  console.log('grouped messages', groupedMessages);
+  const data: (MessageModel | string)[] = [];
+  groupedMessages.forEach((group) => {
+    console.log('ddd', group[0].createdAt);
+    data.push(formatGroupingDate(new Date(group[0].createdAt)));
+    data.push(...group);
   });
-  data.push(...currentMessages);
 
   // return data.reverse();
   return data;
