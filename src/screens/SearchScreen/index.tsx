@@ -26,7 +26,7 @@ const ChatItem = ({ chat, onPress }: { chat: ChatModel; onPress: () => void }) =
             <Text emphasis='low' type='small'>
               {otherUser.isActive
                 ? 'Active now'
-                : formatRelativeDate(new Date(otherUser?.lastActive))}
+                : formatRelativeDate(new Date(otherUser?.lastActive), true)}
             </Text>
           )}
         </View>
