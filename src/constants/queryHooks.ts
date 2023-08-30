@@ -9,5 +9,6 @@ export default {
     searchItems: 'searchItems',
     newQuestion: 'newQuestion',
     newChat: 'newChat',
+    searchLocations: 'searchLocations',
   },
 };

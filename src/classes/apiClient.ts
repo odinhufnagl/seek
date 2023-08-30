@@ -190,6 +190,28 @@ export class ApiClient {
         blockerId,
       },
     );
+  searchLocations = async (
+    searchQuery: string,
+    type?: 'cities' | 'regions' | 'address',
+  ): Promise<Response> =>
+    await this.fetch(
+      'get',
+      ENDPOINTS.seekApi.functions.searchLocations(),
+      {},
+      {
+        search_query: searchQuery,
+        type,
+      },
+    );
+  location = async (placeId: string): Promise<Response> =>
+    await this.fetch(
+      'get',
+      ENDPOINTS.seekApi.functions.location(),
+      {},
+      {
+        place_id: placeId,
+      },
+    );
   fileUploadTypeToEndpointVariant = (type: FileUploadType): string =>
     ({
       singleFile: '',
