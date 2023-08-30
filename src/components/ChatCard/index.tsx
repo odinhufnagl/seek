@@ -77,7 +77,7 @@ const ChatCard = ({
           </View>
           <View style={styles(theme).rightContainer}>
             <Text type='extraSmall' weight='bold' emphasis='medium'>
-              {isActive ? 'Active Now' : formatRelativeDate(lastActive)}
+              {isActive ? 'Active Now' : formatRelativeDate(lastActive, true)}
             </Text>
             {/* <View style={styles(theme).countContainer}>
               {
