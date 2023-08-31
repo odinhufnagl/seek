@@ -214,9 +214,6 @@ const Chat = ({
     onScrollPositionChange(scrollPosition);
     scrollPosition < 500 && hasNextPage && fetchNextPage();
   };
-  const handleContentSizeChanged = () => {
-    listRef?.current?.scrollToOffset({ offset: 1 });
-  };
 
   useEffect(() => {
     !isTyping && input && setIsTyping(true);
@@ -239,7 +236,6 @@ const Chat = ({
           keyExtractor={(item) => (typeof item === 'string' ? item : item.id)}
           initialNumToRender={10}
           ref={listRef}
-          onContentSizeChange={handleContentSizeChanged}
           onScroll={handleScroll}
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
           ListFooterComponent={header}
