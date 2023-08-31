@@ -53,7 +53,7 @@ const SearchScreen = ({ navigation }: Props) => {
       <>
         <ChatItem
           chat={item}
-          onPress={() => navigation.navigate(SCREENS.CHAT_SCREEN, { id: item.id })}
+          onPress={() => navigation.push(SCREENS.CHAT_SCREEN, { id: item.id })}
         />
         <Spacer spacing='large' />
       </>

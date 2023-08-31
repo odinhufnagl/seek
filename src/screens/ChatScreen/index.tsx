@@ -40,7 +40,11 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const { theme } = useTheme();
   const { params } = useRoute();
   const { id: chatId } = params as Params;
-  const { data: chat } = useFetchChat(chatId);
+  const {
+    data: chat,
+    isLoading: chatIsLoading,
+    isRefetching: chatIsRefetching,
+  } = useFetchChat(chatId);
   const [dateNow, setDateNow] = useState<Date>(new Date());
   const [otherUser, setOtherUser] = useState<UserModel | undefined>();
   const [otherUserTyping, setOtherUserTyping] = useState(false);
@@ -50,7 +54,15 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   const translateKey = 'chatScreen.';
   const { currentUser } = useAuth();
 
-  const { data, fetchNextPage, hasNextPage, isFetching, fetchPreviousPage } = useFetchMessages(
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    fetchPreviousPage,
+    isRefetching: messagesIsRefreshing,
+    isLoading: messagesIsLoading,
+  } = useFetchMessages(
     {
       where: {
         chatId: { value: chatId },
@@ -61,6 +73,8 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     },
     20,
   );
+
+  useEffect(() => {});
   const messages = data?.pages.flatMap((page) => page?.rows);
   const totalMessagesCount = data?.pages[0]?.count;
   const [newMessages, setNewMessages] = useState<MessageModel[]>([]);
@@ -155,7 +169,9 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
 
   const existsMessagesLeftToSee =
     messages && totalMessagesCount && messages?.length < totalMessagesCount;
-  if (!otherUser) {
+  const isLoading =
+    !otherUser || chatIsLoading || messagesIsLoading || messagesIsRefreshing || chatIsRefetching;
+  if (isLoading) {
     return <></>;
   }
   return (

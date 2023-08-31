@@ -1,6 +1,6 @@
-// import { SEEK_API_PATH, SEEK_API_SOCKET_PATH } from 'react-native-dotenv';
-const SEEK_API_PATH = 'http://192.168.0.11:3000/api';
-const SEEK_API_SOCKET_PATH = 'ws://192.168.0.11:3000';
+import { SEEK_API_PATH, SEEK_API_SOCKET_PATH } from 'react-native-dotenv';
+// const SEEK_API_PATH = 'http://localhost:3000/api';
+// const SEEK_API_SOCKET_PATH = 'ws://localhost:3000';
 const seekApi = {
   database: {
     getOne: (table: string, id?: string | number) => `${SEEK_API_PATH}/${table}/${id}`,
