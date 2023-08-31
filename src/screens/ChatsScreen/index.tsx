@@ -170,7 +170,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         unreadMessagesCount: 0,
       })),
     );*/
-    navigation.navigate(SCREENS.CHAT_SCREEN, { id: chatId });
+    navigation.push(SCREENS.CHAT_SCREEN, { id: chatId });
   };
 
   const navigateToQuestion = () => {
