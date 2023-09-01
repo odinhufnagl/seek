@@ -6,10 +6,10 @@ import { DIMENS, SPACING } from '../../constants';
 import { useTheme } from '../../hooks';
 import { useAuth } from '../../providers/AuthProvider';
 import { ChatModel, MessageModel, Theme, UserModel } from '../../types';
-import { formatRelativeDate, getTime } from '../../utils';
-const MESSAGES_GROUPING_TRESHOLD_SECONDS = 5 * 60;
+import { formatRelativeDate } from '../../utils';
+const MESSAGES_GROUPING_TRESHOLD_SECONDS = 10 * 60;
 
-const formatGroupingDate = (d: Date) => `${formatRelativeDate(d)}, ${getTime(d)}`;
+const formatGroupingDate = (d: Date) => formatRelativeDate(d, true, true);
 
 const messagesTimeSeparated = (messages?: MessageModel[]) => {
   if (!messages || messages.length === 0) {
