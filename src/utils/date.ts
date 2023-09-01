@@ -15,7 +15,11 @@ export const getTime = (date: Date) => {
 };
 
 // TODO: show time if today, make it optional
-export const formatRelativeDate = (date: Date | string, showTimeToday = false) => {
+export const formatRelativeDate = (
+  date: Date | string,
+  showOnlyTimeToday = false,
+  showTime = false,
+) => {
   if (typeof date === 'string') {
     date = new Date(date);
   }
@@ -25,30 +29,30 @@ export const formatRelativeDate = (date: Date | string, showTimeToday = false) =
   const today = new Date();
 
   if (isSameDate(today, date)) {
-    if (showTimeToday) {
+    if (showOnlyTimeToday) {
       return getTime(date);
     }
-    return translate(translateKey + 'today');
+    return translate(translateKey + 'today') + `${showTime ? `, ${getTime(date)}` : ''}`;
   }
   if (isSameDate(yesterday, date)) {
-    return translate(translateKey + 'yesterday');
+    return translate(translateKey + 'yesterday') + `${showTime ? `, ${getTime(date)}` : ''}`;
   } else {
     const currentYear = new Date().getFullYear();
     const year = date.getFullYear();
 
     if (year === currentYear) {
       // Format as 'month day' (e.g., 'July 13')
-      return date.toLocaleString(undefined, {
+      return `${date.toLocaleString(undefined, {
         month: 'long',
         day: 'numeric',
-      });
+      })}${showTime ? `, ${getTime(date)}` : ''}`;
     } else {
       // Format as 'month day, year' (e.g., 'July 13, 2022')
-      return date.toLocaleString(undefined, {
+      return `${date.toLocaleString(undefined, {
         month: 'long',
         day: 'numeric',
         year: 'numeric',
-      });
+      })}${showTime ? `, ${getTime(date)}` : ''}`;
     }
   }
 };
