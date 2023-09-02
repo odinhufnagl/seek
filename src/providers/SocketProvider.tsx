@@ -3,8 +3,9 @@ import { AppState, AppStateStatus } from 'react-native';
 
 import BackgroundTimer from 'react-native-background-timer';
 import endpoints from '../constants/endpoints';
-import { getSocket } from '../services/socket';
+import { getSocket, sendSocketMessage } from '../services/socket';
 import {
+  SocketClientMessagePing,
   SocketMessageClient,
   SocketMessageServer,
   SocketMessageServerData,
@@ -55,7 +56,7 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
   const sendKeepAliveMessage = () => {
     if (socketRef.current && socketRef.current.readyState === socketRef.current.OPEN) {
       console.log('send keep alive message');
-      socketRef.current.send('');
+      sendSocketMessage(socketRef.current, { type: 'ping' } as SocketClientMessagePing);
     }
   };
   const keepAlive = (timeout = KEEP_ALIVE_TIMER) => {
