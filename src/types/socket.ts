@@ -38,7 +38,7 @@ export interface SocketMessageServerTypingData extends SocketMessageServerData {
   chatId: number;
 }
 
-export type SocketMessageClientType = 'message' | 'typing' | 'isActive';
+export type SocketMessageClientType = 'message' | 'typing' | 'isActive' | 'ping';
 export type SocketMessageServerType = 'message' | 'typing' | 'isActive';
 export interface SocketMessageClient {
   type: SocketMessageClientType;
@@ -57,6 +57,7 @@ export interface SocketClientMessageIsActive extends SocketMessageClient {
 export interface SocketClientMessageIsTyping extends SocketMessageClient {
   data: SocketMessageClientTypingData;
 }
+export type SocketClientMessagePing = SocketMessageClient;
 
 export interface SocketClientMessageUserMessage extends SocketMessageClient {
   data: SocketMessageClientUserMessageData;
