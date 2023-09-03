@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:295766383530:android:c03641023a8aefef6269d3",
+        "mobilesdk_app_id": "1:295766383530:android:a0d5a40413c179306269d3",
         "android_client_info": {
-          "package_name": "com.seek"
+          "package_name": "com.seekapp"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "295766383530-77uc2nmdho6nie28vac363a564fqr140.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "295766383530-mbqkbt1mhq6dbahiau7l7vs7nqkmgrde.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.seek"
+              }
             }
           ]
         }
