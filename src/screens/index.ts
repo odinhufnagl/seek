@@ -2,6 +2,7 @@ import ChatScreen from './ChatScreen';
 import ChatsScreen from './ChatsScreen';
 import DiaryEntryScreen from './DiaryEntryScreen';
 import EditProfileScreen from './EditProfileScreen';
+import ForgotPasswordScreen from './ForgotPasswordScreen';
 import LoginScreen from './LoginScreen';
 import NewConnectionScreen from './NewConnectionScreen';
 import OnboardScreen from './OnboardScreen';
@@ -10,6 +11,7 @@ import ProfileScreen from './ProfileScreen';
 import QuestionScreen from './QuestionScreen';
 import SearchScreen from './SearchScreen';
 import SettingsScreen from './SettingsScreen';
+import UpdatePasswordScreen from './UpdatePasswordScreen';
 import WelcomeScreen from './WelcomeScreen';
 
 export {
@@ -17,6 +19,7 @@ export {
   ChatsScreen,
   DiaryEntryScreen,
   EditProfileScreen,
+  ForgotPasswordScreen,
   LoginScreen,
   NewConnectionScreen,
   OnboardScreen,
@@ -25,5 +28,6 @@ export {
   QuestionScreen,
   SearchScreen,
   SettingsScreen,
+  UpdatePasswordScreen,
   WelcomeScreen,
 };
