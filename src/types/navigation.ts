@@ -14,6 +14,8 @@ const {
   EDIT_PROFILE_SCREEN,
   SETTINGS_SCREEN,
   PRIVACY_POLICY_SCREEN,
+  UPDATE_PASSWORD_SCREEN,
+  FORGOT_PASSWORD_SCREEN,
 } = SCREENS;
 type StackParamList = {
   [LOGIN_SCREEN]: any;
@@ -31,6 +33,8 @@ type StackParamList = {
   [EDIT_PROFILE_SCREEN]: any;
   [SETTINGS_SCREEN]: any;
   [PRIVACY_POLICY_SCREEN]: any;
+  [UPDATE_PASSWORD_SCREEN]: any;
+  [FORGOT_PASSWORD_SCREEN]: any;
 };
 
 export type NavigationProps = StackNavigationProp<StackParamList>;

@@ -170,6 +170,13 @@ export class ApiClient {
     await this.fetch('get', ENDPOINTS.seekApi.database.getNewChat(String(userId)));
   newChatSeen = async (userId: number, chatId: number): Promise<Response> =>
     await this.fetch('post', ENDPOINTS.seekApi.functions.newChatSeen(), { userId, chatId });
+  resetPassword = async (email: string): Promise<Response> =>
+    await this.fetch('post', ENDPOINTS.seekApi.functions.resetPassword(), { email });
+  updatePassword = async (newPassword: string, resetPasswordToken: string): Promise<Response> =>
+    await this.fetch('post', ENDPOINTS.seekApi.functions.updatePassword(), {
+      newPassword,
+      resetPasswordToken,
+    });
   blockUser = async (userToBlockId: number, userBlockingId: number): Promise<Response> =>
     await this.fetch('post', ENDPOINTS.seekApi.functions.blockUser(), {
       userBlockingId,
