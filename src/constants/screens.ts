@@ -13,4 +13,6 @@ export default {
   EDIT_PROFILE_SCREEN: 'EditProfileScreen',
   SETTINGS_SCREEN: 'SettingsScreen',
   PRIVACY_POLICY_SCREEN: 'PrivacyPolicyScreen',
+  FORGOT_PASSWORD_SCREEN: 'ForgotPasswordScreen',
+  UPDATE_PASSWORD_SCREEN: 'UpdatePasswordScreen',
 } as const;
