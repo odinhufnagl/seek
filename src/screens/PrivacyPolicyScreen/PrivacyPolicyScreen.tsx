@@ -12,7 +12,7 @@ const paragraphs = [
   },
   {
     header: 'How do we collect your data?',
-    body: 'You directly provide Seek with your email and username, however your location is only used by us when you post an image. We collect data from you when you:',
+    body: 'You directly provide Seek with your email and username. Your location is only provided during registering your account. We collect data from you when you:',
     listItems: ['Register for an account.', 'Gives us permission to use your location.'],
   },
   {
@@ -26,7 +26,7 @@ const paragraphs = [
   },
   {
     header: 'How do we store your data?',
-    body: 'Seek securely stores your data at Firebase and Heroku. Seek will keep your email address, username and location until you request an account-deletion.',
+    body: 'Seek securely stores your data at Firebase and Neon. Seek will keep your email address, username and location until you request an account-deletion.',
   },
   {
     header: 'What are your data protection rights?',
@@ -52,7 +52,7 @@ const paragraphs = [
   },
   {
     header: 'Changes to our privacy policy',
-    body: 'Seek keeps its privacy policy under regular review and places any updates on this page. This privacy policy was last updated on 19 September 2022.',
+    body: 'Seek keeps its privacy policy under regular review and places any updates on this page. This privacy policy was last updated on 5 September 2023.',
   },
   {
     header: 'How to contact us',
