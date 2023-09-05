@@ -20,8 +20,6 @@ const Register = ({
   updatePassword,
   confirmedPassword,
   updateConfirmedPassword,
-  privacyPolicyChecked,
-  updatePrivacyPolicyChecked,
   maxLength,
   onSubmit,
   ...props
