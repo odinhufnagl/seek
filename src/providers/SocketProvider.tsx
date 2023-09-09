@@ -128,6 +128,8 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
     backgroundClosedTimeoutRef.current = BackgroundTimer.setTimeout(() => {
       console.log('socket is closing from backgrountimer');
       socketRef.current && socketRef.current.close();
+      // TODO: is this needed?
+      // BackgroundTimer.stop();
     }, SOCKET_BACKGROUND_UNTIL_CLOSED);
     BackgroundTimer.start();
   };
