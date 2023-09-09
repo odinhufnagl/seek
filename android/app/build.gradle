@@ -6,6 +6,7 @@ apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.grad
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
 
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -261,9 +262,11 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core-splashscreen:1.0.0")
     implementation project(':react-native-background-timer')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-config')
+    implementation project(':react-native-splash-screen')
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

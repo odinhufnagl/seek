@@ -22,6 +22,6 @@ export default {
     small: { width: 56, height: 24 },
     medium: { width: 69, height: 24 },
     large: { width: 86, height: 30 },
-    extraLarge: { width: 130, height: 45 },
+    extraLarge: { width: 110, height: 38 },
   },
 };
