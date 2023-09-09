@@ -73,6 +73,7 @@ const HomeNavigator = () => {
       const fcmToken = await firebase.messaging().getToken();
 
       createNotificationToken({ name: fcmToken, userId: currentUser?.id });
+      console.log('fcm', fcmToken);
     })();
   }, [currentUser]);
 
