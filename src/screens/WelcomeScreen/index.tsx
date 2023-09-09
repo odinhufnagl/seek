@@ -37,7 +37,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
             <View style={styles(theme).upperContainer}>
               <Logo size='extraLarge' />
               <Spacer spacing='large' />
-              <Text emphasis='medium' weight='regular'>
+              <Text emphasis='medium' weight='medium'>
                 {translate(translateKey + 'subHeader')}
               </Text>
             </View>

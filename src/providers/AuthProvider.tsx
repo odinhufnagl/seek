@@ -9,8 +9,8 @@ import {
   signUpUser,
 } from '../services';
 
+import SplashScreen from 'react-native-splash-screen';
 import { Text } from '../common';
-import { WelcomeView } from '../components';
 import { SigninUserModel, SignupUserModel, UserModel } from '../types';
 import { storageGet, storageRemove, storageSet } from '../utils';
 
@@ -160,12 +160,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       </>
     );
   }
-  if (loading) {
-    return (
-      <>
-        <WelcomeView />
-      </>
-    );
+
+  if (!loading) {
+    SplashScreen.hide();
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
