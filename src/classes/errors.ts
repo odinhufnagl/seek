@@ -24,6 +24,10 @@ export class AppError extends Error {
         return new WrongEmailPasswordError();
       case 'E100':
         return new NotAuthenticatedError();
+      case 'E204':
+        return new PasswordValidationError();
+      case 'E205':
+        return new EmailValidationError();
       default:
         return new AppError('Something went wrong');
     }
@@ -32,6 +36,16 @@ export class AppError extends Error {
 export class EmailInUseError extends AppError {
   constructor() {
     super('Email already in use');
+  }
+}
+export class EmailValidationError extends AppError {
+  constructor() {
+    super('Email is not in the right format');
+  }
+}
+export class PasswordValidationError extends AppError {
+  constructor() {
+    super('Password is not in the right format');
   }
 }
 export class WrongEmailPasswordError extends AppError {
