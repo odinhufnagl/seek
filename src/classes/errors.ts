@@ -58,6 +58,11 @@ export class NetworkError extends AppError {
     super('Network error');
   }
 }
+export class ServerDownError extends AppError {
+  constructor() {
+    super('Server down error');
+  }
+}
 export class NotAuthenticatedError extends AppError {
   constructor() {
     super('Not authenticated');
