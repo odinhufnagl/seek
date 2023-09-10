@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
-import { EmailInUseError } from '../../classes';
+import { EmailInUseError, EmailValidationError, PasswordValidationError } from '../../classes';
 import { Button, Icon } from '../../common';
 import { Header } from '../../components';
 import { DEFAULT_IMAGES, SPACING, USER } from '../../constants';
@@ -178,8 +178,19 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
               },
             });
           } catch (e) {
+            console.log('e', e);
             if (e instanceof EmailInUseError) {
               showSnackbar('Email already in use', 'error');
+              setLoading(false);
+              return;
+            }
+            if (e instanceof PasswordValidationError) {
+              showSnackbar('Password is too short', 'error');
+              setLoading(false);
+              return;
+            }
+            if (e instanceof EmailValidationError) {
+              showSnackbar('Email is not in the right format', 'error');
               setLoading(false);
               return;
             }
