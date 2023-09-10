@@ -11,7 +11,7 @@ import {
   ResponseSignup,
 } from '../types';
 import { storageGet } from '../utils';
-import { ApiError, NetworkError } from './errors';
+import { ApiError, NetworkError, ServerDownError } from './errors';
 
 type DBModelName = 'users' | 'chats' | 'messages' | 'userChats' | 'notificationTokens' | 'answers';
 type AuthModelName = 'users';
@@ -57,7 +57,11 @@ export class ApiClient {
       }
       return res as Response;
     } catch (e: any) {
+      console.log('lol', e);
       if (e instanceof AxiosError) {
+        if (e.response?.status === 503) {
+          throw new ServerDownError();
+        }
         if (e.response) {
           throw new ApiError(
             e.response.status,
