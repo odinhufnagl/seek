@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { ApiError, AppError, NetworkError } from '../classes';
+import { ApiError, AppError, NetworkError, ServerDownError } from '../classes';
 import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
 import {
   authenticateUser,
@@ -10,7 +10,7 @@ import {
 } from '../services';
 
 import SplashScreen from 'react-native-splash-screen';
-import { Text } from '../common';
+import { Container, Text } from '../common';
 import { SigninUserModel, SignupUserModel, UserModel } from '../types';
 import { storageGet, storageRemove, storageSet } from '../utils';
 
@@ -42,7 +42,8 @@ type SignInBody = SigninUserModel;
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<UserModel>();
   const [loading, setLoading] = useState(true);
-  const [networkError, setNetworkError] = useState<Error>();
+  const [networkError, setNetworkError] = useState<NetworkError>();
+  const [serverDownError, setServerDownError] = useState<ServerDownError>();
   const [token, setToken] = useState<string | null>(null);
 
   const logIn = async (body: SignInBody): Promise<boolean> => {
@@ -126,6 +127,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (e instanceof NetworkError) {
         setNetworkError(e as Error);
       }
+      if (e instanceof ServerDownError) {
+        setServerDownError(e);
+      }
       console.log(e);
     }
   };
@@ -154,10 +158,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   if (networkError) {
+    SplashScreen.hide();
     return (
-      <>
-        <Text>Oooops... Our servers seems to be down</Text>
-      </>
+      <Container style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>No internet connection</Text>
+      </Container>
+    );
+  }
+
+  if (serverDownError) {
+    SplashScreen.hide();
+    return (
+      <Container style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Our server seems to be down...</Text>
+      </Container>
     );
   }
 
