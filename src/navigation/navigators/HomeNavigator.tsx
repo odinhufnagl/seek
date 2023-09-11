@@ -1,11 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import useTheme from '../../hooks/useTheme';
 
 import { firebase } from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppState, AppStateStatus } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import { NAVIGATOR_STACKS, SCREENS } from '../../constants';
 import { useAuth } from '../../providers/AuthProvider';
 import { useSocket } from '../../providers/SocketProvider';
@@ -37,18 +38,31 @@ const linking = {
 const HomeNavigator = () => {
   const { theme } = useTheme();
   const { currentUser } = useAuth();
+  const navigationRef = useRef();
   const { socket } = useSocket();
+  const socketRef = useRef<WebSocket | null>();
+  useEffect(() => {
+    socketRef.current = socket;
+  }, [socket]);
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   // TODO: all this active stuff could be moved into a provider
   const handleAppStateChange = (state: AppStateStatus) => {
+    console.log('st', state);
     if (!currentUser) {
       return;
     }
-    if (state === 'background') {
-      sendIsActiveEvent(socket, { isActive: false, senderId: currentUser?.id });
+    if (state === 'background' || state === 'inactive') {
+      if (socketRef.current) {
+        sendIsActiveEvent(socketRef.current, { isActive: false, senderId: currentUser?.id });
+      }
     }
     if (state === 'active') {
-      sendIsActiveEvent(socket, { isActive: true, senderId: currentUser?.id });
+      if (socketRef.current) {
+        sendIsActiveEvent(socketRef.current, { isActive: true, senderId: currentUser?.id });
+      }
     }
   };
 

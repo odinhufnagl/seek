@@ -1,12 +1,16 @@
 import { ApiClient } from '../../../classes';
-import { FetchOne, QuestionModel } from '../../../types';
+import { AnswerModel, FetchOne, QuestionModel } from '../../../types';
 
 const apiClient = new ApiClient();
 
+type NewQuestionReturn = {
+  question?: QuestionModel;
+  usersAnswer?: AnswerModel;
+};
+
 export const fetchNewQuestion = async (
   userId?: number,
-): Promise<FetchOne<QuestionModel | null>> => {
+): Promise<FetchOne<NewQuestionReturn | null>> => {
   const res = await apiClient.getNewQuestion(userId);
-
   return res.data;
 };

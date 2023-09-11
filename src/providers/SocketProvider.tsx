@@ -33,11 +33,21 @@ const SocketContext = React.createContext({} as ContextValues);
 export const useSocket = () => useContext(SocketContext);
 
 const SOCKET_RECONNECT_TIMER = 100000;
-const SOCKET_BACKGROUND_UNTIL_CLOSED = 5000;
+const SOCKET_BACKGROUND_UNTIL_CLOSED = 3000;
 const KEEP_ALIVE_TIMER = 20000;
 
 // TODO: this is not completely general, the endpoint is not general, and how the data looks is not general because we use socketmessageserverdata and type is socketmessageservertype
-export const SocketProvider = ({ children, token }: { children: JSX.Element; token: string }) => {
+export const SocketProvider = ({
+  children,
+  token,
+  onSocketConnected,
+  onSocketDisconnecting,
+}: {
+  children: JSX.Element;
+  token: string;
+  onSocketConnected: (socket: WebSocket) => void;
+  onSocketDisconnecting?: (socket: WebSocket) => Promise<void>;
+}) => {
   const url = () => endpoints.seekApi.socket(token);
 
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -92,7 +102,8 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
       socket.close();
     }
     const newSocket = getSocket(url());
-    newSocket.onopen = () => {
+    newSocket.onopen = async () => {
+      onSocketConnected(newSocket);
       setSocketIsConnected(true);
     };
 
@@ -104,8 +115,11 @@ export const SocketProvider = ({ children, token }: { children: JSX.Element; tok
       console.log('error', e);
     };
 
-    newSocket.onclose = (e) => {
+    newSocket.onclose = async (e) => {
       setSocketIsConnected(false);
+      if (socket) {
+        onSocketDisconnecting && (await onSocketDisconnecting(socket));
+      }
       cleanupSocket(newSocket);
       /*  setTimeout(() => {
         connectToSocket();
