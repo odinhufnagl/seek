@@ -8,7 +8,7 @@ import { DIMENS, SPACING } from '../../constants';
 import { useFetchNewQuestion, useTheme } from '../../hooks';
 import { useAuth } from '../../providers/AuthProvider';
 import { createAnswer } from '../../services';
-import { NavigationProps, Theme } from '../../types';
+import { NavigationProps, QuestionModel, Theme } from '../../types';
 import { showSnackbar } from '../../utils';
 type Props = {
   navigation: NavigationProps;
@@ -22,15 +22,16 @@ const QuestionScreen = ({ navigation }: Props) => {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
   const [areaMode, setAreaMode] = useState<AreaMode>('global');
-  const { data: question, isLoading, refetch } = useFetchNewQuestion(currentUser?.id);
+  const { data: newQuestionData, isLoading, refetch } = useFetchNewQuestion(currentUser?.id);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const [answerText, setAnswerText] = useState('');
   const [loadingUpload, setLoadingUpload] = useState(false);
+  const [question, setQuestion] = useState<QuestionModel>();
   const translateKey = 'QuestionScreen.';
 
   const handleSendPressed = async () => {
-    if (!currentUser || !question) {
+    if (!currentUser || !newQuestionData?.question) {
       return;
     }
     try {
@@ -38,7 +39,7 @@ const QuestionScreen = ({ navigation }: Props) => {
       const res = await createAnswer({
         userId: currentUser?.id,
         isPrivate: areaMode === 'private',
-        questionId: question?.id,
+        questionId: newQuestionData.question?.id,
         text: answerText,
         ...(areaMode === 'global' ? { area: { type: 'world' } } : {}),
       });
@@ -61,10 +62,16 @@ const QuestionScreen = ({ navigation }: Props) => {
       inputRef.current.focus();
     }
   }, [dropdownOpen, inputRef.current]);
+
+  useEffect(() => {
+    setQuestion(newQuestionData?.question);
+  }, [newQuestionData]);
+
   if (isLoading) {
     return <Loading />;
   }
-  if (!question) {
+
+  if (!newQuestionData || newQuestionData.usersAnswer || !newQuestionData.question) {
     return (
       <>
         <Header
@@ -81,8 +88,17 @@ const QuestionScreen = ({ navigation }: Props) => {
         <View style={styles(theme).noQuestionContainer}>
           <Text weight='bold'>No question available</Text>
           <Spacer spacing='small' />
-          <Text type='small' emphasis='medium' weight='regular'>
-            You will be notified!
+          <Text
+            type='small'
+            emphasis='medium'
+            weight='regular'
+            style={{ width: '40%', textAlign: 'center' }}
+          >
+            {`${
+              newQuestionData?.usersAnswer
+                ? 'You have already answered the question'
+                : 'You will be notified!'
+            }`}
           </Text>
         </View>
       </>
