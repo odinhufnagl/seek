@@ -1,11 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import useTheme from '../../hooks/useTheme';
 import { AuthStack } from '../constants/stacks/AuthStack';
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
   const { theme } = useTheme();
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <Stack.Navigator
       screenOptions={{
