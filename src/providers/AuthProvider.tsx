@@ -175,8 +175,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  if (!loading) {
-    SplashScreen.hide();
+  if (loading) {
+    return <></>;
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
