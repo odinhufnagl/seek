@@ -2,10 +2,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { SCREENS } from '../../constants';
-import { useFetchNewChat } from '../../hooks';
 import useTheme from '../../hooks/useTheme';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNotification } from '../../providers/NotificationProvider';
+import { fetchNewChat } from '../../services';
 import { NavigationProps, NotificationMessageServerNewChatData } from '../../types';
 import { MainStack } from '../constants/stacks/MainStack';
 
@@ -16,8 +16,8 @@ const Stack = createStackNavigator();
 
 const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
   const { currentUser } = useAuth();
-  const { addNotificationHandler, removeNotificationHandler } = useNotification();
-  const { data: newChat, isLoading } = useFetchNewChat(currentUser?.id);
+  const { addNotificationHandler, removeNotificationHandler, onNotificationOpenedApp } =
+    useNotification();
 
   // const tabBar = (props: BottomTabBarProps) => <BottomTabBar {...props} />;
   const { theme } = useTheme();
@@ -27,25 +27,30 @@ const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
     navigation.navigate(SCREENS.NEW_CONNECTION_SCREEN, { chatId: Number(data.chatId) });
   };
   const handleQuestionOpenedApp = async (data: NotificationMessageServerDailyQuestionData) => {
+    console.log('navigation', navigation);
     navigation.navigate(SCREENS.QUESTION_SCREEN);
   };
 
   useEffect(() => {
-    addNotificationHandler('openedApp', 'newChat', handleNewChatNotification);
     addNotificationHandler('openedApp', 'dailyQuestion', handleQuestionOpenedApp);
-
+    addNotificationHandler('openedApp', 'newChat', handleNewChatNotification);
     addNotificationHandler('inApp', 'newChat', handleNewChatNotification);
     return () => {
-      removeNotificationHandler(handleNewChatNotification);
-      removeNotificationHandler(handleQuestionOpenedApp);
+      removeNotificationHandler(handleQuestionOpenedApp, 'dailyQuestion', 'openedApp');
+      removeNotificationHandler(handleNewChatNotification, 'newChat', 'openedApp');
+      removeNotificationHandler(handleNewChatNotification, 'newChat', 'inApp');
     };
   }, []);
 
   useEffect(() => {
-    if (newChat) {
-      navigation.navigate(SCREENS.NEW_CONNECTION_SCREEN, { chatId: newChat.id });
-    }
-  }, [newChat]);
+    (async () => {
+      const newChat = await fetchNewChat(currentUser?.id);
+      console.log('newChat', newChat);
+      if (newChat) {
+        navigation.navigate(SCREENS.NEW_CONNECTION_SCREEN, { chatId: newChat.id });
+      }
+    })();
+  }, []);
 
   return (
     <Stack.Navigator
