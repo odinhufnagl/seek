@@ -1,8 +1,7 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { getTimeZone, uses24HourClock } from 'react-native-localize';
-import { Container, Spacer, Text } from '../../common';
+import { Button, Container, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
 import { DIMENS, NAVIGATOR_STACKS, SCREENS, SPACING } from '../../constants';
@@ -43,14 +42,33 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const { currentUser } = useAuth();
   const route = useRoute();
   const { addSocketMessageHandler, removeSocketMessageHandler, socket } = useSocket();
-  const { data, refetch, isLoading, fetchNextPage, hasNextPage } = useFetchUsersChats(
-    currentUser?.id,
-  );
-  const { data: newQuestion } = useFetchNewQuestion(currentUser?.id);
+  const {
+    data,
+    refetch: refetchUserChats,
+    isLoading: isLoadingUserChats,
+    isRefetching: isRefetchingUserChats,
+    fetchNextPage,
+    hasNextPage,
+  } = useFetchUsersChats(currentUser?.id);
+  const {
+    data: newQuestionData,
+    isLoading: isLoadingNewQuestion,
+    isRefetching: isRefetchingNewQuestion,
+    refetch: refetchNewQuestion,
+  } = useFetchNewQuestion(currentUser?.id);
   const [chats, setChats] = useState<Chat[]>([]);
+
   const [showNewQuestionIndicator, setShowNewQuestionIndicator] = useState(false);
   const { addNotificationHandler, removeNotificationHandler } = useNotification();
 
+  const userHasAnsweredLatestQuestion = newQuestionData?.usersAnswer;
+  const latestQuestionIsAvailable = newQuestionData?.question && !newQuestionData.usersAnswer;
+  const isLoading =
+    isLoadingNewQuestion || isLoadingUserChats || isRefetchingNewQuestion || isRefetchingUserChats;
+
+  useEffect(() => {
+    setShowNewQuestionIndicator(Boolean(latestQuestionIsAvailable));
+  }, [newQuestionData]);
   const sortRecentsOrder = (chats: Chat[]) =>
     chats.sort((a, b) => new Date(b?.lastMessage.createdAt) - new Date(a?.lastMessage.createdAt));
 
@@ -62,7 +80,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
 
     return () => {
-      removeNotificationHandler(handleUserMessageOpenedApp);
+      removeNotificationHandler(handleUserMessageOpenedApp, 'message', 'openedApp');
     };
   }, []);
 
@@ -98,6 +116,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   const handleIsActiveEvent = (data: SocketMessageServerIsActiveData) => {
+    console.log('dd', data);
     setChats((p) =>
       updateItemInList(p, 'otherUserId', data.userId, (item) => ({
         otherUser: { ...item.otherUser, isActive: data.isActive },
@@ -132,13 +151,12 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
 
     setChats(sortRecentsOrder(newChats));
   }, [data]);
-  useEffect(() => {
-    setShowNewQuestionIndicator(Boolean(newQuestion));
-  }, [newQuestion]);
+
   // TODO: this might be bad, because if a user goes to a chat far down, they will end up in the top
   useFocusEffect(
     React.useCallback(() => {
-      refetch();
+      refetchUserChats();
+      refetchNewQuestion(); // TODO: this might be a little unneccesary. it is only here to help with what NoChatsInformation that should be shown. So it fills a small usecase but uses a lot of requests. Instead this should only happen when you come from questionScreen.
     }, []),
   );
   // TODO: right now trying focus, might not be optimal
@@ -211,14 +229,46 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
     setShowNewQuestionIndicator(false);
     navigateToQuestion();
   };
-  useEffect(() => {
-    console.log('tz', getTimeZone(), uses24HourClock());
-  }, []);
+  const handleAnswerQuestionButtonPress = () => {
+    setShowNewQuestionIndicator(false);
+    navigateToQuestion();
+  };
+
+  const NoChatsInformation = () => {
+    return (
+      <View style={styles(theme).noChatsContainer}>
+        <Text weight='bold'>No chats yet</Text>
+        <Spacer spacing='tiny' />
+        {userHasAnsweredLatestQuestion ? (
+          <Text type='small' style={{ width: '40%', textAlign: 'center' }}>
+            You will be notified when there is a new connection!
+          </Text>
+        ) : latestQuestionIsAvailable ? (
+          <>
+            <Spacer spacing='small' />
+            <Button
+              style={{ width: 140 }}
+              title='Answer Question'
+              variant='third'
+              onPress={handleAnswerQuestionButtonPress}
+            />
+          </>
+        ) : (
+          <Text type='small' style={{ width: '40%', textAlign: 'center' }}>
+            You will be notified when there is a new question!
+          </Text>
+        )}
+      </View>
+    );
+  };
 
   return (
     <View style={styles(theme).container}>
       <Header
-        style={styles(theme).header}
+        style={[
+          styles(theme).header,
+          { position: chats.length === 0 && !isLoading ? 'absolute' : 'relative' },
+        ]}
         leftItems={[
           <TouchableOpacity key='image' onPress={navigateToCurrentUser}>
             <Image
@@ -250,15 +300,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
         headerTitleProps={{ type: 'header', weight: 'bold', emphasis: 'high' }}
         headerLeft
       />
-      {chats.length === 0 && !isLoading && (
-        <View style={styles(theme).noChatsContainer}>
-          <Text weight='bold'>No chats yet</Text>
-          <Spacer spacing='tiny' />
-          <Text type='small' style={{ width: '40%', textAlign: 'center' }}>
-            You will be notified when there is a new connection!
-          </Text>
-        </View>
-      )}
+      {chats.length === 0 && !isLoading && <NoChatsInformation />}
       <Container>
         <>
           <Spacer spacing={40} />
@@ -300,6 +342,7 @@ const styles = (theme: Theme) =>
       paddingBottom: SPACING.medium,
       paddingHorizontal: SPACING.large,
       paddingVertical: SPACING.large,
+      zIndex: 100,
     },
     profileImage: {
       width: 42,
@@ -310,6 +353,7 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       right: SPACING.large,
       bottom: SPACING.large,
+      zIndex: 2000,
     },
     noChatsContainer: {
       flex: 1,
@@ -318,7 +362,7 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       width: '100%',
       height: '100%',
-      zIndex: -100,
+      zIndex: 10,
     },
   });
 

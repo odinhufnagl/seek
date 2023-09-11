@@ -4,6 +4,7 @@ import { useTheme } from '../hooks';
 import { useAuth } from '../providers/AuthProvider';
 import { NotificationProvider } from '../providers/NotificationProvider';
 import { SocketProvider } from '../providers/SocketProvider';
+import { sendIsActiveEvent } from '../services';
 import AuthNavigator from './navigators/AuthNavigator';
 import HomeNavigator from './navigators/HomeNavigator';
 
@@ -11,11 +12,15 @@ const RootNavigator = () => {
   const { theme } = useTheme();
   const { currentUser, token } = useAuth();
 
+  const handleSocketConnected = (socket) => {
+    if (!currentUser) return;
+    sendIsActiveEvent(socket, { isActive: true, senderId: currentUser?.id });
+  };
   return (
     <View style={styles().root}>
       {currentUser && token ? (
         <NotificationProvider>
-          <SocketProvider token={token}>
+          <SocketProvider token={token} onSocketConnected={handleSocketConnected}>
             <HomeNavigator />
           </SocketProvider>
         </NotificationProvider>
