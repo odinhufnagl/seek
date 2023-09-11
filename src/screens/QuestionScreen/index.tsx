@@ -162,7 +162,7 @@ const QuestionScreen = ({ navigation }: Props) => {
 
               <Input
                 variant='third'
-                style={{ width: '100%' }}
+                style={{ width: '100%', height: '100%', flex: 1 }}
                 multiline={true}
                 inputRef={inputRef}
                 value={answerText}
