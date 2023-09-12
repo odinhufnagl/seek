@@ -34,6 +34,8 @@ interface Props extends TextInputProps {
   dropdownItems?: { title: string; value: any }[];
   dropdownValue?: any;
   updateDropdownValue?: any;
+  autoGrow?: boolean;
+  maxHeightAutoGrow?: number;
 }
 
 const Input: React.FC<Props> = ({
@@ -54,11 +56,23 @@ const Input: React.FC<Props> = ({
   dropdownItems,
   dropdownValue,
   updateDropdownValue,
+  autoGrow,
+  maxHeightAutoGrow = 100,
   variant = 'primary',
   ...props
 }) => {
   const { theme } = useTheme();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [inputHeight, setInputHeight] = useState(0);
+  const handleContentSizeChange = (event) => {
+    const { contentSize } = event.nativeEvent;
+
+    setInputHeight(
+      contentSize.height > maxHeightAutoGrow
+        ? maxHeightAutoGrow
+        : contentSize.height + SPACING.small * 2,
+    );
+  };
   const ref = useRef<TextInput>(null);
 
   const getInputStyle = () => {
@@ -111,17 +125,19 @@ const Input: React.FC<Props> = ({
         style={[
           styles(theme).defaultContainer,
           getContainerStyle(),
+          autoGrow && { height: inputHeight, paddingVertical: SPACING.small },
           multiline && { height: 130, paddingTop: 10 },
           style,
         ]}
       >
         <TextInput
+          onContentSizeChange={(e) => autoGrow && handleContentSizeChange(e)}
           editable={!disabled}
           ref={inputRef || ref}
           selectionColor={theme.base.primary}
           placeholderTextColor={theme.base.low}
           style={[getInputStyle(), style]}
-          multiline={multiline}
+          multiline={multiline || autoGrow}
           textAlignVertical={multiline ? 'top' : 'center'}
           value={value}
           placeholder={placeholder}
