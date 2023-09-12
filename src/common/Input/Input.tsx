@@ -8,7 +8,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
+import AutoGrowingTextInput from 'react-native-autogrow-textinput-ts';
 import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';

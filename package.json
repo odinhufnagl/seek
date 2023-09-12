@@ -29,6 +29,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-native": "0.71.10",
+    "react-native-autogrow-textinput-ts": "^1.1.2",
     "react-native-background-timer": "^2.4.1",
     "react-native-calendars": "^1.1300.0",
     "react-native-config": "^1.4.11",
@@ -45,6 +46,7 @@
     "react-native-safe-area-context": "^3.3.1",
     "react-native-screens": "^3.18.2",
     "react-native-snackbar": "^2.4.0",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^13.10.0",
     "react-native-swipe-gestures": "^1.0.5"
   },
