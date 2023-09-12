@@ -19,6 +19,7 @@ const WriteMessage = ({ value, updateValue, handleOnSendPress }: Props) => {
         rightIcon={{ icon: 'send', size: 20, onPress: handleOnSendPress }}
         value={value || ''}
         updateValue={updateValue}
+        autoGrow
         style={styles(theme).input}
         onSubmitEditing={handleOnSendPress}
       />
@@ -38,8 +39,7 @@ const styles = (theme: Theme) =>
     },
     input: {
       flex: 1,
-
-      height: 44,
+      minHeight: 44,
     },
   });
 
