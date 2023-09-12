@@ -8,13 +8,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
 import { Spacer, Text } from '..';
 import { DIMENS, SPACING } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { Theme } from '../../types/theme';
 import Icon, { IconProps } from '../Icon/Icon';
 import { FONT_FAMILY, FONT_SIZE } from '../Text/Text';
-
 interface Props extends TextInputProps {
   multiline?: boolean;
   value: string;
@@ -63,16 +63,7 @@ const Input: React.FC<Props> = ({
 }) => {
   const { theme } = useTheme();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [inputHeight, setInputHeight] = useState(0);
-  const handleContentSizeChange = (event) => {
-    const { contentSize } = event.nativeEvent;
 
-    setInputHeight(
-      contentSize.height > maxHeightAutoGrow
-        ? maxHeightAutoGrow
-        : contentSize.height + SPACING.small * 2,
-    );
-  };
   const ref = useRef<TextInput>(null);
 
   const getInputStyle = () => {
@@ -125,29 +116,50 @@ const Input: React.FC<Props> = ({
         style={[
           styles(theme).defaultContainer,
           getContainerStyle(),
-          autoGrow && { height: inputHeight, paddingVertical: SPACING.small },
           multiline && { height: 130, paddingTop: 10 },
           style,
         ]}
       >
-        <TextInput
-          onContentSizeChange={(e) => autoGrow && handleContentSizeChange(e)}
-          editable={!disabled}
-          ref={inputRef || ref}
-          selectionColor={theme.base.primary}
-          placeholderTextColor={theme.base.low}
-          style={[getInputStyle(), style]}
-          multiline={multiline || autoGrow}
-          textAlignVertical={multiline ? 'top' : 'center'}
-          value={value}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          onChangeText={updateValue}
-          secureTextEntry={secureTextEntry}
-          autoCapitalize={autoCapitalize}
-          onFocus={() => setIsDropdownVisible(true)}
-          {...props}
-        />
+        {autoGrow ? (
+          <AutoGrowingTextInput
+            allowFontScaling={false}
+            editable={!disabled}
+            ref={inputRef || ref}
+            selectionColor={theme.base.primary}
+            placeholderTextColor={theme.base.low}
+            style={[getInputStyle(), style, { paddingTop: 5, paddingBottom: 5 }]}
+            multiline={multiline || autoGrow}
+            textAlignVertical={multiline ? 'top' : 'center'}
+            value={value}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            onChangeText={updateValue}
+            secureTextEntry={secureTextEntry}
+            autoCapitalize={autoCapitalize}
+            onFocus={() => setIsDropdownVisible(true)}
+            maxHeight={maxHeightAutoGrow}
+            {...props}
+          />
+        ) : (
+          <TextInput
+            editable={!disabled}
+            ref={inputRef || ref}
+            selectionColor={theme.base.primary}
+            placeholderTextColor={theme.base.low}
+            style={[getInputStyle(), style]}
+            multiline={multiline || autoGrow}
+            textAlignVertical={multiline ? 'top' : 'center'}
+            value={value}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            onChangeText={updateValue}
+            secureTextEntry={secureTextEntry}
+            autoCapitalize={autoCapitalize}
+            onFocus={() => setIsDropdownVisible(true)}
+            {...props}
+          />
+        )}
+
         {rightIcon && (
           <>
             <Icon variant='third' fill={rightIcon.fill || theme.base.low} {...rightIcon} />
@@ -203,20 +215,20 @@ const styles = (theme: Theme) =>
       paddingVertical: 12,
     },
     primaryContainer: {
-      height: 40,
+      minHeight: 40,
       borderRadius: 20,
       backgroundColor: theme.background.third,
     },
     secondaryContainer: {
-      height: 60,
+      minHeight: 60,
       backgroundColor: 'transparent',
     },
     thirdContainer: {
-      height: 60,
+      minHeight: 60,
       backgroundColor: 'transparent',
     },
     fourthContainer: {
-      height: 50,
+      minHeight: 50,
       backgroundColor: theme.background.third,
       borderRadius: DIMENS.common.borderRadiusMedium,
     },
