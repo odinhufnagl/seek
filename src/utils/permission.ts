@@ -41,10 +41,9 @@ export const hasPermission = async (type: Permission) => {
   const permissionType = getPlatformSpecificType(type, Platform.OS as OS);
 
   const res = await check(permissionType);
-
   if (res === RESULTS.GRANTED) {
     return true;
-  } else if (res === RESULTS.DENIED) {
+  } else if (res === RESULTS.DENIED || res === RESULTS.BLOCKED || res === RESULTS.LIMITED) {
     const res2 = await request(permissionType);
 
     return res2 === RESULTS.GRANTED;
