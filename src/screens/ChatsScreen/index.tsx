@@ -1,7 +1,7 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Container, Spacer, Text } from '../../common';
+import { Button, Container, Loading, Spacer, Text } from '../../common';
 import Icon from '../../common/Icon/Icon';
 import { ChatCard, Header } from '../../components';
 import { DIMENS, NAVIGATOR_STACKS, SCREENS, SPACING } from '../../constants';
@@ -310,7 +310,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
             </Text>
           )}
           <Spacer spacing='small' />
-
+          {isLoading && <Loading />}
           {chats.length > 0 && !isLoading && (
             <FlatList
               data={chats}
