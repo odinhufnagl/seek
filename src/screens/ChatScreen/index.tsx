@@ -74,7 +74,6 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     20,
   );
 
-  useEffect(() => {});
   const messages = data?.pages.flatMap((page) => page?.rows);
   const totalMessagesCount = data?.pages[0]?.count;
   const [newMessages, setNewMessages] = useState<MessageModel[]>([]);
@@ -91,6 +90,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   useEffect(() => {
     setOtherUser(chat?.users?.find((u) => u.id !== currentUser?.id));
   }, [chat]);
+
   useEffect(() => {
     otherUserRef.current = otherUser;
     otherUser && otherUser.userChat && setOtherUserLastRead(new Date(otherUser.userChat?.lastRead));
@@ -150,6 +150,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   }, []);
 
   const sendMessage = async (message: string) => {
+    console.log('message,', message);
     if (!otherUser || !currentUser) {
       return false;
     }
@@ -214,7 +215,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
         chat={chat}
         otherUser={otherUser}
         otherUserLastRead={otherUserLastRead}
-        fetchNextPage={fetchNextPage}
+        fetchNextPage={() => !isFetching && fetchNextPage()}
         isFetching={isFetching}
         onSendMessage={sendMessage}
         totalMessageCount={totalMessagesCount}
