@@ -46,7 +46,7 @@ const messagesTimeSeparated = (messages?: MessageModel[]) => {
 
     // Define a threshold (e.g., 5 minutes) for grouping messages
     const groupingThreshold = MESSAGES_GROUPING_TRESHOLD_SECONDS * 1000;
-    console.log('timeDifference', timeDifference);
+
     if (timeDifference <= groupingThreshold) {
       // If the time difference is within the threshold, add the message to the current group
       currentGroup.push(currentMessage);
@@ -58,10 +58,8 @@ const messagesTimeSeparated = (messages?: MessageModel[]) => {
     }
   }
   groupedMessages.push(currentGroup);
-  console.log('grouped messages', groupedMessages);
   const data: (MessageModel | string)[] = [];
   groupedMessages.forEach((group) => {
-    console.log('ddd', group[0].createdAt);
     data.push(formatGroupingDate(new Date(group[0].createdAt)));
     data.push(...group);
   });
@@ -158,17 +156,19 @@ const Chat = ({
     setMessagesOrdered([...messagesTimeSeparated(messages)].reverse());
   }, [messages]);
 
+  useEffect(() => {
+    console.log('chat component rerendered');
+  }, []);
+
   const renderChatItem = ({ item, index }) => {
     if (!otherUserLastRead) {
       return;
     }
 
-    //
-
     const beforeItem = messagesOrdered[index - 1];
     if (typeof item === 'string') {
       return (
-        <View style={[styles(theme).item]}>
+        <View style={[styles(theme).item, { transform: [{ rotate: '180deg' }] }]}>
           <DateSeparator text={item} />
           <Spacer spacing='medium' />
         </View>
@@ -177,23 +177,25 @@ const Chat = ({
     const currentUsersLastMessageId = messages?.find((m) => m.userId === currentUser?.id)?.id;
 
     return (
-      <View style={styles(theme).item}>
-        <ChatMessage
-          showImage={
-            !beforeItem ||
-            (item.userId === otherUser?.id &&
-              (typeof beforeItem === 'string' || beforeItem.userId === currentUser?.id))
-          }
-          image={otherUser?.profileImage?.url}
-          onImagePress={onOtherUserPress}
-          isUser={item.userId === currentUser?.id}
-          message={item.text}
-          createdAt={item.createdAt}
-          isRead={
-            currentUsersLastMessageId === item.id && otherUserLastRead > new Date(item.createdAt)
-          }
-        />
-        <Spacer spacing='medium' />
+      <View style={{ transform: [{ rotate: '180deg' }] }}>
+        <View style={styles(theme).item}>
+          <ChatMessage
+            showImage={
+              !beforeItem ||
+              (item.userId === otherUser?.id &&
+                (typeof beforeItem === 'string' || beforeItem.userId === currentUser?.id))
+            }
+            image={otherUser?.profileImage?.url}
+            onImagePress={onOtherUserPress}
+            isUser={item.userId === currentUser?.id}
+            message={item.text}
+            createdAt={item.createdAt}
+            isRead={
+              currentUsersLastMessageId === item.id && otherUserLastRead > new Date(item.createdAt)
+            }
+          />
+          <Spacer spacing='medium' />
+        </View>
       </View>
     );
   };
@@ -233,15 +235,16 @@ const Chat = ({
     <>
       <View style={styles(theme).chatContainer}>
         <FlatList
-          keyExtractor={(item) => (typeof item === 'string' ? item : item.id)}
+          keyExtractor={(item) => (typeof item === 'string' ? item : item.id.toString())}
           initialNumToRender={10}
           ref={listRef}
           onScroll={handleScroll}
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
           ListFooterComponent={header}
           data={messagesOrdered}
-          inverted
           renderItem={renderChatItem}
+          style={{ transform: [{ rotate: '180deg' }] }}
+          ListFooterComponentStyle={{ transform: [{ rotate: '180deg' }] }}
           showsVerticalScrollIndicator={false}
           windowSize={10}
         />
