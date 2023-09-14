@@ -6,6 +6,8 @@ import { Header } from '../../components';
 import { NAVIGATOR_STACKS, SCREENS } from '../../constants';
 import { useTheme } from '../../hooks';
 import { useAuth } from '../../providers/AuthProvider';
+import { useSocket } from '../../providers/SocketProvider';
+import { sendIsActiveEvent } from '../../services';
 import { IconVariant, NavigationProps, Theme } from '../../types';
 import { showSnackbar } from '../../utils';
 
@@ -53,7 +55,18 @@ const stylesListItem = (theme: Theme) =>
 const SettingsScreen = ({ navigation }: Props) => {
   const { logOut, currentUser } = useAuth();
   const { theme } = useTheme();
+  const { socket } = useSocket();
   const translateKey = 'settingsScreen.';
+
+  // TODO: should be a service in some kind, it should still be in AuthProvider, but we need to have socket.close(), which we cannot have in AuthProvider
+  const handleLogOut = () => {
+    if (!currentUser) {
+      return;
+    }
+    sendIsActiveEvent(socket, { isActive: false, senderId: currentUser?.id });
+    socket.close();
+    logOut();
+  };
 
   return (
     <>
@@ -111,7 +124,7 @@ const SettingsScreen = ({ navigation }: Props) => {
             onPress={() => showSnackbar('Contact odin.hufnagl@gmail.com to delete account')}
           />
 
-          <ListItem icon='logOut' title='Log Out' color={theme.error} onPress={logOut} />
+          <ListItem icon='logOut' title='Log Out' color={theme.error} onPress={handleLogOut} />
         </>
       </Container>
     </>
