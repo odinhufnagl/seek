@@ -8,9 +8,10 @@ type Props = {
   style?: StyleProp<ViewStyle>;
   onDayPress: (day: Date) => void;
   markedDates: Date[];
+  isLocal?: boolean;
 };
 
-const Calendar = ({ style, onDayPress, markedDates }: Props) => {
+const Calendar = ({ style, onDayPress, markedDates, isLocal = true }: Props) => {
   const { theme } = useTheme();
   return (
     <View style={{ alignItems: 'center' }}>
@@ -36,8 +37,10 @@ const Calendar = ({ style, onDayPress, markedDates }: Props) => {
         }}
         markedDates={markedDates?.reduce((acc, item) => {
           if (item) {
-            const date = item.toISOString().split('T')[0];
-
+            const month = (item.getMonth() + 1).toString().padStart(2, '0');
+            const date = isLocal
+              ? `${item.getFullYear()}-${month}-${item.getDate()}`
+              : item.toISOString().split('T')[0];
             acc[date] = { selected: true };
           }
           return acc;
