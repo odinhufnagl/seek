@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Button, Container, Icon, Input, Loading, Spacer } from '../../common';
-import { Header, ModalList } from '../../components';
+import { Button, Container, Icon, Input, Spacer } from '../../common';
+import { Header, LoadingView, ModalList } from '../../components';
 import { DEFAULT_IMAGES, DIMENS } from '../../constants';
 import { useFetchUser, useSearchCities, useTheme } from '../../hooks';
 import { translate } from '../../i18n';
@@ -90,7 +90,7 @@ const EditProfileScreen = ({ navigation }: Props) => {
   if (isLoading) {
     return (
       <>
-        <Loading />
+        <LoadingView />
       </>
     );
   }

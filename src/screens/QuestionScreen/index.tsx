@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { Image, ImageBackground, StyleSheet, TextInput, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Button, Container, Dropdown, Icon, Input, Loading, Spacer, Text } from '../../common';
-import { Header } from '../../components';
+import { Button, Container, Dropdown, Icon, Input, Spacer, Text } from '../../common';
+import { Header, LoadingView } from '../../components';
 import { DIMENS, SPACING } from '../../constants';
 import { useFetchNewQuestion, useTheme } from '../../hooks';
 import { useAuth } from '../../providers/AuthProvider';
@@ -22,7 +22,12 @@ const QuestionScreen = ({ navigation }: Props) => {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
   const [areaMode, setAreaMode] = useState<AreaMode>('global');
-  const { data: newQuestionData, isLoading, refetch } = useFetchNewQuestion(currentUser?.id);
+  const {
+    data: newQuestionData,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useFetchNewQuestion(currentUser?.id);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const [answerText, setAnswerText] = useState('');
@@ -67,8 +72,8 @@ const QuestionScreen = ({ navigation }: Props) => {
     setQuestion(newQuestionData?.question);
   }, [newQuestionData]);
 
-  if (isLoading) {
-    return <Loading />;
+  if (isLoading || isRefetching) {
+    return <LoadingView />;
   }
 
   if (!newQuestionData || newQuestionData.usersAnswer || !newQuestionData.question) {
