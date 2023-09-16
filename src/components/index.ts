@@ -6,11 +6,11 @@ import ChatCard from './ChatCard';
 import ChatMessage from './ChatMessage';
 import Header from './Header';
 import List from './List';
+import LoadingView from './LoadingView';
 import ModalList from './ModalList';
 import ProfileModal from './ProfileModal';
 import WelcomeView from './WelcomeView';
 import WriteMessage from './WriteMessage';
-
 export {
   AlbumJoinModal,
   AlbumModalList,
@@ -20,6 +20,7 @@ export {
   ChatMessage,
   Header,
   List,
+  LoadingView,
   ModalList,
   ProfileModal,
   WelcomeView,
