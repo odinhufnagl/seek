@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useRoute } from '@react-navigation/native';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
-import { Container, Icon, Loading, Spacer, Text } from '../../common';
-import { Calendar, Header } from '../../components';
+import { Container, Icon, Spacer, Text } from '../../common';
+import { Calendar, Header, LoadingView } from '../../components';
 import { DIMENS, SCREENS, SPACING } from '../../constants';
 import { useFetchUser, useFetchUsersAnswers, useTheme } from '../../hooks';
 import { NavigationProps, Theme } from '../../types';
@@ -46,7 +46,7 @@ const ProfileScreen = ({ navigation }: Props) => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingView />;
   }
   return (
     <>
