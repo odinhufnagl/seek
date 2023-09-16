@@ -4,7 +4,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { useRoute } from '@react-navigation/native';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Icon, Loading, Spacer, Text } from '../../common';
+import { Icon, Spacer, Text } from '../../common';
 import { Header } from '../../components';
 import { SCREENS, SPACING } from '../../constants';
 import { useFetchAnswer, useTheme } from '../../hooks';
@@ -30,7 +30,7 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
   const { params } = useRoute();
   const { currentUser } = useAuth();
   const { answerId } = params as Params;
-  const { data: answer, isLoading } = useFetchAnswer(answerId);
+  const { data: answer, isLoading, isRefetching } = useFetchAnswer(answerId);
 
   const handleCopyPressed = () => {
     answer?.text && Clipboard.setString(answer?.text);
@@ -52,8 +52,8 @@ const DiaryEntryScreen = ({ navigation }: Props) => {
 
     navigation.navigate(SCREENS.CHAT_SCREEN, { id: chat.id });
   };
-  if (isLoading) {
-    return <Loading />;
+  if (isLoading || isRefetching) {
+    return <></>;
   }
   return (
     <View style={styles(theme).container}>
