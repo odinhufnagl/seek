@@ -236,7 +236,7 @@ const Chat = ({
       <View style={styles(theme).chatContainer}>
         <FlatList
           keyExtractor={(item) => (typeof item === 'string' ? item : item.id.toString())}
-          initialNumToRender={10}
+          initialNumToRender={20}
           ref={listRef}
           onScroll={handleScroll}
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
@@ -246,7 +246,7 @@ const Chat = ({
           style={{ transform: [{ rotate: '180deg' }] }}
           ListFooterComponentStyle={{ transform: [{ rotate: '180deg' }] }}
           showsVerticalScrollIndicator={false}
-          windowSize={10}
+          windowSize={20}
         />
       </View>
       <View style={styles(theme).bottomContainer}>
