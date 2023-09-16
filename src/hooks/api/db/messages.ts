@@ -5,7 +5,7 @@ import { DBOptions, MessageWhere } from '../../../types';
 
 export const useFetchMessages = (dbOptions?: DBOptions<MessageWhere>, limit = 20) =>
   useInfiniteQuery(
-    [QUERY_HOOKS.keys.messages],
+    [QUERY_HOOKS.keys.messages, dbOptions],
     ({ pageParam }) => {
       return fetchMessages({ limit, offset: pageParam || 0, ...dbOptions });
     },
