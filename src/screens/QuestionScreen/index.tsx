@@ -49,6 +49,7 @@ const QuestionScreen = ({ navigation }: Props) => {
         ...(areaMode === 'global' ? { area: { type: 'world' } } : {}),
       });
       showSnackbar('Answer is posted', 'success');
+      refetch();
       setLoadingUpload(false);
       navigation.goBack();
     } catch (e) {

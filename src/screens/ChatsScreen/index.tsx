@@ -63,8 +63,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
 
   const userHasAnsweredLatestQuestion = newQuestionData?.usersAnswer;
   const latestQuestionIsAvailable = newQuestionData?.question && !newQuestionData.usersAnswer;
-  const isLoading =
-    isLoadingNewQuestion || isLoadingUserChats || isRefetchingNewQuestion || isRefetchingUserChats;
+  const isLoading = isLoadingNewQuestion || isLoadingUserChats || isRefetchingUserChats;
 
   useEffect(() => {
     setShowNewQuestionIndicator(Boolean(latestQuestionIsAvailable));
@@ -156,7 +155,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   useFocusEffect(
     React.useCallback(() => {
       refetchUserChats();
-      refetchNewQuestion(); // TODO: this might be a little unneccesary. it is only here to help with what NoChatsInformation that should be shown. So it fills a small usecase but uses a lot of requests. Instead this should only happen when you come from questionScreen.
+      //  refetchNewQuestion(); // TODO: this might be a little unneccesary. it is only here to help with what NoChatsInformation that should be shown. So it fills a small usecase but uses a lot of requests. Instead this should only happen when you come from questionScreen.
     }, []),
   );
   // TODO: right now trying focus, might not be optimal
