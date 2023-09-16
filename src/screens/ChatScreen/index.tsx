@@ -1,7 +1,10 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
+
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
+  AppState,
+  AppStateStatus,
   FlatList,
   Image,
   ImageBackground,
@@ -59,6 +62,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     fetchNextPage,
     hasNextPage,
     isFetching,
+    refetch,
     fetchPreviousPage,
     isRefetching: messagesIsRefreshing,
     isLoading: messagesIsLoading,
@@ -86,6 +90,29 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   });
 
   const otherUserRef = useRef<UserModel>();
+
+  const refetchMessages = () => {
+    setNewMessages([]);
+    setDateNow(new Date());
+  };
+
+  const handleAppStateChange = (state: AppStateStatus) => {
+    console.log('st', state);
+    if (!currentUser) {
+      return;
+    }
+    if (state === 'active') {
+      console.log('hello are you active');
+      refetchMessages();
+    }
+  };
+
+  useEffect(() => {
+    const listener = AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   useEffect(() => {
     setOtherUser(chat?.users?.find((u) => u.id !== currentUser?.id));
