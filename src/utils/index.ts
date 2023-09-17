@@ -1,4 +1,5 @@
 export * from './animate';
+export * from './colors';
 export * from './date';
 export * from './file';
 export * from './geolocation';

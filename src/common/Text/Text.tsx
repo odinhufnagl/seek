@@ -112,7 +112,9 @@ const Text: React.FC<TextProps> = ({
         style={textStyles}
         {...props}
         onTextLayout={handleTextLayout}
-        numberOfLines={isExpanded || !totalNumberOfLines ? undefined : numberOfLines}
+        numberOfLines={
+          readMore ? (isExpanded || !totalNumberOfLines ? undefined : numberOfLines) : numberOfLines
+        }
       >
         {typeWriter ? typeWriterText : children}
       </RNText>
