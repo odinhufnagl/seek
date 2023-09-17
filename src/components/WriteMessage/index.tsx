@@ -37,10 +37,7 @@ const styles = (theme: Theme) =>
       // borderTopWidth: DIMENS.common.borderWidth,
       // borderTopColor: theme.borderColor,
     },
-    input: {
-      flex: 1,
-      minHeight: 44,
-    },
+    input: {},
   });
 
 export default WriteMessage;
