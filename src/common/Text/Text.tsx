@@ -15,6 +15,7 @@ export type TextProps = {
   children?: string;
   typeWriter?: boolean;
   typeWriterNumberOfLetters?: number;
+  readMore?: boolean;
 };
 
 const Text: React.FC<TextProps> = ({
@@ -27,13 +28,22 @@ const Text: React.FC<TextProps> = ({
   onPress,
   typeWriter = false,
   typeWriterNumberOfLetters = 0,
+  readMore,
+  numberOfLines,
   ...props
 }) => {
   const { theme } = useTheme();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTextOverflown, setIsTextOverflown] = useState(false);
 
   const [typeWriterText, setTypeWriterText] = useState(
     children?.substring(0, children.length - typeWriterNumberOfLetters),
   );
+
+  const toggleTextExpansion = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   const [currentTypeWriterIndex, setCurrentTypeWriterIndex] = useState(
     (children?.length || 0) - typeWriterNumberOfLetters,
   );
@@ -53,6 +63,13 @@ const Text: React.FC<TextProps> = ({
     setTypeWriterText(children?.substring(0, children.length - typeWriterNumberOfLetters));
     setCurrentTypeWriterIndex(children.length - typeWriterNumberOfLetters);
   }, [typeWriterText, typeWriterDelay, currentTypeWriterIndex]);
+
+  const handleTextLayout = (e) => {
+    const { lines } = e.nativeEvent;
+    if (numberOfLines && lines.length > numberOfLines) {
+      setIsTextOverflown(true);
+    }
+  };
 
   const getColor = (): ColorValue | undefined => {
     if (color) {
@@ -85,9 +102,21 @@ const Text: React.FC<TextProps> = ({
     );
   }
   return (
-    <RNText style={textStyles} {...props}>
-      {typeWriter ? typeWriterText : children}
-    </RNText>
+    <>
+      <RNText
+        style={textStyles}
+        {...props}
+        onTextLayout={handleTextLayout}
+        numberOfLines={isExpanded ? undefined : numberOfLines}
+      >
+        {typeWriter ? typeWriterText : children}
+      </RNText>
+      {readMore && isTextOverflown && (
+        <RNText style={[textStyles, { opacity: 0.7 }]} onPress={toggleTextExpansion}>
+          {isExpanded ? 'Read less' : 'Read more'}
+        </RNText>
+      )}
+    </>
   );
 };
 
