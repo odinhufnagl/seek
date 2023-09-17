@@ -91,7 +91,7 @@ const ProfileScreen = ({ navigation }: Props) => {
           <View>
             <Spacer spacing='medium' />
             <Spacer spacing='tiny' />
-            <Text type='caption' emphasis='high'>
+            <Text type='caption' emphasis='high' numberOfLines={2} readMore>
               {user?.bio}
             </Text>
             <Spacer />
