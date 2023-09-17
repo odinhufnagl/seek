@@ -35,7 +35,7 @@ const Text: React.FC<TextProps> = ({
   const { theme } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTextOverflown, setIsTextOverflown] = useState(false);
-
+  const [totalNumberOfLines, setTotalNumberOfLines] = useState(0);
   const [typeWriterText, setTypeWriterText] = useState(
     children?.substring(0, children.length - typeWriterNumberOfLetters),
   );
@@ -66,8 +66,13 @@ const Text: React.FC<TextProps> = ({
 
   const handleTextLayout = (e) => {
     const { lines } = e.nativeEvent;
-    if (numberOfLines && lines.length > numberOfLines) {
-      setIsTextOverflown(true);
+    if (readMore && totalNumberOfLines === 0) {
+      setTotalNumberOfLines(lines.length);
+      if (numberOfLines && lines.length > numberOfLines) {
+        setIsTextOverflown(true);
+      } else {
+        setIsTextOverflown(false);
+      }
     }
   };
 
@@ -107,7 +112,7 @@ const Text: React.FC<TextProps> = ({
         style={textStyles}
         {...props}
         onTextLayout={handleTextLayout}
-        numberOfLines={isExpanded ? undefined : numberOfLines}
+        numberOfLines={isExpanded || !totalNumberOfLines ? undefined : numberOfLines}
       >
         {typeWriter ? typeWriterText : children}
       </RNText>
