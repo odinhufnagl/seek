@@ -8,7 +8,12 @@ import { translate } from '../../i18n';
 import { useAuth } from '../../providers/AuthProvider';
 import { uploadProfileImageFile } from '../../services/uploadFile';
 import { FileInfo, ScreenProps } from '../../types';
-import { extractFileTypeFromFilename, getGeoLocation, showSnackbar } from '../../utils';
+import {
+  extractFileTypeFromFilename,
+  generateHex,
+  getGeoLocation,
+  showSnackbar,
+} from '../../utils';
 import About from './views/About';
 import Email from './views/Email';
 import Name from './views/Name';
@@ -58,7 +63,8 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
 
   const handleRemoveProfileImage = () => {
     setProfileImageIsDefault(true);
-    setProfileImagePath(DEFAULT_IMAGES.profileImage(name));
+    const color = generateHex();
+    setProfileImagePath(DEFAULT_IMAGES.profileImage(name, color));
   };
   const handleUpdateProfileImage = (img) => {
     setProfileImageIsDefault(false);
@@ -67,7 +73,8 @@ const OnboardScreen = ({ navigation }: ScreenProps) => {
 
   useEffect(() => {
     if (profileImageIsDefault) {
-      setProfileImagePath(DEFAULT_IMAGES.profileImage(name));
+      const color = generateHex();
+      setProfileImagePath(DEFAULT_IMAGES.profileImage(name, color));
     }
   }, [name]);
 

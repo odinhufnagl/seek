@@ -12,7 +12,7 @@ import { useAuth } from '../../providers/AuthProvider';
 import { openCamera, openLibrary, updateUser, uploadProfileImageFile } from '../../services';
 import { locationByPlaceID } from '../../services/maps';
 import { FileInfo, NavigationProps, Theme, UserModel } from '../../types';
-import { extractFileTypeFromFilename, showSnackbar } from '../../utils';
+import { extractFileTypeFromFilename, generateHex, showSnackbar } from '../../utils';
 type Props = {
   navigation: NavigationProps;
 };
@@ -211,7 +211,8 @@ const EditProfileScreen = ({ navigation }: Props) => {
               title: 'Set default image',
               iconSize: 24,
               onPress: () => {
-                setNewProfileImagePath(DEFAULT_IMAGES.profileImage(name));
+                const color = generateHex();
+                setNewProfileImagePath(DEFAULT_IMAGES.profileImage(name, color));
                 setIsDefaultProfileImage(true);
                 setImageModalVisible(false);
               },
