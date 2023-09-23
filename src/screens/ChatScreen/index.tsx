@@ -134,11 +134,17 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
   );
 
   const handleExternalTypingEvent = (data: SocketMessageServerTypingData) => {
+    if (data.chatId !== chatId) {
+      return;
+    }
     if (data.userId === otherUserRef.current?.id) {
       setOtherUserTyping(data.isTyping);
     }
   };
   const handleNewMessage = async (data: SocketMessageServerUserMessageData) => {
+    if (data.chatId !== chatId) {
+      return;
+    }
     // the socketmessage could just include all the data instead
     const message = await fetchMessage(data.messageId);
 
