@@ -85,7 +85,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
 
   const handleTypingEvent = (data: SocketMessageServerTypingData) => {
     setChats((p) =>
-      updateItemInList(p, 'otherUserId', data.userId, (item) => ({
+      updateItemInList(p, 'chatId', data.chatId, (item) => ({
         otherUser: { ...item.otherUser, isTyping: data.isTyping },
       })),
     );
