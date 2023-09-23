@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 
 const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
   const { currentUser } = useAuth();
-  const { addNotificationHandler, removeNotificationHandler, onNotificationOpenedApp } =
+  const { addNotificationHandler, removeNotificationHandler, onNotificationOpenedAppFromClose } =
     useNotification();
 
   // const tabBar = (props: BottomTabBarProps) => <BottomTabBar {...props} />;
@@ -32,6 +32,10 @@ const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   useEffect(() => {
+    onNotificationOpenedAppFromClose([
+      { handler: handleQuestionOpenedApp, type: 'dailyQuestion' },
+      { handler: handleNewChatNotification, type: 'newChat' },
+    ]);
     addNotificationHandler('openedApp', 'dailyQuestion', handleQuestionOpenedApp);
     addNotificationHandler('openedApp', 'newChat', handleNewChatNotification);
     addNotificationHandler('inApp', 'newChat', handleNewChatNotification);
