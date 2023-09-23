@@ -59,7 +59,8 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   const [chats, setChats] = useState<Chat[]>([]);
 
   const [showNewQuestionIndicator, setShowNewQuestionIndicator] = useState(false);
-  const { addNotificationHandler, removeNotificationHandler } = useNotification();
+  const { addNotificationHandler, removeNotificationHandler, onNotificationOpenedAppFromClose } =
+    useNotification();
 
   const userHasAnsweredLatestQuestion = newQuestionData?.usersAnswer;
   const latestQuestionIsAvailable = newQuestionData?.question && !newQuestionData.usersAnswer;
@@ -76,6 +77,7 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   };
 
   useEffect(() => {
+    onNotificationOpenedAppFromClose([{ handler: handleUserMessageOpenedApp, type: 'message' }]);
     addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
 
     return () => {
