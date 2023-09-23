@@ -21,12 +21,9 @@ type ContextValues = {
     type: NotificationMessageServerType,
     mode: NotificationMode,
   ) => void;
-  setupOpenedAppFromCloseListener: <T extends NotificationMessageServerData>(
+  onNotificationOpenedAppFromClose: <T extends NotificationMessageServerData>(
     handlers: { handler: MessageHandler<T>; type: NotificationMessageServerType }[],
-  ) => void;
-  onNotificationOpenedApp: <T extends NotificationMessageServerData>(
-    handlers: { handler: MessageHandler<T>; type: NotificationMessageServerType }[],
-  ) => () => void;
+  ) => Promise<void>;
 };
 
 type MessageHandlerState = {
@@ -56,17 +53,22 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
       authStatus === firebase.messaging.AuthorizationStatus.PROVISIONAL;
   };
 
-  useEffect(() => {
-    (async () => {
-      await requestNotificationUserPermission();
-      // TODO: unsubsribe
-      const initialMessage = await firebase.messaging().getInitialNotification();
-      console.log('initialMessage from notification', initialMessage);
-      if (initialMessage) {
-        handleOnNotificationOpenedApp(initialMessage);
-      }
-    })();
-  }, []);
+  const onNotificationOpenedAppFromClose = async (
+    handlers: {
+      handler: MessageHandler<NotificationMessageServerData>;
+      type: NotificationMessageServerType;
+    }[],
+  ) => {
+    await requestNotificationUserPermission();
+    const initialMessage = await firebase.messaging().getInitialNotification();
+    console.log('initialMessage from notification', initialMessage, messageHandlers);
+    if (initialMessage) {
+      const data = initialMessage.data as NotificationMessageServerData;
+      const type = initialMessage.data?.type as NotificationMessageServerType;
+
+      handlers.forEach(({ type: t, handler }) => t === type && handler(data));
+    }
+  };
 
   // TODO: this is just temporary because we have to find a way to be able to pass handlers to on "openedApp"
   /* useEffect(() => {
@@ -136,7 +138,7 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
   const handleOnNotificationOpenedApp = (message: RecievedNotificationMessage) => {
     const data = message.data as NotificationMessageServerData;
     const type = message.data?.type as NotificationMessageServerType;
-    console.log('messageHandlers', messageHandlers);
+    console.log('messageHandlers', messageHandlersRef.current);
     messageHandlersRef.current.forEach(
       ({ type: t, handler, mode }) => t === type && mode === 'openedApp' && handler(data),
     );
@@ -163,6 +165,7 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
   const value = {
     addNotificationHandler,
     removeNotificationHandler,
+    onNotificationOpenedAppFromClose,
   } as ContextValues;
 
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
