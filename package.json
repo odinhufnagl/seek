@@ -13,7 +13,6 @@
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-clipboard/clipboard": "^1.11.2",
     "@react-native-community/blur": "^4.3.2",
-    "@react-native-community/geolocation": "^3.0.6",
     "@react-native-firebase/app": "^16.4.0",
     "@react-native-firebase/in-app-messaging": "^16.4.0",
     "@react-native-firebase/messaging": "^16.4.0",
