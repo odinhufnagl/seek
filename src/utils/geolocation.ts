@@ -17,6 +17,7 @@ export const getGeoLocation = async (onSuccess: (location) => void, onError: (e)
     maximumAge: 10000,
     showLocationDialog: true,
     forceRequestLocation: true,
+    forceLocationManager: false,
   };
   Geolocation.getCurrentPosition((location) => onSuccess(location), onError, config);
 };
