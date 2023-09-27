@@ -19,7 +19,7 @@ const getPlatformSpecificType = (type: Permission, platform: OS): PlatformPermis
       ios: 'ios.permission.LOCATION_WHEN_IN_USE' as PlatformPermission,
       android: PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION as PlatformPermission,
     },
-    [Permission.LOCATION]: {
+    [Permission.COARSE_LOCATION]: {
       ios: 'ios.permission.LOCATION_WHEN_IN_USE' as PlatformPermission,
       android: PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION as PlatformPermission,
     },
@@ -39,7 +39,7 @@ const getPlatformSpecificType = (type: Permission, platform: OS): PlatformPermis
 
 export const hasPermission = async (type: Permission) => {
   const permissionType = getPlatformSpecificType(type, Platform.OS as OS);
-
+  console.log('permissionType', permissionType);
   const res = await check(permissionType);
   if (res === RESULTS.GRANTED) {
     return true;
