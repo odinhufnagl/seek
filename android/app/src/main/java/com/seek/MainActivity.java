@@ -4,7 +4,7 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import org.devio.rn.splashscreen.SplashScreen; // Add this here
-
+import com.zoontek.rnbootsplash.RNBootSplash;
 public class MainActivity extends ReactActivity {
 
   /**
@@ -28,7 +28,8 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    SplashScreen.show(this);  
+    //SplashScreen.show(this);
+    RNBootSplash.init(this, R.style.BootTheme);
     super.onCreate(null);
   }
 

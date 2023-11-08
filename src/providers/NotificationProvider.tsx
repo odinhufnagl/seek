@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { firebase } from '@react-native-firebase/messaging';
+import { firebase, FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import {
   NotificationMessageServerData,
   NotificationMessageServerType,
@@ -38,6 +38,7 @@ export const useNotification = () => useContext(NotificationContext);
 // TODO: this is not completely general, the endpoint is not general, and how the data looks is not general because we use Notificationmessageserverdata and type is Notificationmessageservertype
 export const NotificationProvider = ({ children }: { children: JSX.Element }) => {
   const [messageHandlers, setMessageHandlers] = useState<MessageHandlerState[]>([]);
+  const initialMessageRef = useRef<FirebaseMessagingTypes.RemoteMessage | null>();
   const [notificationOpenedApp, setNotificationOpenedApp] = useState(false);
   const [notificationOpenedAppMessage, setNotificationOpenedAppMessage] =
     useState<RecievedNotificationMessage | null>(null);
@@ -52,6 +53,16 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
       authStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === firebase.messaging.AuthorizationStatus.PROVISIONAL;
   };
+  const getInitialNotification = async (): Promise<FirebaseMessagingTypes.RemoteMessage | null> => {
+    console.log('initmessageref', initialMessageRef.current);
+    if (initialMessageRef.current) {
+      return initialMessageRef.current;
+    }
+    const initialMessage = await firebase.messaging().getInitialNotification();
+    console.log('initalMessage', initialMessage);
+    initialMessageRef.current = initialMessage;
+    return initialMessage;
+  };
 
   const onNotificationOpenedAppFromClose = async (
     handlers: {
@@ -60,8 +71,8 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
     }[],
   ) => {
     await requestNotificationUserPermission();
-    const initialMessage = await firebase.messaging().getInitialNotification();
-    console.log('initialMessage from notification', initialMessage, messageHandlers);
+    const initialMessage = await getInitialNotification();
+    console.log('initialMessage from notification', initialMessage, handlers);
     if (initialMessage) {
       const data = initialMessage.data as NotificationMessageServerData;
       const type = initialMessage.data?.type as NotificationMessageServerType;
@@ -103,6 +114,10 @@ export const NotificationProvider = ({ children }: { children: JSX.Element }) =>
       unsubscribeInApp();
       unsubcribeOpenedApp();
     };
+  }, []);
+
+  useEffect(() => {
+    requestNotificationUserPermission();
   }, []);
 
   const addNotificationHandler = <T extends NotificationMessageServerData>(
