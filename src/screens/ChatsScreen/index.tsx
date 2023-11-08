@@ -14,7 +14,6 @@ import { fetchMessage } from '../../services';
 import {
   MessageModel,
   NavigationProps,
-  NotificationMessageServerUserMessageData,
   SocketMessageServerIsActiveData,
   SocketMessageServerTypingData,
   SocketMessageServerUserMessageData,
@@ -71,19 +70,6 @@ const ChatsScreen = ({ navigation }: { navigation: NavigationProps }) => {
   }, [newQuestionData]);
   const sortRecentsOrder = (chats: Chat[]) =>
     chats.sort((a, b) => new Date(b?.lastMessage.createdAt) - new Date(a?.lastMessage.createdAt));
-
-  const handleUserMessageOpenedApp = async (data: NotificationMessageServerUserMessageData) => {
-    navigateToChat(data.chatId);
-  };
-
-  useEffect(() => {
-    onNotificationOpenedAppFromClose([{ handler: handleUserMessageOpenedApp, type: 'message' }]);
-    addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
-
-    return () => {
-      removeNotificationHandler(handleUserMessageOpenedApp, 'message', 'openedApp');
-    };
-  }, []);
 
   const handleTypingEvent = (data: SocketMessageServerTypingData) => {
     setChats((p) =>
