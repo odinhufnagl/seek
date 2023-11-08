@@ -22,6 +22,7 @@
 		C6C35D70AE88476790E58A0F /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AD37BF310264EE0A7660152 /* Poppins-SemiBold.ttf */; };
 		CE4505C8C5AF4764B3A5432B /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBD838243111400FAC615A2C /* Poppins-Bold.ttf */; };
 		E19CC8632A979426007989B4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E19CC8622A979426007989B4 /* GoogleService-Info.plist */; };
+		E19F35EE2AFBF286004887B8 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19F35ED2AFBF286004887B8 /* BootSplash.storyboard */; };
 		EC7609CCAB36C0C8801FD813 /* Pods_seek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFC9DD303761301FA386F9F /* Pods_seek.framework */; };
 		EF63ACA2F59146FB9F9B54AE /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA4F221F0C4B4AA18DE84DEC /* Montserrat-Regular.ttf */; };
 		EF7A3BFBFC784BEB80D325AC /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 511EBEBCE3214539AB7F29EC /* Montserrat-SemiBold.ttf */; };
@@ -65,6 +66,7 @@
 		C78847238E844195A166D7A9 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		CBD838243111400FAC615A2C /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		E19CC8622A979426007989B4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E19F35ED2AFBF286004887B8 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = seek/BootSplash.storyboard; sourceTree = "<group>"; };
 		E1BB85E02A9B656900768129 /* seek.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = seek.entitlements; path = seek/seek.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -112,6 +114,7 @@
 				E1BB85E02A9B656900768129 /* seek.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				E19F35ED2AFBF286004887B8 /* BootSplash.storyboard */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -299,6 +302,7 @@
 				98BA4985BB6543F0AB7C3E36 /* Poppins-Regular.ttf in Resources */,
 				C6C35D70AE88476790E58A0F /* Poppins-SemiBold.ttf in Resources */,
 				05416CCF5BB74B57B999DE8E /* Poppins-Medium.ttf in Resources */,
+				E19F35EE2AFBF286004887B8 /* BootSplash.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

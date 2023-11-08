@@ -1,14 +1,19 @@
 // import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
+import BootSplash from 'react-native-bootsplash';
+import SplashScreen from 'react-native-splash-screen';
 import { SCREENS } from '../../constants';
 import useTheme from '../../hooks/useTheme';
 import { useAuth } from '../../providers/AuthProvider';
 import { useNotification } from '../../providers/NotificationProvider';
 import { fetchNewChat } from '../../services';
-import { NavigationProps, NotificationMessageServerNewChatData } from '../../types';
+import {
+  NavigationProps,
+  NotificationMessageServerNewChatData,
+  NotificationMessageServerUserMessageData,
+} from '../../types';
 import { MainStack } from '../constants/stacks/MainStack';
-
 // import { BottomTabBar } from '../../components';
 
 const Stack = createStackNavigator();
@@ -16,12 +21,16 @@ const Stack = createStackNavigator();
 
 const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
   const { currentUser } = useAuth();
+
   const { addNotificationHandler, removeNotificationHandler, onNotificationOpenedAppFromClose } =
     useNotification();
 
   // const tabBar = (props: BottomTabBarProps) => <BottomTabBar {...props} />;
   const { theme } = useTheme();
 
+  const navigateToChat = (chatId: number) => {
+    navigation.navigate(SCREENS.CHAT_SCREEN, { id: chatId });
+  };
   const handleNewChatNotification = async (data: NotificationMessageServerNewChatData) => {
     // TODO: the parsing should be elsewhere aka Number(data.chatId)
     navigation.navigate(SCREENS.NEW_CONNECTION_SCREEN, { chatId: Number(data.chatId) });
@@ -30,19 +39,32 @@ const MainNavigator = ({ navigation }: { navigation: NavigationProps }) => {
     console.log('navigation', navigation);
     navigation.navigate(SCREENS.QUESTION_SCREEN);
   };
+  const handleUserMessageOpenedApp = async (data: NotificationMessageServerUserMessageData) => {
+    navigateToChat(data.chatId);
+  };
 
-  useEffect(() => {
-    onNotificationOpenedAppFromClose([
+  const init = async () => {
+    await onNotificationOpenedAppFromClose([
       { handler: handleQuestionOpenedApp, type: 'dailyQuestion' },
       { handler: handleNewChatNotification, type: 'newChat' },
+      { handler: handleUserMessageOpenedApp, type: 'message' },
     ]);
+  };
+
+  useEffect(() => {
+    init().finally(async () => {
+      (async () => await BootSplash.hide({ fade: true }))();
+      SplashScreen.hide();
+    });
     addNotificationHandler('openedApp', 'dailyQuestion', handleQuestionOpenedApp);
     addNotificationHandler('openedApp', 'newChat', handleNewChatNotification);
     addNotificationHandler('inApp', 'newChat', handleNewChatNotification);
+    addNotificationHandler('openedApp', 'message', handleUserMessageOpenedApp);
     return () => {
       removeNotificationHandler(handleQuestionOpenedApp, 'dailyQuestion', 'openedApp');
       removeNotificationHandler(handleNewChatNotification, 'newChat', 'openedApp');
       removeNotificationHandler(handleNewChatNotification, 'newChat', 'inApp');
+      removeNotificationHandler(handleUserMessageOpenedApp, 'message', 'openedApp');
     };
   }, []);
 

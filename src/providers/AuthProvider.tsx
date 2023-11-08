@@ -1,5 +1,12 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { ApiError, AppError, NetworkError, ServerDownError } from '../classes';
+import BootSplash from 'react-native-bootsplash';
+import {
+  ApiError,
+  AppError,
+  NetworkError,
+  NotAuthenticatedError,
+  ServerDownError,
+} from '../classes';
 import { ENDPOINTS, LOCAL_STORAGE } from '../constants';
 import {
   authenticateUser,
@@ -9,7 +16,6 @@ import {
   signUpUser,
 } from '../services';
 
-import SplashScreen from 'react-native-splash-screen';
 import { Container, Text } from '../common';
 import { SigninUserModel, SignupUserModel, UserModel } from '../types';
 import { storageGet, storageRemove, storageSet } from '../utils';
@@ -117,11 +123,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log('newToken', newToken, user);
       if (!newToken) {
         console.log('authentication failed');
+        setLoading(false);
         return false;
       }
       storageSet(LOCAL_STORAGE.keys.userToken, newToken);
       setToken(newToken);
       setCurrentUser(user);
+      setLoading(false);
       return true;
     } catch (e) {
       if (e instanceof NetworkError) {
@@ -129,6 +137,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       if (e instanceof ServerDownError) {
         setServerDownError(e);
+      }
+      if (e instanceof NotAuthenticatedError) {
+        setLoading(false);
       }
       console.log(e);
     }
@@ -144,7 +155,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     (async () => {
       await authenticate();
-      setLoading(false);
     })();
   }, []);
 
@@ -158,7 +168,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   if (networkError) {
-    SplashScreen.hide();
+    (async () => await BootSplash.hide({ fade: true }))();
     return (
       <Container style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Text>No internet connection</Text>
@@ -167,7 +177,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   if (serverDownError) {
-    SplashScreen.hide();
+    (async () => await BootSplash.hide({ fade: true }))();
     return (
       <Container style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Text>Our server seems to be down...</Text>

@@ -130,7 +130,7 @@ export const SocketProvider = ({
 
   useEffect(() => {
     connectToSocket();
-    () => {
+    return () => {
       console.log('socket useEffect ended', socket);
       socket && socket.close();
     };
