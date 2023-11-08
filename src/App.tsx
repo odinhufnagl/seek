@@ -1,13 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from './hooks';
 import RootNavigator from './navigation';
 import { AuthProvider } from './providers/AuthProvider';
 import { ThemeProvider, darkTheme } from './theme';
 import { Theme } from './types';
+
 const queryClient = new QueryClient();
 
 const App = (): JSX.Element => {
@@ -27,6 +28,12 @@ const App = (): JSX.Element => {
 const AppInternal = (): JSX.Element => {
   const { theme } = useTheme();
 
+  useEffect(() => {
+    // set transparent status bar
+    StatusBar.setBackgroundColor('transparent');
+    StatusBar.setBarStyle('light-content');
+    StatusBar.setTranslucent(true);
+  }, []);
   return (
     <View style={styles(theme).root}>
       <SafeAreaView style={styles(theme).safeArea}>
@@ -39,7 +46,6 @@ const AppInternal = (): JSX.Element => {
 const styles = (theme: Theme) =>
   StyleSheet.create({
     root: {
-      position: 'absolute',
       display: 'flex',
       flexDirection: 'row',
       width: '100%',

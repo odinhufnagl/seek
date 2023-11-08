@@ -205,6 +205,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
     messages && totalMessagesCount && messages?.length < totalMessagesCount;
   const isLoading =
     !otherUser || chatIsLoading || messagesIsLoading || messagesIsRefreshing || chatIsRefetching;
+
   if (isLoading) {
     return <></>;
   }
@@ -254,7 +255,7 @@ const ChatScreen = ({ navigation }: ScreenProps) => {
         totalMessageCount={totalMessagesCount}
         onOtherUserPress={navigateToOtherUser}
         usersTyping={otherUserTyping ? [otherUser] : []}
-        header={() =>
+        header={
           isFetching || existsMessagesLeftToSee ? (
             <Loading />
           ) : (
