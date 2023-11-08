@@ -5,7 +5,7 @@
 #import <Firebase.h>
 #import <React/RCTAppSetupUtils.h>
 #import "RNSplashScreen.h"
-
+#import "RNBootSplash.h"
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -13,7 +13,6 @@
 #import <React/RCTSurfacePresenter.h>
 #import <React/RCTSurfacePresenterBridgeAdapter.h>
 #import <ReactCommon/RCTTurboModuleManager.h>
-
 #import <react/config/ReactNativeConfig.h>
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
@@ -23,6 +22,17 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
   std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
   facebook::react::ContextContainer::Shared _contextContainer;
+}
+- (UIView *)createRootViewWithBridge:(RCTBridge *)bridge
+                          moduleName:(NSString *)moduleName
+                           initProps:(NSDictionary *)initProps {
+  UIView *rootView = [super createRootViewWithBridge:bridge
+                                          moduleName:moduleName
+                                           initProps:initProps];
+
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
+
+  return rootView;
 }
 @end
 #endif
@@ -73,6 +83,8 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   return true;
 }
 
+
+
 - (NSDictionary *)prepareInitialProps
 {
   NSMutableDictionary *initProps = [NSMutableDictionary new];
@@ -92,6 +104,8 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+
 
 #if RCT_NEW_ARCH_ENABLED
 
