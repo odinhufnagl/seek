@@ -1,13 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useRef } from 'react';
 
-import useTheme from '../../hooks/useTheme';
-
 import { firebase } from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppState, AppStateStatus } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
 import { NAVIGATOR_STACKS, SCREENS } from '../../constants';
+import useTheme from '../../hooks/useTheme';
 import { useAuth } from '../../providers/AuthProvider';
 import { useSocket } from '../../providers/SocketProvider';
 import { createNotificationToken, sendIsActiveEvent } from '../../services';
@@ -41,12 +39,10 @@ const HomeNavigator = () => {
   const navigationRef = useRef();
   const { socket } = useSocket();
   const socketRef = useRef<WebSocket | null>();
+
   useEffect(() => {
     socketRef.current = socket;
   }, [socket]);
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
 
   // TODO: all this active stuff could be moved into a provider
   const handleAppStateChange = (state: AppStateStatus) => {
