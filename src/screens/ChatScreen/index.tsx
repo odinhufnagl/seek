@@ -35,6 +35,7 @@ import { formatRelativeDate } from '../../utils';
 type Params = {
   id: number;
 };
+
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 120 : 0;
 const ChatScreen = ({ navigation }: ScreenProps) => {
   const { socket, addSocketMessageHandler, removeSocketMessageHandler, sendSocketMessage } =
