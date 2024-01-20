@@ -5,6 +5,7 @@
 .env
 # Xcode
 #
+GoogleService-info.plist
 build/
 *.pbxuser
 !default.pbxuser
