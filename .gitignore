@@ -4,7 +4,7 @@
 
 # Xcode
 #
-GoogleService-info.plist
+GoogleService-Info.plist
 build/
 *.pbxuser
 !default.pbxuser
